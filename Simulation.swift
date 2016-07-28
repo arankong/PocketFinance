@@ -1,5 +1,5 @@
 //
-//  simulation.swift
+//  Simulation.swift
 //  Portfolio Rebalancing
 //
 //  Created by Weirui Kong on 2016-07-28.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class simulation: NSObject, NSCoding{
+class Simulation: NSObject, NSCoding{
     
     // MARK: Properties
     var name: String
@@ -22,7 +22,7 @@ class simulation: NSObject, NSCoding{
     var rfr:Double
     
     var arrayPortfolioValue = [Double]()
-    var underlying : stockPrices    
+    var underlying : StockPrices
     
     // CPPI
     var F: Double // Floor
@@ -33,7 +33,7 @@ class simulation: NSObject, NSCoding{
     
     // MARK: Archiving Paths
     static let DocumentsDirectory = NSFileManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
-    static let ArchiveURL = DocumentsDirectory.URLByAppendingPathComponent("simulation")
+    static let ArchiveURL = DocumentsDirectory.URLByAppendingPathComponent("Simulation")
     
     // MARK: Types
     
@@ -75,8 +75,7 @@ class simulation: NSObject, NSCoding{
         if arrayPortfolioValue != nil && type == "Historical Data" {
             self.arrayPortfolioValue = arrayPortfolioValue!
         }
-        
-        self.underlying = stockPrices(ticker: ticker, startDate: startDate, endDate: endDate)
+        self.underlying = StockPrices(ticker: ticker, startDate: startDate, endDate: endDate)
   
     }
     
@@ -121,7 +120,7 @@ class simulation: NSObject, NSCoding{
         var stockSellingPrice : Double
         
         if arrayPrice.count == 0 { // when simulation created during trading hours when there's no close for the day
-            let newStock = stockInfo(ticker: ticker) as stockInfo
+            let newStock = StockInfo(ticker: ticker) as StockInfo
             stockPurchasePrice = newStock.price
             print("Stock price array empty")
             print(stockPurchasePrice)
@@ -169,7 +168,7 @@ class simulation: NSObject, NSCoding{
         var numOption: Double // number of options sold
         
         if arrayPrice.count == 0 { // when simulation created during trading hours when there's no close for the day
-            let newStock = stockInfo(ticker: ticker) as stockInfo
+            let newStock = StockInfo(ticker: ticker) as StockInfo
             S0 = newStock.price
         } else {
             S0 = arrayPrice[0] // When update portfolio values
@@ -241,7 +240,7 @@ class simulation: NSObject, NSCoding{
             dateFormatter.dateFormat = dfltDateFormat
             self.endDate = dateFormatter.stringFromDate(curDate)
             
-            self.underlying = stockPrices(ticker: ticker, startDate: startDate, endDate: endDate)
+            self.underlying = StockPrices(ticker: ticker, startDate: startDate, endDate: endDate)
         }
         
         if strategy == "CPPI"{

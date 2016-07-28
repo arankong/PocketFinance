@@ -35,7 +35,7 @@ class NewSimViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     @IBOutlet weak var textOPT1: UITextField!
     @IBOutlet weak var textOPT2: UITextField!
     //This value is passed to View Control in `prepareForSegue(_:sender:)`
-    var simInstance: simulation?
+    var simInstance: Simulation?
     
     var arrayStrat: [String] = ["","CPPI","Covered Call Writing","Stop Loss"]
     
@@ -196,13 +196,13 @@ class NewSimViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
                 F = (textOPT1.text == "") ? dfltF * startBalance! : Double(textOPT1.text!)! * startBalance!
                 M = (textOPT2.text == "") ? dfltM : Double(textOPT2.text!)!
 
-                simInstance = simulation(name: simName!, strategy: strategy!, type: simType!, startBalance: startBalance!, startDate: startDate!, endDate: endDate!, ticker: ticker!, weight: weight!, rfr: rfr, F: F, M: M, K:nil, arrayPortfolioValue : nil)
+                simInstance = Simulation(name: simName!, strategy: strategy!, type: simType!, startBalance: startBalance!, startDate: startDate!, endDate: endDate!, ticker: ticker!, weight: weight!, rfr: rfr, F: F, M: M, K:nil, arrayPortfolioValue : nil)
                 simInstance!.runCPPI()
                 
             } else if strategy == "Covered Call Writing" || strategy == "Stop Loss" {
                 K = Double(textOPT1.text!)!
                 
-                simInstance = simulation(name: simName!, strategy: strategy!, type: simType!, startBalance: startBalance!, startDate: startDate!, endDate: endDate!, ticker: ticker!, weight: weight!, rfr: rfr, F: nil, M: nil, K:K, arrayPortfolioValue : nil)
+                simInstance = Simulation(name: simName!, strategy: strategy!, type: simType!, startBalance: startBalance!, startDate: startDate!, endDate: endDate!, ticker: ticker!, weight: weight!, rfr: rfr, F: nil, M: nil, K:K, arrayPortfolioValue : nil)
                 if strategy == "Covered Call Writing" {
                     simInstance!.runCoveredCall()
                 } else {

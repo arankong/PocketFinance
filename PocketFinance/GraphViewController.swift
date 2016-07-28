@@ -42,7 +42,7 @@ class GraphViewController: UIViewController {
             let lineChartData = LineChartData(xVals: dataPoints, dataSet: lineChartDataSet)
             stockPriceGraphView!.data = lineChartData
             stockPriceGraphView!.animate(xAxisDuration: 2.0, yAxisDuration: 2.0)
-            stockPriceGraphView!.descriptionText = "365 Days"
+            stockPriceGraphView!.descriptionText = ""
         }
         
         setChart(months, values: price)

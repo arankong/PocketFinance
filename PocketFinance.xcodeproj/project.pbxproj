@@ -10,9 +10,9 @@
 		5030C7C71D4A5BDE003E4FEE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5030C7C61D4A5BDE003E4FEE /* AppDelegate.swift */; };
 		5030C7CE1D4A5BDE003E4FEE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5030C7CD1D4A5BDE003E4FEE /* Assets.xcassets */; };
 		5030C7D11D4A5BDE003E4FEE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5030C7CF1D4A5BDE003E4FEE /* LaunchScreen.storyboard */; };
-		5030C7DB1D4A5F14003E4FEE /* stockPrices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5030C7DA1D4A5F14003E4FEE /* stockPrices.swift */; };
-		5030C7DD1D4A5F21003E4FEE /* stockInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5030C7DC1D4A5F21003E4FEE /* stockInfo.swift */; };
-		5030C7DF1D4A5F28003E4FEE /* simulation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5030C7DE1D4A5F28003E4FEE /* simulation.swift */; };
+		5030C7DB1D4A5F14003E4FEE /* StockPrices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5030C7DA1D4A5F14003E4FEE /* StockPrices.swift */; };
+		5030C7DD1D4A5F21003E4FEE /* StockInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5030C7DC1D4A5F21003E4FEE /* StockInfo.swift */; };
+		5030C7DF1D4A5F28003E4FEE /* Simulation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5030C7DE1D4A5F28003E4FEE /* Simulation.swift */; };
 		5030C7E11D4A60A2003E4FEE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5030C7E01D4A60A2003E4FEE /* Main.storyboard */; };
 		5030C7E31D4A60C3003E4FEE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5030C7E21D4A60C3003E4FEE /* ViewController.swift */; };
 		5030C7E51D4A60D7003E4FEE /* NewSimViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5030C7E41D4A60D7003E4FEE /* NewSimViewController.swift */; };
@@ -81,9 +81,9 @@
 		5030C7CD1D4A5BDE003E4FEE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5030C7D01D4A5BDE003E4FEE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5030C7D21D4A5BDE003E4FEE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5030C7DA1D4A5F14003E4FEE /* stockPrices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = stockPrices.swift; sourceTree = "<group>"; };
-		5030C7DC1D4A5F21003E4FEE /* stockInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = stockInfo.swift; sourceTree = "<group>"; };
-		5030C7DE1D4A5F28003E4FEE /* simulation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = simulation.swift; sourceTree = "<group>"; };
+		5030C7DA1D4A5F14003E4FEE /* StockPrices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StockPrices.swift; sourceTree = "<group>"; };
+		5030C7DC1D4A5F21003E4FEE /* StockInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StockInfo.swift; sourceTree = "<group>"; };
+		5030C7DE1D4A5F28003E4FEE /* Simulation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Simulation.swift; sourceTree = "<group>"; };
 		5030C7E01D4A60A2003E4FEE /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		5030C7E21D4A60C3003E4FEE /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		5030C7E41D4A60D7003E4FEE /* NewSimViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewSimViewController.swift; sourceTree = "<group>"; };
@@ -108,9 +108,9 @@
 		5030C7BA1D4A5BDE003E4FEE = {
 			isa = PBXGroup;
 			children = (
-				5030C7DA1D4A5F14003E4FEE /* stockPrices.swift */,
-				5030C7DC1D4A5F21003E4FEE /* stockInfo.swift */,
-				5030C7DE1D4A5F28003E4FEE /* simulation.swift */,
+				5030C7DC1D4A5F21003E4FEE /* StockInfo.swift */,
+				5030C7DA1D4A5F14003E4FEE /* StockPrices.swift */,
+				5030C7DE1D4A5F28003E4FEE /* Simulation.swift */,
 				5030C7C51D4A5BDE003E4FEE /* PocketFinance */,
 				5030C7C41D4A5BDE003E4FEE /* Products */,
 				5030C7EB1D4A90F5003E4FEE /* Charts.xcodeproj */,
@@ -267,11 +267,11 @@
 				5030C7E31D4A60C3003E4FEE /* ViewController.swift in Sources */,
 				5030C7C71D4A5BDE003E4FEE /* AppDelegate.swift in Sources */,
 				5030C7E71D4A60F8003E4FEE /* StockTableViewCell.swift in Sources */,
-				5030C7DB1D4A5F14003E4FEE /* stockPrices.swift in Sources */,
+				5030C7DB1D4A5F14003E4FEE /* StockPrices.swift in Sources */,
 				5030C7E51D4A60D7003E4FEE /* NewSimViewController.swift in Sources */,
 				5030C7E91D4A6100003E4FEE /* SimTableViewCell.swift in Sources */,
-				5030C7DF1D4A5F28003E4FEE /* simulation.swift in Sources */,
-				5030C7DD1D4A5F21003E4FEE /* stockInfo.swift in Sources */,
+				5030C7DF1D4A5F28003E4FEE /* Simulation.swift in Sources */,
+				5030C7DD1D4A5F21003E4FEE /* StockInfo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

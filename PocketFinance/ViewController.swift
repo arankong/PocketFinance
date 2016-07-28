@@ -21,8 +21,8 @@ class ViewController: UIViewController, UITextFieldDelegate,UITableViewDelegate,
     @IBOutlet weak var tableStockPrice: UITableView!
     @IBOutlet weak var segStockSim: UISegmentedControl!
     
-    var arrayStock = [stockInfo]()
-    var arraySimulation = [simulation]()
+    var arrayStock = [StockInfo]()
+    var arraySimulation = [Simulation]()
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if let gvc = segue.destinationViewController as? GraphViewController {
@@ -63,11 +63,6 @@ class ViewController: UIViewController, UITextFieldDelegate,UITableViewDelegate,
             sim.updatePortfolio()
         }
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
     // MARK: Actions
     
@@ -90,7 +85,7 @@ class ViewController: UIViewController, UITextFieldDelegate,UITableViewDelegate,
     @IBAction func btnAddStock(sender: UIButton) {
         if textStockSymbol.text != "" {
             let newTicker = textStockSymbol.text! as String
-            let newStock = stockInfo(ticker: newTicker) as stockInfo
+            let newStock = StockInfo(ticker: newTicker) as StockInfo
 
             arrayStock.append(newStock)
 
@@ -119,20 +114,16 @@ class ViewController: UIViewController, UITextFieldDelegate,UITableViewDelegate,
     }
     
     func tableView(_tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
-            
-        if segStockSim.selectedSegmentIndex == 0{
+        if segStockSim.selectedSegmentIndex == 0 {
             return arrayStock.count
-        } else{
+        } else {
             return arraySimulation.count
         }
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
         if segStockSim.selectedSegmentIndex == 0 {
-            
             let cell = tableView.dequeueReusableCellWithIdentifier(textCellIdentifier, forIndexPath: indexPath) as! StockTableViewCell
-        
             let row = indexPath.row
         
             cell.labelTicker.text = arrayStock[row].ticker
@@ -140,12 +131,11 @@ class ViewController: UIViewController, UITextFieldDelegate,UITableViewDelegate,
             cell.labelChange.text = arrayStock[row].change
             return cell
             
-        } else{
+        } else {
             let cell = tableView.dequeueReusableCellWithIdentifier(textCellIdentifier2, forIndexPath: indexPath) as! SimTableViewCell
-            
             let row = indexPath.row
             
-            let curSim : simulation = arraySimulation[row]
+            let curSim : Simulation = arraySimulation[row]
             cell.labelSimName.text = curSim.name
             cell.labelBalance.text = "Current Balance: $ " + String(round(100*curSim.getCurPortVal())/100)
             
@@ -182,25 +172,25 @@ class ViewController: UIViewController, UITextFieldDelegate,UITableViewDelegate,
     
     // MARK: NSCoding
     func saveStocks() {
-        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(arrayStock, toFile: stockInfo.ArchiveURL.path!)
+        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(arrayStock, toFile: StockInfo.ArchiveURL.path!)
         if !isSuccessfulSave {
             print("Failed to save stocks...")
         }
     }
     
-    func loadStocks() -> [stockInfo]? {
-        return NSKeyedUnarchiver.unarchiveObjectWithFile(stockInfo.ArchiveURL.path!) as? [stockInfo]
+    func loadStocks() -> [StockInfo]? {
+        return NSKeyedUnarchiver.unarchiveObjectWithFile(StockInfo.ArchiveURL.path!) as? [StockInfo]
     }
     
     func saveSims() {
-        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(arraySimulation, toFile: simulation.ArchiveURL.path!)
+        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(arraySimulation, toFile: Simulation.ArchiveURL.path!)
         if !isSuccessfulSave {
             print("Failed to save simulations...")
         }
     }
     
-    func loadSims() -> [simulation]? {
-        return NSKeyedUnarchiver.unarchiveObjectWithFile(simulation.ArchiveURL.path!) as? [simulation]
+    func loadSims() -> [Simulation]? {
+        return NSKeyedUnarchiver.unarchiveObjectWithFile(Simulation.ArchiveURL.path!) as? [Simulation]
     }
     
     // MARK: Navigation

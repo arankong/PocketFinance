@@ -1,5 +1,5 @@
 //
-//  stockPrices.swift
+//  StockPrices.swift
 //  Portfolio Rebalancing
 //
 //  Created by Weirui Kong on 2016-07-28.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class stockPrices {
+class StockPrices {
     
     // MARK: Properties
     var ticker: String
@@ -48,13 +48,13 @@ class stockPrices {
     func getHistoricalPrice(ticker: String, startDate: String,endDate: String,completionHandler: (NSDictionary?, NSError?) -> Void )  {
         
         let sYqlTemplate = "https://query.yahooapis.com/v1/public/yql?q=select Close from yahoo.finance.historicaldata where symbol = '{TICKER}' and startDate = '{START}' and endDate = '{END}' &env=store://datatables.org/alltableswithkeys&format=json"
-        var sYql :String = sYqlTemplate.stringByReplacingOccurrencesOfString("{TICKER}",withString: ticker)
+        var sYql: String = sYqlTemplate.stringByReplacingOccurrencesOfString("{TICKER}",withString: ticker)
         sYql = sYql.stringByReplacingOccurrencesOfString("{START}",withString: startDate)
         sYql = sYql.stringByReplacingOccurrencesOfString("{END}",withString: endDate)
         print(sYql)
         sYql = sYql.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
         
-        let urlYql : NSURL = (NSURL(string: sYql))!
+        let urlYql: NSURL = (NSURL(string: sYql))!
         
         let request: NSURLRequest = NSURLRequest(URL:urlYql)
         let config = NSURLSessionConfiguration.defaultSessionConfiguration()
@@ -62,7 +62,7 @@ class stockPrices {
         
         //let session = NSURLSession(configuration:config, delegate: nil, delegateQueue: NSOperationQueue.mainQueue())
         
-        let task : NSURLSessionDataTask = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
+        let task: NSURLSessionDataTask = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
             
             if((error) != nil) {
                 print(error!.localizedDescription)

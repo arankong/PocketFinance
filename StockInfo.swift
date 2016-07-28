@@ -1,5 +1,5 @@
 //
-//  stockInfo.swift
+//  StockInfo.swift
 //  Portfolio Rebalancing
 //
 //  Created by Weirui Kong on 2016-07-28.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class stockInfo: NSObject, NSCoding {
+class StockInfo: NSObject, NSCoding {
     // MARK: Properties
     
     var ticker: String
@@ -18,7 +18,7 @@ class stockInfo: NSObject, NSCoding {
     // MARK: Archiving Paths
     
     static let DocumentsDirectory = NSFileManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
-    static let ArchiveURL = DocumentsDirectory.URLByAppendingPathComponent("stockInfo")
+    static let ArchiveURL = DocumentsDirectory.URLByAppendingPathComponent("StockInfo")
     
     // MARK: Types
     
@@ -50,7 +50,7 @@ class stockInfo: NSObject, NSCoding {
         
         super.init()
         
-        self.getStockJSONDict(ticker){quote, error in
+        self.getStockJSONDict(ticker) { quote, error in
             if let sPrice = quote!["LastTradePriceOnly"] as? String{
                 self.price = Double(sPrice)!
                 self.change = quote!["PercentChange"]as! String
