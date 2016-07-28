@@ -18,7 +18,62 @@
 		5030C7E51D4A60D7003E4FEE /* NewSimViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5030C7E41D4A60D7003E4FEE /* NewSimViewController.swift */; };
 		5030C7E71D4A60F8003E4FEE /* StockTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5030C7E61D4A60F8003E4FEE /* StockTableViewCell.swift */; };
 		5030C7E91D4A6100003E4FEE /* SimTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5030C7E81D4A6100003E4FEE /* SimTableViewCell.swift */; };
+		5030C7FA1D4A9190003E4FEE /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5030C7F31D4A90F6003E4FEE /* Charts.framework */; };
+		5030C7FB1D4A9190003E4FEE /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5030C7F31D4A90F6003E4FEE /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5030C8001D4A91F3003E4FEE /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5030C7FF1D4A91F3003E4FEE /* GraphViewController.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		5030C7F21D4A90F6003E4FEE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5030C7EB1D4A90F5003E4FEE /* Charts.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5BA8EC401A9D14DC00CE82E1;
+			remoteInfo = "Charts-iOS";
+		};
+		5030C7F41D4A90F6003E4FEE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5030C7EB1D4A90F5003E4FEE /* Charts.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A52C5C371BAC5CA400594CDD;
+			remoteInfo = "Charts-TV";
+		};
+		5030C7F61D4A90F6003E4FEE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5030C7EB1D4A90F5003E4FEE /* Charts.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 65B3F5BF1C7370BE000983D0;
+			remoteInfo = "Charts-OSX";
+		};
+		5030C7F81D4A90F6003E4FEE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5030C7EB1D4A90F5003E4FEE /* Charts.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 06AEE7A21BDC3F8B009875AE;
+			remoteInfo = ChartsTests;
+		};
+		5030C7FC1D4A9190003E4FEE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5030C7EB1D4A90F5003E4FEE /* Charts.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 5BA8EC3F1A9D14DC00CE82E1;
+			remoteInfo = "Charts-iOS";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		5030C7FE1D4A9190003E4FEE /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				5030C7FB1D4A9190003E4FEE /* Charts.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		5030C7C31D4A5BDE003E4FEE /* PocketFinance.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PocketFinance.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -34,6 +89,8 @@
 		5030C7E41D4A60D7003E4FEE /* NewSimViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewSimViewController.swift; sourceTree = "<group>"; };
 		5030C7E61D4A60F8003E4FEE /* StockTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StockTableViewCell.swift; sourceTree = "<group>"; };
 		5030C7E81D4A6100003E4FEE /* SimTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimTableViewCell.swift; sourceTree = "<group>"; };
+		5030C7EB1D4A90F5003E4FEE /* Charts.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Charts.xcodeproj; path = Charts/Charts.xcodeproj; sourceTree = "<group>"; };
+		5030C7FF1D4A91F3003E4FEE /* GraphViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,6 +98,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5030C7FA1D4A9190003E4FEE /* Charts.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -55,6 +113,7 @@
 				5030C7DE1D4A5F28003E4FEE /* simulation.swift */,
 				5030C7C51D4A5BDE003E4FEE /* PocketFinance */,
 				5030C7C41D4A5BDE003E4FEE /* Products */,
+				5030C7EB1D4A90F5003E4FEE /* Charts.xcodeproj */,
 			);
 			sourceTree = "<group>";
 		};
@@ -70,6 +129,7 @@
 			isa = PBXGroup;
 			children = (
 				5030C7E41D4A60D7003E4FEE /* NewSimViewController.swift */,
+				5030C7FF1D4A91F3003E4FEE /* GraphViewController.swift */,
 				5030C7C61D4A5BDE003E4FEE /* AppDelegate.swift */,
 				5030C7E21D4A60C3003E4FEE /* ViewController.swift */,
 				5030C7E61D4A60F8003E4FEE /* StockTableViewCell.swift */,
@@ -82,6 +142,17 @@
 			path = PocketFinance;
 			sourceTree = "<group>";
 		};
+		5030C7EC1D4A90F5003E4FEE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5030C7F31D4A90F6003E4FEE /* Charts.framework */,
+				5030C7F51D4A90F6003E4FEE /* Charts.framework */,
+				5030C7F71D4A90F6003E4FEE /* Charts.framework */,
+				5030C7F91D4A90F6003E4FEE /* ChartsTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -92,10 +163,12 @@
 				5030C7BF1D4A5BDE003E4FEE /* Sources */,
 				5030C7C01D4A5BDE003E4FEE /* Frameworks */,
 				5030C7C11D4A5BDE003E4FEE /* Resources */,
+				5030C7FE1D4A9190003E4FEE /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				5030C7FD1D4A9190003E4FEE /* PBXTargetDependency */,
 			);
 			name = PocketFinance;
 			productName = PocketFinance;
@@ -128,12 +201,49 @@
 			mainGroup = 5030C7BA1D4A5BDE003E4FEE;
 			productRefGroup = 5030C7C41D4A5BDE003E4FEE /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 5030C7EC1D4A90F5003E4FEE /* Products */;
+					ProjectRef = 5030C7EB1D4A90F5003E4FEE /* Charts.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				5030C7C21D4A5BDE003E4FEE /* PocketFinance */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		5030C7F31D4A90F6003E4FEE /* Charts.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Charts.framework;
+			remoteRef = 5030C7F21D4A90F6003E4FEE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		5030C7F51D4A90F6003E4FEE /* Charts.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Charts.framework;
+			remoteRef = 5030C7F41D4A90F6003E4FEE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		5030C7F71D4A90F6003E4FEE /* Charts.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Charts.framework;
+			remoteRef = 5030C7F61D4A90F6003E4FEE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		5030C7F91D4A90F6003E4FEE /* ChartsTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = ChartsTests.xctest;
+			remoteRef = 5030C7F81D4A90F6003E4FEE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		5030C7C11D4A5BDE003E4FEE /* Resources */ = {
@@ -153,6 +263,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5030C8001D4A91F3003E4FEE /* GraphViewController.swift in Sources */,
 				5030C7E31D4A60C3003E4FEE /* ViewController.swift in Sources */,
 				5030C7C71D4A5BDE003E4FEE /* AppDelegate.swift in Sources */,
 				5030C7E71D4A60F8003E4FEE /* StockTableViewCell.swift in Sources */,
@@ -165,6 +276,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		5030C7FD1D4A9190003E4FEE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Charts-iOS";
+			targetProxy = 5030C7FC1D4A9190003E4FEE /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		5030C7CF1D4A5BDE003E4FEE /* LaunchScreen.storyboard */ = {
@@ -267,6 +386,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = PocketFinance/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Weirui.PocketFinance;
@@ -278,6 +398,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = PocketFinance/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Weirui.PocketFinance;
@@ -304,6 +425,7 @@
 				5030C7D71D4A5BDE003E4FEE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

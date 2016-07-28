@@ -23,7 +23,20 @@ class ViewController: UIViewController, UITextFieldDelegate,UITableViewDelegate,
     
     var arrayStock = [stockInfo]()
     var arraySimulation = [simulation]()
-
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if let gvc = segue.destinationViewController as? GraphViewController {
+            if let identifer = segue.identifier {
+                switch identifer {
+                case "Show Graph":
+                    gvc.prices = [20.0, 4.0, 6.0, 3.0, 12.0, 16.0, 4.0, 18.0, 2.0, 4.0, 5.0, 4.0]
+                    gvc.dates = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+                default: break
+                }
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         print("viewDidLoad")

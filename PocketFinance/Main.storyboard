@@ -104,7 +104,7 @@
                                             <outlet property="labelChange" destination="fhA-mG-Ymo" id="2tw-j7-xju"/>
                                             <outlet property="labelPrice" destination="ydC-vp-CVp" id="ss5-FV-JqD"/>
                                             <outlet property="labelTicker" destination="sXE-dG-Auj" id="Yc1-Ly-2JQ"/>
-                                            <segue destination="ssg-CU-hZ4" kind="show" id="NiB-vY-FF7"/>
+                                            <segue destination="ssg-CU-hZ4" kind="show" identifier="Show Graph" id="NiB-vY-FF7"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="simCell" rowHeight="62" id="ZkN-Mx-2YK" customClass="SimTableViewCell" customModule="PocketFinance" customModuleProvider="target">
@@ -630,19 +630,67 @@
             </objects>
             <point key="canvasLocation" x="1836" y="-191"/>
         </scene>
-        <!--View Controller-->
+        <!--Graph View Controller-->
         <scene sceneID="YRP-Kx-dk8">
             <objects>
-                <viewController id="ssg-CU-hZ4" sceneMemberID="viewController">
+                <viewController id="ssg-CU-hZ4" customClass="GraphViewController" customModule="PocketFinance" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ajT-HZ-vlb"/>
                         <viewControllerLayoutGuide type="bottom" id="8OC-5I-Cp8"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="sCk-QJ-Gd4">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WTM-3g-pab" customClass="LineChartView" customModule="Charts">
+                                <rect key="frame" x="20" y="287" width="560" height="241"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Stock Price" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YSh-Un-ncI">
+                                <rect key="frame" x="20" y="8" width="560" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Simulation Result" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sIA-1v-w3r">
+                                <rect key="frame" x="234" y="258" width="132" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="J5x-p2-dJ2" customClass="LineChartView" customModule="Charts">
+                                <rect key="frame" x="20" y="37" width="560" height="213"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="YSh-Un-ncI" secondAttribute="trailing" id="2bG-ac-ZYb"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="J5x-p2-dJ2" secondAttribute="trailing" id="Fge-3Q-0gt"/>
+                            <constraint firstItem="sIA-1v-w3r" firstAttribute="top" secondItem="J5x-p2-dJ2" secondAttribute="bottom" constant="8" symbolic="YES" id="Ih4-ym-bLy"/>
+                            <constraint firstItem="8OC-5I-Cp8" firstAttribute="top" secondItem="WTM-3g-pab" secondAttribute="bottom" constant="8" symbolic="YES" id="KZY-ea-EOT"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="J5x-p2-dJ2" secondAttribute="leading" id="NG9-Q4-KNb"/>
+                            <constraint firstItem="J5x-p2-dJ2" firstAttribute="top" secondItem="YSh-Un-ncI" secondAttribute="bottom" constant="8" symbolic="YES" id="WHh-9C-eZ1"/>
+                            <constraint firstItem="YSh-Un-ncI" firstAttribute="top" secondItem="ajT-HZ-vlb" secondAttribute="bottom" constant="8" id="aFI-Vd-nPT"/>
+                            <constraint firstItem="sIA-1v-w3r" firstAttribute="centerX" secondItem="sCk-QJ-Gd4" secondAttribute="centerX" id="hBW-Lj-NqE"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="WTM-3g-pab" secondAttribute="leading" id="jXA-zg-ZUY"/>
+                            <constraint firstItem="sIA-1v-w3r" firstAttribute="top" secondItem="J5x-p2-dJ2" secondAttribute="bottom" constant="8" symbolic="YES" id="lNl-Uv-Qls"/>
+                            <constraint firstItem="WTM-3g-pab" firstAttribute="top" secondItem="sIA-1v-w3r" secondAttribute="bottom" constant="8" symbolic="YES" id="lqJ-pm-GLa"/>
+                            <constraint firstItem="sIA-1v-w3r" firstAttribute="centerY" secondItem="sCk-QJ-Gd4" secondAttribute="centerY" id="pHD-pW-MTE"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="WTM-3g-pab" secondAttribute="trailing" id="whe-P3-I4w"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="YSh-Un-ncI" secondAttribute="leading" id="yYN-Kj-HD3"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="lNl-Uv-Qls"/>
+                            </mask>
+                        </variation>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
+                    <connections>
+                        <outlet property="simulationResultGraphView" destination="WTM-3g-pab" id="UZG-do-xyh"/>
+                        <outlet property="stockPriceGraphView" destination="J5x-p2-dJ2" id="sZe-7W-w9g"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="e8M-LV-Fc1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -693,6 +741,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="23s-Iw-OTE"/>
+        <segue reference="NiB-vY-FF7"/>
     </inferredMetricsTieBreakers>
 </document>
