@@ -104,7 +104,6 @@
                                             <outlet property="labelChange" destination="fhA-mG-Ymo" id="2tw-j7-xju"/>
                                             <outlet property="labelPrice" destination="ydC-vp-CVp" id="ss5-FV-JqD"/>
                                             <outlet property="labelTicker" destination="sXE-dG-Auj" id="Yc1-Ly-2JQ"/>
-                                            <segue destination="ssg-CU-hZ4" kind="show" identifier="Show Graph" id="NiB-vY-FF7"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="simCell" rowHeight="62" id="ZkN-Mx-2YK" customClass="SimTableViewCell" customModule="PocketFinance" customModuleProvider="target">
@@ -124,10 +123,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3jT-wW-Zux">
-                                                    <rect key="frame" x="21" y="32" width="42" height="21"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="42" id="WVR-Zy-SeA"/>
-                                                    </constraints>
+                                                    <rect key="frame" x="21" y="32" width="531" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -140,6 +136,7 @@
                                                 <constraint firstItem="jka-AL-YfW" firstAttribute="top" secondItem="Kzh-Kf-n4O" secondAttribute="topMargin" id="F0L-dc-rt2"/>
                                                 <constraint firstItem="3jT-wW-Zux" firstAttribute="leading" secondItem="Kzh-Kf-n4O" secondAttribute="leadingMargin" constant="13" id="LvB-9e-rwf"/>
                                                 <constraint firstItem="jka-AL-YfW" firstAttribute="trailing" secondItem="Kzh-Kf-n4O" secondAttribute="trailingMargin" id="T6Z-iJ-esu"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="3jT-wW-Zux" secondAttribute="trailing" id="TgW-Ej-B2x"/>
                                                 <constraint firstItem="3jT-wW-Zux" firstAttribute="top" secondItem="jka-AL-YfW" secondAttribute="bottom" constant="3" id="X8T-2q-5cX"/>
                                                 <constraint firstItem="3jT-wW-Zux" firstAttribute="top" secondItem="jka-AL-YfW" secondAttribute="bottom" constant="3" id="bQ8-yd-1Tm"/>
                                                 <constraint firstItem="jka-AL-YfW" firstAttribute="trailing" secondItem="Kzh-Kf-n4O" secondAttribute="trailingMargin" id="gh5-Ay-gEM"/>
@@ -159,7 +156,7 @@
                                         <connections>
                                             <outlet property="labelBalance" destination="3jT-wW-Zux" id="Yjn-tX-aIt"/>
                                             <outlet property="labelSimName" destination="jka-AL-YfW" id="Xxn-Mm-iR6"/>
-                                            <segue destination="ssg-CU-hZ4" kind="show" id="23s-Iw-OTE"/>
+                                            <segue destination="ssg-CU-hZ4" kind="show" identifier="Show Graph" id="23s-Iw-OTE"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -740,7 +737,4 @@
             <point key="canvasLocation" x="1104" y="-191"/>
         </scene>
     </scenes>
-    <inferredMetricsTieBreakers>
-        <segue reference="NiB-vY-FF7"/>
-    </inferredMetricsTieBreakers>
 </document>

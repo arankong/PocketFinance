@@ -16,15 +16,20 @@ class GraphViewController: UIViewController {
     
     var prices = [Double]()
     var dates = [String]()
+    var results = [Double]()
+    var index = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        drawGraph()
+        drawPriceGraph()
+        drawSimGraph()
         stockPriceGraphView.xAxis.labelPosition = .Bottom
+        simulationResultGraphView.xAxis.labelPosition = .Bottom
+
         // Do any additional setup after loading the view.
     }
 
-    internal func drawGraph() {
+    internal func drawPriceGraph() {
         let months: [String]! = dates
         let price = self.prices
 //        price = price.reverse()
@@ -47,5 +52,29 @@ class GraphViewController: UIViewController {
         
         setChart(months, values: price)
     }
+    
+    internal func drawSimGraph() {
+        let result = self.results
+        let index = self.index
+        
+        func setChart(dataPoints: [String], values: [Double]) {
+            var dataEntries: [ChartDataEntry] = []
+            for i in 0..<dataPoints.count {
+                let dataEntry = ChartDataEntry(value: values[i], xIndex: i)
+                dataEntries.append(dataEntry)
+            }
+            
+            let lineChartDataSet = LineChartDataSet(yVals: dataEntries, label: "Balance")
+            lineChartDataSet.circleRadius = 0.07    //2.0
+            lineChartDataSet.setColor(UIColor.blueColor().colorWithAlphaComponent(0.5))
+            let lineChartData = LineChartData(xVals: dataPoints, dataSet: lineChartDataSet)
+            simulationResultGraphView!.data = lineChartData
+            simulationResultGraphView!.animate(xAxisDuration: 2.0, yAxisDuration: 2.0)
+            simulationResultGraphView!.descriptionText = ""
+        }
+        
+        setChart(index, values: result)
+    }
+
 
 }

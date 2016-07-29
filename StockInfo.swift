@@ -66,13 +66,13 @@ class StockInfo: NSObject, NSCoding {
     func getStockJSONDict(ticker: String, completionHandler: (NSDictionary?, NSError?) -> Void )  {
         
         let sYqlTemplate = "https://query.yahooapis.com/v1/public/yql?q=select * from yahoo.finance.quotes where symbol = '{TICKER}' &env=store://datatables.org/alltableswithkeys&format=json"
-        var sYql :String = sYqlTemplate.stringByReplacingOccurrencesOfString("{TICKER}",withString: ticker)
+        var sYql :String = sYqlTemplate.stringByReplacingOccurrencesOfString("{TICKER}", withString: ticker)
         
         sYql = sYql.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
         let urlYql : NSURL = (NSURL(string: sYql))!
         print(urlYql)
 
-        let request: NSURLRequest = NSURLRequest(URL:urlYql)
+        let request: NSURLRequest = NSURLRequest(URL: urlYql)
         let config = NSURLSessionConfiguration.defaultSessionConfiguration()
         let session = NSURLSession(configuration: config)
         
@@ -86,20 +86,17 @@ class StockInfo: NSObject, NSCoding {
                 do {
                     let jsonDict = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers) as! NSDictionary
                     //print (jsonDict)
-                    //var errData : Bool = true
-                    if let query: NSDictionary = jsonDict["query"] as? NSDictionary{
-                        if let results: NSDictionary = query["results"] as? NSDictionary{
-                            if let quote: NSDictionary = results["quote"]as? NSDictionary{
-                                //errData = false
-                                completionHandler(quote,nil)
+                    if let query: NSDictionary = jsonDict["query"] as? NSDictionary {
+                        if let results: NSDictionary = query["results"] as? NSDictionary {
+                            if let quote: NSDictionary = results["quote"]as? NSDictionary {
+                                completionHandler(quote, nil)
                                 return
                             }
                         }
+                    } else {
+                        completionHandler(nil, nil)
+                        return
                     }
-                    //if errData == true{
-                    completionHandler(nil,nil)
-                    return
-                    //}
                     
                 } catch let error as NSError {
                     print(error.localizedDescription)
@@ -112,8 +109,6 @@ class StockInfo: NSObject, NSCoding {
         task.resume()
         
         usleep(600000)
-        //usleep(800000)
-
     }
     
     func refreshData(){

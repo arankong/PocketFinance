@@ -89,7 +89,7 @@ class Simulation: NSObject, NSCoding{
         
         print("CPPI: ")
         
-        for i in 0  ..< arrayPrice.count  {
+        for i in 0 ..< arrayPrice.count  {
             alpha_t_1 = alpha_t
             St = arrayPrice[i]
             alpha_t = M * (max(0, B * exp(rfr*1/252) + alpha_t * St - F)/St)

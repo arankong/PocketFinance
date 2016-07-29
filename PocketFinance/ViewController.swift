@@ -29,8 +29,28 @@ class ViewController: UIViewController, UITextFieldDelegate,UITableViewDelegate,
             if let identifer = segue.identifier {
                 switch identifer {
                 case "Show Graph":
-                    gvc.prices = [20.0, 4.0, 6.0, 3.0, 12.0, 16.0, 4.0, 18.0, 2.0, 4.0, 5.0, 4.0]
-                    gvc.dates = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+                    if let cell = sender as? UITableViewCell {
+                        if let index = tableStockPrice.indexPathForCell(cell) {
+                            let selectedSim = arraySimulation[index.row]
+                            gvc.prices = selectedSim.underlying.priceArray
+//                            let dateFormatter = NSDateFormatter()
+//                            dateFormatter.dateFormat = "yyyy-MM-dd"
+//                            if let sdate = dateFormatter.dateFromString(selectedSim.underlying.startDate) {
+//                                print("date=\(sdate)")
+//                                if let edate = dateFormatter.dateFromString(selectedSim.underlying.endDate) {
+//                                    let duration = Int(Double(edate.timeIntervalSinceDate(sdate)) / (60*60*24))
+//                                    print("dates = \(duration)")
+//                                    print("counts = \(gvc.prices.count)")
+//                            }
+//                        }
+                            gvc.results = selectedSim.arrayPortfolioValue
+                            print("number: \(gvc.results.count)")
+                            for i in 0..<gvc.prices.count {
+                                gvc.dates.append("\(i)")
+                                gvc.index.append("\(i)")
+                            }
+                        }
+                    }
                 default: break
                 }
             }
@@ -77,9 +97,7 @@ class ViewController: UIViewController, UITextFieldDelegate,UITableViewDelegate,
             tableStockPrice.reloadData()
             tableStockPrice.rowHeight = 62
             
-        }
-        //tableStockPrice.reloadData()
-    
+        }    
     }
 
     @IBAction func btnAddStock(sender: UIButton) {
