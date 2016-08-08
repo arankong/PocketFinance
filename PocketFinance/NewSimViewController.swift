@@ -147,10 +147,9 @@ class NewSimViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         }
         
         if row == 2 || row == 3 {
-             // only real-time for Covered Call because of lack of historical data for options
-            textSimType.text = "Real-time Data"
-            textStartDate.text = dateToString(NSDate())
-            textEndDate.text = dateToString(NSDate())
+//            textSimType.text = "Real-time Data"
+//            textStartDate.text = dateToString(NSDate())
+//            textEndDate.text = dateToString(NSDate())
             
             textSimType.userInteractionEnabled = false
             //textStartDate.userInteractionEnabled = false   // comment out for testing purpose

@@ -22,7 +22,8 @@ class Simulation: NSObject, NSCoding{
     var rfr:Double
     
     var arrayPortfolioValue = [Double]()
-    var underlying : StockPrices
+    var underlying: StockPrices
+    var optionChains: OptionPrices
     
     // CPPI
     var F: Double // Floor
@@ -76,7 +77,7 @@ class Simulation: NSObject, NSCoding{
             self.arrayPortfolioValue = arrayPortfolioValue!
         }
         self.underlying = StockPrices(ticker: ticker, startDate: startDate, endDate: endDate)
-  
+        self.optionChains = OptionPrices(ticker: ticker, startDate: startDate, endDate: endDate)
     }
     
     func runCPPI(){
@@ -114,7 +115,7 @@ class Simulation: NSObject, NSCoding{
         // TO DO: Add a function to get the option price from the strike
         //
         
-        let optionPrice: Double = 1// temp
+        let optionPrice = optionChains.price
         
         var stockPurchasePrice : Double
         var stockSellingPrice : Double
@@ -158,8 +159,7 @@ class Simulation: NSObject, NSCoding{
         //
         // TO DO: Add a function to get the option price from the strike
         //
-        
-        let optionPrice: Double = 1.0 // temp
+        let optionPrice = optionChains.price
         
         var S0 : Double // Stock Price on day0
         var position : Double // 1: long position in shares 0: no position
@@ -241,6 +241,7 @@ class Simulation: NSObject, NSCoding{
             self.endDate = dateFormatter.stringFromDate(curDate)
             
             self.underlying = StockPrices(ticker: ticker, startDate: startDate, endDate: endDate)
+            self.optionChains = OptionPrices(ticker: ticker, startDate: startDate, endDate: endDate)
         }
         
         if strategy == "CPPI"{

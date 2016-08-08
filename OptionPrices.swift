@@ -24,13 +24,9 @@ class OptionPrices {
         self.price = 0
         
         self.getOptionPrice(ticker, startDate: self.startDate, endDate: self.endDate) { query, error in
-            if let result = query!["results"] as? NSDictionary {
-                for dictPrice in result["quote"] as! [NSDictionary] {
-                    self.price = Double(dictPrice["Close"] as! String)!
-                }
-                
+            if let price = query?["underlying_price"] as? Double {
+                self.price = price
             }
-            
         }
     }
     
@@ -71,17 +67,24 @@ class OptionPrices {
             else {
                 // JSON process
                 do {
-                    //                    data = data.
+                    // Google, in their infinite wisdom, doesn't enclose the key names in quotes, so the returned JSON is not well formed
+                    NSJSONSerialization.isValidJSONObject(data!)
                     
-                    let jsonDict = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers) as! NSDictionary
+                    let NSStringfromData = NSString(data: data!, encoding: NSUTF8StringEncoding)
+                    var optionChainString = NSStringfromData as! String
+                    // Add the quotes back in with the help of regular expression
+                    optionChainString = optionChainString.stringByReplacingOccurrencesOfString("(\\w+)\\s*:", withString: "\"$1\":", options: NSStringCompareOptions.RegularExpressionSearch, range: Range(start: optionChainString.startIndex, end: optionChainString.endIndex))
+                    let tempNSString = optionChainString as NSString
+                    let tempNSData = tempNSString.dataUsingEncoding(NSUTF8StringEncoding)!
+                    // Now we can get the perfect JSON object
+                    let jsonDict = try NSJSONSerialization.JSONObjectWithData(tempNSData, options: NSJSONReadingOptions.MutableContainers) as! NSDictionary
                     
                     print(jsonDict)
+                    //                    let price = jsonDict["underlying_price"]
                     
-                    let query: NSDictionary = jsonDict["query"] as! NSDictionary
-                    //let results: NSDictionary = query["results"] as? NSDictionary
-                    //let quote: [NSDictionary] = results["quote"]as! [NSDictionary]
+                    //                    let query: NSDictionary = jsonDict["calls"] as! NSDictionary
                     
-                    completionHandler(query,nil)
+                    completionHandler(jsonDict, nil)
                     return
                     
                 } catch let error as NSError {
@@ -95,6 +98,4 @@ class OptionPrices {
         task.resume()
         usleep(600000)
     }
-    
-    
 }
