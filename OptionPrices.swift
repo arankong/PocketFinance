@@ -73,7 +73,7 @@ class OptionPrices {
                     let NSStringfromData = NSString(data: data!, encoding: NSUTF8StringEncoding)
                     var optionChainString = NSStringfromData as! String
                     // Add the quotes back in with the help of regular expression
-                    optionChainString = optionChainString.stringByReplacingOccurrencesOfString("(\\w+)\\s*:", withString: "\"$1\":", options: NSStringCompareOptions.RegularExpressionSearch, range: Range(start: optionChainString.startIndex, end: optionChainString.endIndex))
+                    optionChainString = optionChainString.stringByReplacingOccurrencesOfString("(\\w+)\\s*:", withString: "\"$1\":", options: NSStringCompareOptions.RegularExpressionSearch, range: optionChainString.startIndex ..< optionChainString.endIndex)
                     let tempNSString = optionChainString as NSString
                     let tempNSData = tempNSString.dataUsingEncoding(NSUTF8StringEncoding)!
                     // Now we can get the perfect JSON object
