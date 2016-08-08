@@ -104,6 +104,7 @@
                                             <outlet property="labelChange" destination="fhA-mG-Ymo" id="2tw-j7-xju"/>
                                             <outlet property="labelPrice" destination="ydC-vp-CVp" id="ss5-FV-JqD"/>
                                             <outlet property="labelTicker" destination="sXE-dG-Auj" id="Yc1-Ly-2JQ"/>
+                                            <segue destination="ssg-CU-hZ4" kind="show" identifier="Show Stock" id="aUB-ql-d2m"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="simCell" rowHeight="62" id="ZkN-Mx-2YK" customClass="SimTableViewCell" customModule="PocketFinance" customModuleProvider="target">
@@ -737,4 +738,7 @@
             <point key="canvasLocation" x="1104" y="-191"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="aUB-ql-d2m"/>
+    </inferredMetricsTieBreakers>
 </document>

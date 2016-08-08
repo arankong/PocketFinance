@@ -25,7 +25,8 @@ class GraphViewController: UIViewController {
         drawSimGraph()
         stockPriceGraphView.xAxis.labelPosition = .Bottom
         simulationResultGraphView.xAxis.labelPosition = .Bottom
-
+        stockPriceGraphView.noDataText = "No stock graph available"
+        simulationResultGraphView.noDataText = "No simulation result available"
         // Do any additional setup after loading the view.
     }
 
@@ -56,25 +57,25 @@ class GraphViewController: UIViewController {
     internal func drawSimGraph() {
         let result = self.results
         let index = self.index
-        
-        func setChart(dataPoints: [String], values: [Double]) {
-            var dataEntries: [ChartDataEntry] = []
-            for i in 0..<dataPoints.count {
-                let dataEntry = ChartDataEntry(value: values[i], xIndex: i)
-                dataEntries.append(dataEntry)
-            }
+        if result.count != 0 {
+            func setChart(dataPoints: [String], values: [Double]) {
+                var dataEntries: [ChartDataEntry] = []
+                for i in 0..<dataPoints.count {
+                    let dataEntry = ChartDataEntry(value: values[i], xIndex: i)
+                    dataEntries.append(dataEntry)
+                }
             
-            let lineChartDataSet = LineChartDataSet(yVals: dataEntries, label: "Balance")
-            lineChartDataSet.circleRadius = 0.07    //2.0
-            lineChartDataSet.setColor(UIColor.blueColor().colorWithAlphaComponent(0.5))
-            let lineChartData = LineChartData(xVals: dataPoints, dataSet: lineChartDataSet)
-            simulationResultGraphView!.data = lineChartData
-            simulationResultGraphView!.animate(xAxisDuration: 2.0, yAxisDuration: 2.0)
-            simulationResultGraphView!.descriptionText = ""
-        }
+                let lineChartDataSet = LineChartDataSet(yVals: dataEntries, label: "Balance")
+                lineChartDataSet.circleRadius = 0.07    //2.0
+                lineChartDataSet.setColor(UIColor.blueColor().colorWithAlphaComponent(0.5))
+                let lineChartData = LineChartData(xVals: dataPoints, dataSet: lineChartDataSet)
+                simulationResultGraphView!.data = lineChartData
+                simulationResultGraphView!.animate(xAxisDuration: 2.0, yAxisDuration: 2.0)
+                simulationResultGraphView!.descriptionText = ""
+            }
         
-        setChart(index, values: result)
+            setChart(index, values: result)
+        }
     }
-
 
 }

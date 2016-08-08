@@ -13,13 +13,13 @@ class StockInfo: NSObject, NSCoding {
     
     var ticker: String
     var price: Double
+    var priceArray: [Double]
     var change: String
     
     // MARK: Archiving Paths
     
     static let DocumentsDirectory = NSFileManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
     static let ArchiveURL = DocumentsDirectory.URLByAppendingPathComponent("StockInfo")
-    
     // MARK: Types
     
     struct PropertyKey {
@@ -33,7 +33,7 @@ class StockInfo: NSObject, NSCoding {
         self.ticker = ticker.uppercaseString
         self.price = price
         self.change = change
-        
+        self.priceArray = [Double]()
         super.init()
     }
     
@@ -43,6 +43,7 @@ class StockInfo: NSObject, NSCoding {
         self.ticker = ticker.uppercaseString
         self.price = 0
         self.change = ""
+        self.priceArray = [Double]()
         print(self.ticker)
         
         super.init()
@@ -56,15 +57,34 @@ class StockInfo: NSObject, NSCoding {
                 self.price = 0
                 self.change = "NaN"
             }
+
+        }
+        
+        self.getHistoricalPrice(ticker) { query, error in
+            if let result = query!["results"] as? NSDictionary {
+                for dictPrice in result["quote"] as! [NSDictionary] {
+                    self.priceArray.append(Double(dictPrice["Close"] as! String)!)
+                }
+            // Oldest to most recent
+            self.priceArray = self.priceArray.reverse()
+            }
         }
         
     }
     
-    func getStockJSONDict(ticker: String, completionHandler: (NSDictionary?, NSError?) -> Void ) {
+    func dateToString(dDate:NSDate) -> String {
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let sDate : String = dateFormatter.stringFromDate(dDate)
         
+        return sDate
+    }
+    
+    func getStockJSONDict(ticker: String, completionHandler: (NSDictionary?, NSError?) -> Void ) {
+
         let sYqlTemplate = "https://query.yahooapis.com/v1/public/yql?q=select * from yahoo.finance.quotes where symbol = '{TICKER}' &env=store://datatables.org/alltableswithkeys&format=json"
         var sYql = sYqlTemplate.stringByReplacingOccurrencesOfString("{TICKER}", withString: ticker)
-        
+
         sYql = sYql.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
         let urlYql = (NSURL(string: sYql))!
         print(urlYql)
@@ -108,6 +128,47 @@ class StockInfo: NSObject, NSCoding {
         usleep(600000)
     }
     
+    func getHistoricalPrice(ticker: String, completionHandler: (NSDictionary?, NSError?) -> Void )  {
+        
+        let sYqlTemplate = "https://query.yahooapis.com/v1/public/yql?q=select Close from yahoo.finance.historicaldata where symbol = '{TICKER}' and startDate = '{START}' and endDate = '{END}' &env=store://datatables.org/alltableswithkeys&format=json"
+        let endDate = dateToString(NSDate().dateByAddingTimeInterval(-60*60*24*1))
+        let startDate = dateToString(NSDate().dateByAddingTimeInterval(-60*60*24*31))
+        var sYql = sYqlTemplate.stringByReplacingOccurrencesOfString("{TICKER}", withString: ticker)
+        sYql = sYql.stringByReplacingOccurrencesOfString("{START}", withString: startDate)
+        sYql = sYql.stringByReplacingOccurrencesOfString("{END}", withString: endDate)
+        print(sYql)
+        sYql = sYql.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
+        
+        let urlYql = (NSURL(string: sYql))!
+        
+        let request = NSURLRequest(URL:urlYql)
+        let config = NSURLSessionConfiguration.defaultSessionConfiguration()
+        let session = NSURLSession(configuration: config)
+        
+        let task = session.dataTaskWithRequest(request, completionHandler: { data, response, error -> Void in
+            if((error) != nil) {
+                print(error!.localizedDescription)
+            }
+            else {
+                // JSON process
+                do {
+                    let jsonDict = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers) as! NSDictionary
+                    let query: NSDictionary = jsonDict["query"] as! NSDictionary
+                    completionHandler(query, nil)
+                    return
+                } catch let error as NSError {
+                    print(error.localizedDescription)
+                }
+            }
+            
+        })
+        
+        //LAUNCH the NSURLSessionDataTask!!!!!!
+        task.resume()
+        //sleep()
+        usleep(600000)
+    }
+    
     func refreshData(){
         self.getStockJSONDict(ticker) { quote, error in
             if let sPrice = quote!["LastTradePriceOnly"] as? String {
@@ -121,6 +182,16 @@ class StockInfo: NSObject, NSCoding {
             } else {
                 self.price = 0
                 self.change = "NaN"
+            }
+        }
+        
+        self.getHistoricalPrice(ticker) { query, error in
+            if let result = query!["results"] as? NSDictionary {
+                for dictPrice in result["quote"] as! [NSDictionary] {
+                    self.priceArray.append(Double(dictPrice["Close"] as! String)!)
+                }
+                // Oldest to most recent
+                self.priceArray = self.priceArray.reverse()
             }
         }
     }

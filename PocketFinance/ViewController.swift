@@ -51,6 +51,16 @@ class ViewController: UIViewController, UITextFieldDelegate,UITableViewDelegate,
                             }
                         }
                     }
+                case "Show Stock":
+                    if let cell = sender as? UITableViewCell {
+                        if let index = tableStockPrice.indexPathForCell(cell) {
+                            let selectedStock = arrayStock[index.row]
+                            gvc.prices = selectedStock.priceArray
+                            for i in 0..<gvc.prices.count {
+                                gvc.dates.append("\(i)")
+                            }
+                        }
+                    }
                 default: break
                 }
             }
