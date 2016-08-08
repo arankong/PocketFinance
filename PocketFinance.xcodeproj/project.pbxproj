@@ -21,6 +21,7 @@
 		5030C7FA1D4A9190003E4FEE /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5030C7F31D4A90F6003E4FEE /* Charts.framework */; };
 		5030C7FB1D4A9190003E4FEE /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5030C7F31D4A90F6003E4FEE /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5030C8001D4A91F3003E4FEE /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5030C7FF1D4A91F3003E4FEE /* GraphViewController.swift */; };
+		F46465941D57CE3700929424 /* OptionPrices.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46465931D57CE3700929424 /* OptionPrices.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -91,6 +92,7 @@
 		5030C7E81D4A6100003E4FEE /* SimTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimTableViewCell.swift; sourceTree = "<group>"; };
 		5030C7EB1D4A90F5003E4FEE /* Charts.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Charts.xcodeproj; path = Charts/Charts.xcodeproj; sourceTree = "<group>"; };
 		5030C7FF1D4A91F3003E4FEE /* GraphViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphViewController.swift; sourceTree = "<group>"; };
+		F46465931D57CE3700929424 /* OptionPrices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionPrices.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +113,7 @@
 				5030C7DC1D4A5F21003E4FEE /* StockInfo.swift */,
 				5030C7DA1D4A5F14003E4FEE /* StockPrices.swift */,
 				5030C7DE1D4A5F28003E4FEE /* Simulation.swift */,
+				F46465931D57CE3700929424 /* OptionPrices.swift */,
 				5030C7C51D4A5BDE003E4FEE /* PocketFinance */,
 				5030C7C41D4A5BDE003E4FEE /* Products */,
 				5030C7EB1D4A90F5003E4FEE /* Charts.xcodeproj */,
@@ -265,6 +268,7 @@
 			files = (
 				5030C8001D4A91F3003E4FEE /* GraphViewController.swift in Sources */,
 				5030C7E31D4A60C3003E4FEE /* ViewController.swift in Sources */,
+				F46465941D57CE3700929424 /* OptionPrices.swift in Sources */,
 				5030C7C71D4A5BDE003E4FEE /* AppDelegate.swift in Sources */,
 				5030C7E71D4A60F8003E4FEE /* StockTableViewCell.swift in Sources */,
 				5030C7DB1D4A5F14003E4FEE /* StockPrices.swift in Sources */,

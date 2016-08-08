@@ -29,20 +29,17 @@ class StockInfo: NSObject, NSCoding {
     }
     
     // MARK: Initialization
-    init (ticker: String, price: Double, change: String) {
+    init(ticker: String, price: Double, change: String) {
         self.ticker = ticker.uppercaseString
         self.price = price
         self.change = change
         
         super.init()
-        //if ticker.isEmpty  {
-        //    return nil
-        //}
     }
     
     // Take ticker, construct object
     // price and change from YQL
-    init (ticker: String) {
+    init(ticker: String) {
         self.ticker = ticker.uppercaseString
         self.price = 0
         self.change = ""
@@ -51,7 +48,7 @@ class StockInfo: NSObject, NSCoding {
         super.init()
         
         self.getStockJSONDict(ticker) { quote, error in
-            if let sPrice = quote!["LastTradePriceOnly"] as? String{
+            if let sPrice = quote!["LastTradePriceOnly"] as? String {
                 self.price = Double(sPrice)!
                 self.change = quote!["PercentChange"]as! String
                 print(self.price)
@@ -63,20 +60,20 @@ class StockInfo: NSObject, NSCoding {
         
     }
     
-    func getStockJSONDict(ticker: String, completionHandler: (NSDictionary?, NSError?) -> Void )  {
+    func getStockJSONDict(ticker: String, completionHandler: (NSDictionary?, NSError?) -> Void ) {
         
         let sYqlTemplate = "https://query.yahooapis.com/v1/public/yql?q=select * from yahoo.finance.quotes where symbol = '{TICKER}' &env=store://datatables.org/alltableswithkeys&format=json"
-        var sYql :String = sYqlTemplate.stringByReplacingOccurrencesOfString("{TICKER}", withString: ticker)
+        var sYql = sYqlTemplate.stringByReplacingOccurrencesOfString("{TICKER}", withString: ticker)
         
         sYql = sYql.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
-        let urlYql : NSURL = (NSURL(string: sYql))!
+        let urlYql = (NSURL(string: sYql))!
         print(urlYql)
 
-        let request: NSURLRequest = NSURLRequest(URL: urlYql)
+        let request = NSURLRequest(URL: urlYql)
         let config = NSURLSessionConfiguration.defaultSessionConfiguration()
         let session = NSURLSession(configuration: config)
         
-        let task : NSURLSessionDataTask = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
+        let task = session.dataTaskWithRequest(request, completionHandler: { data, response, error -> Void in
             
             if((error) != nil) {
                 print(error!.localizedDescription)
@@ -86,9 +83,9 @@ class StockInfo: NSObject, NSCoding {
                 do {
                     let jsonDict = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers) as! NSDictionary
                     //print (jsonDict)
-                    if let query: NSDictionary = jsonDict["query"] as? NSDictionary {
-                        if let results: NSDictionary = query["results"] as? NSDictionary {
-                            if let quote: NSDictionary = results["quote"]as? NSDictionary {
+                    if let query = jsonDict["query"] as? NSDictionary {
+                        if let results = query["results"] as? NSDictionary {
+                            if let quote = results["quote"]as? NSDictionary {
                                 completionHandler(quote, nil)
                                 return
                             }
@@ -112,13 +109,12 @@ class StockInfo: NSObject, NSCoding {
     }
     
     func refreshData(){
-        self.getStockJSONDict(ticker){quote, error in
-            if let sPrice = quote!["LastTradePriceOnly"] as? String{
-                
+        self.getStockJSONDict(ticker) { quote, error in
+            if let sPrice = quote!["LastTradePriceOnly"] as? String {
                 if let sChange = quote!["PercentChange"] as? String {
                     self.price = Double(sPrice)!
                     self.change = sChange //quote!["PercentChange"]as! String
-                }else {
+                } else {
                     self.price = 0
                     self.change = "NaN"
                 }
@@ -145,60 +141,4 @@ class StockInfo: NSObject, NSCoding {
         self.init(ticker: ticker, price: price, change: change)
     }
     
-    
-    // TESTTT
-    /*func getOptionPrice(ticker: String,completionHandler: (NSDictionary?, NSError?) -> Void )  {
-        
-        let sYqlTemplate = "https://www.google.com/finance/option_chain?q=AAPL&expd=1&expm=4&expy=2016&strike=110&output=json"
-        var sYql = sYqlTemplate
-        /*var sYql :String = sYqlTemplate.stringByReplacingOccurrencesOfString("{TICKER}",withString: ticker)
-         sYql = sYql.stringByReplacingOccurrencesOfString("{START}",withString: startDate)
-         sYql = sYql.stringByReplacingOccurrencesOfString("{END}",withString: endDate)*/
-        print(sYql)
-        sYql = sYql.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
-        
-        let urlYql : NSURL = (NSURL(string: sYql))!
-        
-        let request: NSURLRequest = NSURLRequest(URL:urlYql)
-        let config = NSURLSessionConfiguration.defaultSessionConfiguration()
-        let session = NSURLSession(configuration: config)
-        
-        //let session = NSURLSession(configuration:config, delegate: nil, delegateQueue: NSOperationQueue.mainQueue())
-        
-        let task : NSURLSessionDataTask = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
-            
-            if((error) != nil) {
-                print(error!.localizedDescription)
-                print("1")
-            }
-            else {
-                // JSON process
-                do {
-                    print("inside session")
-                    //print(data(1))
-                    data = data.
-                    let jsonDict = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers) as! NSDictionary
-                    
-                    print(jsonDict)
-                    
-                    let query: NSDictionary = jsonDict["query"] as! NSDictionary
-                    //let results: NSDictionary = query["results"] as? NSDictionary
-                    //let quote: [NSDictionary] = results["quote"]as! [NSDictionary]
-                    
-                    completionHandler(query,nil)
-                    return
-                    
-                } catch let error as NSError {
-                    print(error.localizedDescription)
-                }
-            }
-            
-        })
-        
-        //LAUNCH the NSURLSessionDataTask!!!!!!
-        task.resume()
-        //sleep()
-        usleep(500000)
-    }*/
-        
 }

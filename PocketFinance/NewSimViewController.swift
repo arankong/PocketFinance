@@ -56,15 +56,14 @@ class NewSimViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         textOPT1.hidden = true
         textOPT2.hidden = true
         
-        //temp
         //textStrat.text = "CPPI"
         textName.text = "Test1"
         textStartBal.text = "1000"
         textSimType.text = "Historical Data"
         textWeight.text = "1"
-        textStock.text = "VRX"
-        textStartDate.text = "2016-02-10"
-        textEndDate.text = "2016-03-16"
+        textStock.text = "GOOG"
+        textStartDate.text = "2016-07-01"
+        textEndDate.text = "2016-08-01"
     }
     
     override func didReceiveMemoryWarning() {
@@ -74,24 +73,24 @@ class NewSimViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     
     // MARK: Actions
     @IBAction func clickTextStrat(sender: AnyObject) {
-        pickStrat.hidden=false
+        pickStrat.hidden = false
     }
     
     @IBAction func clickStartDate(sender: AnyObject) {
-        pickDate.hidden=false
+        pickDate.hidden = false
     }
 
     @IBAction func doneStartDate(sender: AnyObject) {
-        pickDate.hidden=true
+        pickDate.hidden = true
         textStartDate.text = dateToString(dDate)
     }
     
     @IBAction func clickEndDate(sender: AnyObject) {
-        pickDate.hidden=false
+        pickDate.hidden = false
     }
     
     @IBAction func doneEndDate(sender: AnyObject) {
-        pickDate.hidden=true
+        pickDate.hidden = true
         textEndDate.text = dateToString(dDate)
     }
     
@@ -147,7 +146,7 @@ class NewSimViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
             textOPT2.placeholder = "Ex. 2"
         }
         
-        if row == 2 || row==3{
+        if row == 2 || row == 3 {
              // only real-time for Covered Call because of lack of historical data for options
             textSimType.text = "Real-time Data"
             textStartDate.text = dateToString(NSDate())

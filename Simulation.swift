@@ -56,7 +56,7 @@ class Simulation: NSObject, NSCoding{
     
     // MARK: Initialization
     
-    init (name: String, strategy: String, type: String,startBalance: Double,startDate: String,endDate: String,ticker: String,weight:Double,rfr:Double,F: Double?,M: Double?, K: Double?, arrayPortfolioValue:[Double]?) {
+    init (name: String, strategy: String, type: String, startBalance: Double, startDate: String, endDate: String, ticker: String, weight:Double, rfr:Double, F: Double?, M: Double?, K: Double?, arrayPortfolioValue:[Double]?) {
         self.name = name
         self.strategy = strategy
         self.type = type
@@ -67,9 +67,9 @@ class Simulation: NSObject, NSCoding{
         self.weight = weight
         self.rfr = rfr
         
-        self.F = (F != nil) ? F! : 0
-        self.M = (M != nil) ? M! : 0
-        self.K = (K != nil) ? K! : 0
+        self.F = F ?? 0
+        self.M = M ?? 0
+        self.K = K ?? 0
         
         // for historical data, simulation will only be run once at initialization
         if arrayPortfolioValue != nil && type == "Historical Data" {
@@ -89,7 +89,7 @@ class Simulation: NSObject, NSCoding{
         
         print("CPPI: ")
         
-        for i in 0 ..< arrayPrice.count  {
+        for i in 0 ..< arrayPrice.count {
             alpha_t_1 = alpha_t
             St = arrayPrice[i]
             alpha_t = M * (max(0, B * exp(rfr*1/252) + alpha_t * St - F)/St)
@@ -134,11 +134,11 @@ class Simulation: NSObject, NSCoding{
         // put proceeds from selling options into bank
         let alpha = self.startBalance / stockPurchasePrice
         var B: Double = alpha * optionPrice
-        self.arrayPortfolioValue.append(alpha * min(stockPurchasePrice,self.K) + B)
+        self.arrayPortfolioValue.append(alpha * min(stockPurchasePrice, self.K) + B)
         
-        for i in 1  ..< arrayPrice.count  {
+        for i in 1 ..< arrayPrice.count {
             B = B * exp(rfr * 1/252)
-            stockSellingPrice = min(arrayPrice[i],self.K)
+            stockSellingPrice = min(arrayPrice[i], self.K)
             arrayPortfolioValue.append(B + stockSellingPrice * alpha)
         }
         
@@ -191,9 +191,9 @@ class Simulation: NSObject, NSCoding{
         self.arrayPortfolioValue.append((S0 >= K) ? B + numOption * K : B)
         
         // Rebalances starting from day1
-        for i in 1  ..< arrayPrice.count  {
+        for i in 1 ..< arrayPrice.count {
             
-            let Sk : Double = arrayPrice[i]
+            let Sk: Double = arrayPrice[i]
             // Rebalance
             if Sk < K && position == 1 {
                 alpha = -1
@@ -223,7 +223,7 @@ class Simulation: NSObject, NSCoding{
     
     func getCurPortVal() -> Double{
         let N = arrayPortfolioValue.count
-        if N == 0{
+        if N == 0 {
             return startBalance
         } else {
             let curVal = arrayPortfolioValue[N-1]
@@ -291,21 +291,3 @@ class Simulation: NSObject, NSCoding{
         self.init(name: name,strategy: strategy,type: type,startBalance: startBalance,startDate: startDate,endDate: endDate,ticker: ticker,weight: weight,rfr: rfr,F: F,M:M,K:K,arrayPortfolioValue:arrayPortfolioValue)
     }
 }
-
-/*class CPPI: simulation{
-
-    // MARK: Properties
-    var rfr: Float
-    var F: Float
-    var M: Float
-
-    override init(name: String, strategy: String, type: String,startBalance: Float,startDate: String,endDate: String,underlying: stockInfo,weight:Float,rfr:Float, F: Float,M: Float) {
-        super.init(name, strategy, type, startBalance, startDate, endDate, underlying, weight)
-        
-        self.rfr = rfr
-        self.F = F
-        self.M = M
-    }
-    
-    
-}*/

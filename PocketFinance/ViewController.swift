@@ -44,7 +44,7 @@ class ViewController: UIViewController, UITextFieldDelegate,UITableViewDelegate,
 //                            }
 //                        }
                             gvc.results = selectedSim.arrayPortfolioValue
-                            print("number: \(gvc.results.count)")
+                            print("number: \(selectedSim.arrayPortfolioValue.count)")
                             for i in 0..<gvc.prices.count {
                                 gvc.dates.append("\(i)")
                                 gvc.index.append("\(i)")
