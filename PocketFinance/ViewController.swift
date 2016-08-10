@@ -13,8 +13,6 @@ class ViewController: UIViewController, UITextFieldDelegate,UITableViewDelegate,
     let textCellIdentifier = "stockCell"
     let textCellIdentifier2 = "simCell"
     
-    //var numStock = 2
-    
     // MARK: Properties
     @IBOutlet weak var textStockSymbol: UITextField!
     @IBOutlet weak var btnAdd: UIButton!
@@ -33,16 +31,6 @@ class ViewController: UIViewController, UITextFieldDelegate,UITableViewDelegate,
                         if let index = tableStockPrice.indexPathForCell(cell) {
                             let selectedSim = arraySimulation[index.row]
                             gvc.prices = selectedSim.underlying.priceArray
-//                            let dateFormatter = NSDateFormatter()
-//                            dateFormatter.dateFormat = "yyyy-MM-dd"
-//                            if let sdate = dateFormatter.dateFromString(selectedSim.underlying.startDate) {
-//                                print("date=\(sdate)")
-//                                if let edate = dateFormatter.dateFromString(selectedSim.underlying.endDate) {
-//                                    let duration = Int(Double(edate.timeIntervalSinceDate(sdate)) / (60*60*24))
-//                                    print("dates = \(duration)")
-//                                    print("counts = \(gvc.prices.count)")
-//                            }
-//                        }
                             gvc.results = selectedSim.arrayPortfolioValue
                             print("number: \(selectedSim.arrayPortfolioValue.count)")
                             for i in 0..<gvc.prices.count {
@@ -98,12 +86,10 @@ class ViewController: UIViewController, UITextFieldDelegate,UITableViewDelegate,
     
     @IBAction func actionSegCtrl(sender: UISegmentedControl) {
         if segStockSim.selectedSegmentIndex == 0{
-            print("1")
             tableStockPrice.reloadData()
             tableStockPrice.rowHeight = 30
             
         } else {
-            print("2")
             tableStockPrice.reloadData()
             tableStockPrice.rowHeight = 62
             
