@@ -88,9 +88,13 @@ class Simulation: NSObject, NSCoding{
         var B: Double = startBalance
         var St : Double = 0
         
-        print("CPPI: ")
+        print("CPPI: "+"\(F)")
+        arrayPortfolioValue.append(B)
+        St = arrayPrice[0]
+        alpha_t = M * (max(0, B - F)/St)
+        B = B - alpha_t * St
         
-        for i in 0 ..< arrayPrice.count {
+        for i in 1 ..< arrayPrice.count {
             alpha_t_1 = alpha_t
             St = arrayPrice[i]
             alpha_t = M * (max(0, B * exp(rfr*1/252) + alpha_t * St - F)/St)
