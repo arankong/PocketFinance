@@ -13,6 +13,12 @@ class ViewController: UIViewController, UITextFieldDelegate,UITableViewDelegate,
     let textCellIdentifier = "stockCell"
     let textCellIdentifier2 = "simCell"
     
+    struct StrategyName {
+        static let CPPI = "CPPI"
+        static let CoveredCallWriting = "Covered Call Writing"
+        static let StopLoss = "Stop Loss"
+    }
+    
     // MARK: Properties
     @IBOutlet weak var textStockSymbol: UITextField!
     @IBOutlet weak var btnAdd: UIButton!
@@ -21,6 +27,7 @@ class ViewController: UIViewController, UITextFieldDelegate,UITableViewDelegate,
     
     var arrayStock = [StockInfo]()
     var arraySimulation = [Simulation]()
+    var arrayStratey = [String]()
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if let gvc = segue.destinationViewController as? GraphViewController {

@@ -77,5 +77,17 @@ class GraphViewController: UIViewController {
             setChart(index, values: result)
         }
     }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if let sdvc = segue.destinationViewController as? SimulationDetailViewController {
+            if let identifer = segue.identifier {
+                switch identifer {
+                case "Show Detail":
+                    sdvc.startBalance = ""
+                default: break
+                }
+            }
+        }
+    }
 
 }
