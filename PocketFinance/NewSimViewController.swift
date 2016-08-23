@@ -60,7 +60,7 @@ class NewSimViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         textName.text = "Test1"
         textStartBal.text = "1000"
         textSimType.text = "Historical Data"
-        textWeight.text = "1"
+        textWeight.text = "0.05"
         textStock.text = "GOOG"
         textStartDate.text = "2016-07-01"
         textEndDate.text = "2016-08-01"
@@ -181,26 +181,26 @@ class NewSimViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
             let startDate = textStartDate.text
             let endDate = textEndDate.text
             let ticker = textStock.text
-            let weight = Double(textWeight.text!)
+            let weight = 1.0
             let F : Double
             let M : Double
             let K : Double
             
             //temp
-            let rfr = Double(0.05)
+            let rfr = Double(textWeight.text!)
             
             // Run simulations
             if strategy == "CPPI" {
                 F = (textOPT1.text == "") ? dfltF * startBalance! : Double(textOPT1.text!)! * startBalance!
                 M = (textOPT2.text == "") ? dfltM : Double(textOPT2.text!)!
 
-                simInstance = Simulation(name: simName!, strategy: strategy!, type: simType!, startBalance: startBalance!, startDate: startDate!, endDate: endDate!, ticker: ticker!, weight: weight!, rfr: rfr, F: F, M: M, K:nil, arrayPortfolioValue : nil)
+                simInstance = Simulation(name: simName!, strategy: strategy!, type: simType!, startBalance: startBalance!, startDate: startDate!, endDate: endDate!, ticker: ticker!, weight: weight, rfr: rfr!, F: F, M: M, K:nil, arrayPortfolioValue : nil)
                 simInstance!.runCPPI()
                 
             } else if strategy == "Covered Call Writing" || strategy == "Stop Loss" {
                 K = Double(textOPT1.text!)!
                 
-                simInstance = Simulation(name: simName!, strategy: strategy!, type: simType!, startBalance: startBalance!, startDate: startDate!, endDate: endDate!, ticker: ticker!, weight: weight!, rfr: rfr, F: nil, M: nil, K:K, arrayPortfolioValue : nil)
+                simInstance = Simulation(name: simName!, strategy: strategy!, type: simType!, startBalance: startBalance!, startDate: startDate!, endDate: endDate!, ticker: ticker!, weight: weight, rfr: rfr!, F: nil, M: nil, K:K, arrayPortfolioValue : nil)
                 if strategy == "Covered Call Writing" {
                     simInstance!.runCoveredCall()
                 } else {
