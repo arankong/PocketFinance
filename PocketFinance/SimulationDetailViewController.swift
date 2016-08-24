@@ -8,10 +8,8 @@
 
 import UIKit
 import Charts
-
 class SimulationDetailViewController: UIViewController {
     @IBOutlet weak var simulationDetailGraphView: LineChartView!
-    
     @IBOutlet weak var simulationNameLabel: UILabel!
     @IBOutlet weak var strategyLabel: UILabel!
     @IBOutlet weak var startBalanceLabel: UILabel!
@@ -19,62 +17,40 @@ class SimulationDetailViewController: UIViewController {
     @IBOutlet weak var endDateLabel: UILabel!
     @IBOutlet weak var stockLabel: UILabel!
     @IBOutlet weak var riskFreeRateLabel: UILabel!
+    @IBOutlet weak var floorOrOptionStrike: UILabel!
+    @IBOutlet weak var floorOrStrikeLabel: UILabel!
+    @IBOutlet weak var multiplierOrNone: UILabel!
+    @IBOutlet weak var moltiplierOrNoneLabel: UILabel!
     
-    var simulationName = ""
-//    {
-//        didSet {
-//            simulationNameLabel?.text = simulationName
-//        }
-//    }
-    var strategy = ""
-//    {
-//        didSet {
-//            strategyLabel?.text = strategy
-//        }
-//    }
-    var startBalance = ""
-//    {
-//        didSet {
-//            startBalanceLabel?.text = startBalance
-//        }
-//    }
-    var startDate = ""
-//    {
-//        didSet {
-//            startDateLabel?.text = startDate
-//        }
-//    }
-    var endDate = ""
-//    {
-//        didSet {
-//            endDateLabel?.text = endDate
-//        }
-//    }
-    var stock = ""
-//    {
-//        didSet {
-//            stockLabel?.text = stock
-//        }
-//    }
-    var riskFreeRate = ""
-//    {
-//        didSet {
-//            riskFreeRateLabel?.text = riskFreeRate
-//        }
-//    }
     
+    var simulationInfo = (name: "", strategy: "", startBalance: "", startDate: "", endDate: "", stock: "", riskFreeRate: "", floor: "", multiplier: "", strike: "")
     var results = [Double]()
     var index = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        simulationNameLabel.text = simulationName
-        strategyLabel.text = strategy
-        startBalanceLabel.text = startBalance
-        startDateLabel.text = startDate
-        endDateLabel.text = endDate
-        stockLabel.text = stock
-        riskFreeRateLabel.text = riskFreeRate
+        simulationNameLabel.text = simulationInfo.name
+        if simulationInfo.strategy == "Covered Call Writing" {
+            strategyLabel.text = "CCW"
+        } else {
+            strategyLabel.text = simulationInfo.strategy
+        }
+    
+        startBalanceLabel.text = simulationInfo.startBalance
+        startDateLabel.text = simulationInfo.startDate
+        endDateLabel.text = simulationInfo.endDate
+        stockLabel.text = simulationInfo.stock
+        riskFreeRateLabel.text = simulationInfo.riskFreeRate
+        switch simulationInfo.strategy {
+            case "CPPI":
+                floorOrStrikeLabel.text = simulationInfo.floor
+                moltiplierOrNoneLabel.text = simulationInfo.multiplier
+            default:
+                floorOrOptionStrike.text = "Strike"
+                floorOrStrikeLabel.text = simulationInfo.strike
+                multiplierOrNone.hidden = true
+                moltiplierOrNoneLabel.hidden = true
+        }
         drawDetailGraph()
         simulationDetailGraphView.xAxis.labelPosition = .Bottom
     }
@@ -101,6 +77,6 @@ class SimulationDetailViewController: UIViewController {
             
             setChart(index, values: result)
         }
-
+        
     }
 }

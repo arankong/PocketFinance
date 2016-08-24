@@ -87,7 +87,6 @@ class Simulation: NSObject, NSCoding{
         var alpha_t : Double = 0
         var B: Double = startBalance
         var St : Double = 0
-        
         print("CPPI: "+"\(F)")
 
         for i in 0 ..< arrayPrice.count {
@@ -109,17 +108,11 @@ class Simulation: NSObject, NSCoding{
     func runCoveredCall(){
         let arrayPrice : [Double] = underlying.priceArray
         
-        // At T0
-        
-        //
-        // TO DO: Add a function to get the option price from the strike
-        //
-        
         let optionPrice = optionChains.price
         
         var stockPurchasePrice : Double
         var stockSellingPrice : Double
-        
+
         if arrayPrice.count == 0 { // when simulation created during trading hours when there's no close for the day
             let newStock = StockInfo(ticker: ticker) as StockInfo
             stockPurchasePrice = newStock.price
@@ -154,11 +147,7 @@ class Simulation: NSObject, NSCoding{
     func runStopLoss(){
         let arrayPrice : [Double] = underlying.priceArray
         var arrayAlpha = [Double]()
-        // At T0
-        
-        //
-        // TO DO: Add a function to get the option price from the strike
-        //
+
         let optionPrice = optionChains.price
         
         var S0 : Double // Stock Price on day0
@@ -244,11 +233,12 @@ class Simulation: NSObject, NSCoding{
             self.optionChains = OptionPrices(ticker: ticker, startDate: startDate, endDate: endDate)
         }
         
-        if strategy == "CPPI"{
+        if strategy == "CPPI" {
             runCPPI()
-        } else if strategy == "Covered Call Writing"{
+        } else if strategy == "Covered Call Writing" {
             runCoveredCall()
-        } else if strategy == "Stop Loss"{
+            
+        } else if strategy == "Stop Loss" {
             runStopLoss()
         }
     }

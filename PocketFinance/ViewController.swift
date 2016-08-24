@@ -13,12 +13,6 @@ class ViewController: UIViewController, UITextFieldDelegate,UITableViewDelegate,
     let textCellIdentifier = "stockCell"
     let textCellIdentifier2 = "simCell"
     
-    struct StrategyName {
-        static let CPPI = "CPPI"
-        static let CoveredCallWriting = "Covered Call Writing"
-        static let StopLoss = "Stop Loss"
-    }
-    
     // MARK: Properties
     @IBOutlet weak var textStockSymbol: UITextField!
     @IBOutlet weak var btnAdd: UIButton!
@@ -27,7 +21,6 @@ class ViewController: UIViewController, UITextFieldDelegate,UITableViewDelegate,
     
     var arrayStock = [StockInfo]()
     var arraySimulation = [Simulation]()
-    var arrayStratey = [String]()
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if let gvc = segue.destinationViewController as? GraphViewController {
@@ -39,7 +32,7 @@ class ViewController: UIViewController, UITextFieldDelegate,UITableViewDelegate,
                             let selectedSim = arraySimulation[index.row]
                             gvc.prices = selectedSim.underlying.priceArray
                             gvc.results = selectedSim.arrayPortfolioValue
-                            print("number: \(selectedSim.arrayPortfolioValue.count)")
+                            gvc.simulationInfo = (selectedSim.name, selectedSim.strategy, "\(selectedSim.startBalance)", selectedSim.startDate, selectedSim.endDate, selectedSim.ticker, "\(selectedSim.rfr)", "\(selectedSim.F)", "\(selectedSim.M)", "\(selectedSim.K)")
                             for i in 0..<gvc.prices.count {
                                 gvc.dates.append("\(i)")
                                 gvc.index.append("\(i)")

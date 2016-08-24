@@ -18,6 +18,7 @@ class GraphViewController: UIViewController {
     var dates = [String]()
     var results = [Double]()
     var index = [String]()
+    var simulationInfo = (name: "", strategy: "", startBalance: "", startDate: "", endDate: "", stock: "", riskFreeRate: "", floor: "", multiplier: "", strike: "")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -80,10 +81,15 @@ class GraphViewController: UIViewController {
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if let sdvc = segue.destinationViewController as? SimulationDetailViewController {
+            print("0")
             if let identifer = segue.identifier {
+                print("1")
                 switch identifer {
                 case "Show Detail":
-                    sdvc.startBalance = ""
+                    print("2")
+                    sdvc.simulationInfo = self.simulationInfo
+                    sdvc.index = self.index
+                    sdvc.results = self.results
                 default: break
                 }
             }
