@@ -44,7 +44,7 @@
                                     </mask>
                                 </variation>
                                 <connections>
-                                    <segue destination="8Lx-Zy-dOq" kind="show" id="B0Y-aE-UDF"/>
+                                    <segue destination="ucf-89-K96" kind="show" id="gxp-g3-bxh"/>
                                 </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="230" verticalHuggingPriority="230" horizontalCompressionResistancePriority="700" verticalCompressionResistancePriority="700" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="32" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="s8A-Od-k9l">
@@ -353,9 +353,6 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aXv-h9-Qyp">
-                                <rect key="frame" x="20" y="364" width="560" height="216"/>
-                            </pickerView>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Please select a stragety" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PId-eb-euq">
                                 <rect key="frame" x="20" y="113" width="560" height="30"/>
                                 <constraints>
@@ -524,6 +521,9 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aXv-h9-Qyp">
+                                <rect key="frame" x="20" y="364" width="560" height="216"/>
+                            </pickerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -593,11 +593,6 @@
                         </variation>
                     </view>
                     <navigationItem key="navigationItem" title="New Simulation" id="Tdl-NO-tDD">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="JjG-pt-i21">
-                            <connections>
-                                <segue destination="iaa-So-Kpw" kind="show" id="FPq-6J-9Jr"/>
-                            </connections>
-                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="cgy-hG-yAv">
                             <connections>
                                 <action selector="btnDone:" destination="ucf-89-K96" id="EqG-Bu-cps"/>
@@ -626,7 +621,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Dax-08-H1B" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="QtJ-ML-PhA" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1090" y="1797"/>
+            <point key="canvasLocation" x="957" y="1204"/>
         </scene>
         <!--Graph View Controller-->
         <scene sceneID="YRP-Kx-dk8">
@@ -714,24 +709,6 @@
             </objects>
             <point key="canvasLocation" x="-480" y="628"/>
         </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="2Xd-R2-WiQ">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="8Lx-Zy-dOq" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="FQL-iL-VHg">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="ucf-89-K96" kind="relationship" relationship="rootViewController" id="nSL-qr-kyE"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Coe-sO-XBE" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1090" y="1083"/>
-        </scene>
         <!--Simulation Detail View Controller-->
         <scene sceneID="te5-tJ-kcW">
             <objects>
@@ -782,7 +759,7 @@
                                 <rect key="frame" x="176" y="498" width="249" height="30"/>
                                 <state key="normal" title="Add another simulation to this graph"/>
                                 <connections>
-                                    <segue destination="8Lx-Zy-dOq" kind="show" identifier="Add compare" id="pEu-9i-qT1"/>
+                                    <segue destination="ucf-89-K96" kind="show" id="eyU-Ww-kAX"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Simulation Parameters" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hc8-sv-2EH">
@@ -994,15 +971,15 @@
                                 <exclude reference="706-6q-x9k"/>
                                 <exclude reference="qtK-Gh-ayR"/>
                                 <exclude reference="vUx-CS-z8Q"/>
-                                <exclude reference="Az0-zB-3im"/>
-                                <exclude reference="HQc-Bx-seN"/>
-                                <exclude reference="MSK-fc-NBA"/>
-                                <exclude reference="khG-q2-nxx"/>
                                 <exclude reference="FlM-Me-ki1"/>
                                 <exclude reference="Hj1-6D-UaP"/>
                                 <exclude reference="d6G-Sq-oZP"/>
                                 <exclude reference="pjE-TI-2Sg"/>
                                 <exclude reference="ucI-rZ-ZS1"/>
+                                <exclude reference="Az0-zB-3im"/>
+                                <exclude reference="HQc-Bx-seN"/>
+                                <exclude reference="MSK-fc-NBA"/>
+                                <exclude reference="khG-q2-nxx"/>
                                 <exclude reference="08r-jm-gM8"/>
                                 <exclude reference="2Q6-eU-fjf"/>
                                 <exclude reference="rdG-3J-ITT"/>
@@ -1068,7 +1045,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="pEu-9i-qT1"/>
         <segue reference="aUB-ql-d2m"/>
+        <segue reference="eyU-Ww-kAX"/>
     </inferredMetricsTieBreakers>
 </document>

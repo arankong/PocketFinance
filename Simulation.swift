@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Simulation: NSObject, NSCoding{
+class Simulation: NSObject, NSCoding {
     
     // MARK: Properties
     var name: String
@@ -19,7 +19,7 @@ class Simulation: NSObject, NSCoding{
     var endDate: String
     var ticker: String
     var weight:Double
-    var rfr:Double
+    var rfr: Double
     
     var arrayPortfolioValue = [Double]()
     var underlying: StockPrices

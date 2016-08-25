@@ -8,7 +8,7 @@
 
 import UIKit
 import Charts
-class SimulationDetailViewController: UIViewController {
+class SimulationDetailViewController: UIViewController, ChartViewDelegate {
     @IBOutlet weak var simulationDetailGraphView: LineChartView!
     @IBOutlet weak var simulationNameLabel: UILabel!
     @IBOutlet weak var strategyLabel: UILabel!
@@ -29,6 +29,7 @@ class SimulationDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        simulationDetailGraphView.delegate = self
         simulationNameLabel.text = simulationInfo.name
         if simulationInfo.strategy == "Covered Call Writing" {
             strategyLabel.text = "CCW"
@@ -58,25 +59,40 @@ class SimulationDetailViewController: UIViewController {
     internal func drawDetailGraph() {
         let result = self.results
         let index = self.index
-        if result.count != 0 {
-            func setChart(dataPoints: [String], values: [Double]) {
-                var dataEntries: [ChartDataEntry] = []
-                for i in 0..<dataPoints.count {
-                    let dataEntry = ChartDataEntry(value: values[i], xIndex: i)
-                    dataEntries.append(dataEntry)
-                }
-                
-                let lineChartDataSet = LineChartDataSet(yVals: dataEntries, label: "Balance")
-                lineChartDataSet.circleRadius = 0.07    //2.0
-                lineChartDataSet.setColor(UIColor.blueColor().colorWithAlphaComponent(0.5))
-                let lineChartData = LineChartData(xVals: dataPoints, dataSet: lineChartDataSet)
-                simulationDetailGraphView!.data = lineChartData
-                simulationDetailGraphView!.animate(xAxisDuration: 2.0, yAxisDuration: 2.0)
-                simulationDetailGraphView!.descriptionText = ""
-            }
-            
-            setChart(index, values: result)
+        
+        var compare = [Double]()
+        for i in 0..<index.count{
+            compare.append(result[i]+100)
         }
+        
+        var dataEntries = [ChartDataEntry]()
+        for i in 0..<index.count {
+            let dataEntry = ChartDataEntry(value: result[i], xIndex: i)
+            dataEntries.append(dataEntry)
+        }
+        let lineChartDataSet = LineChartDataSet(yVals: dataEntries, label: "Balance")
+        lineChartDataSet.circleRadius = 0.07    //2.0
+        lineChartDataSet.setColor(UIColor.blueColor().colorWithAlphaComponent(0.5))
+        
+        var dataEntriesCompare = [ChartDataEntry]()
+        for i in 0..<index.count {
+            let dataEntry = ChartDataEntry(value: compare[i], xIndex: i)
+            dataEntriesCompare.append(dataEntry)
+        }
+        let lineChartDataSetCompare = LineChartDataSet(yVals: dataEntriesCompare, label: "Compare")
+        lineChartDataSetCompare.circleRadius = 0.07    //2.0
+        lineChartDataSetCompare.setColor(UIColor.greenColor().colorWithAlphaComponent(0.5))
+
+        
+        let lineChartData = LineChartData(xVals: index, dataSet: lineChartDataSet)
+        lineChartData.addDataSet(lineChartDataSetCompare)
+        simulationDetailGraphView!.data = lineChartData
+        simulationDetailGraphView!.animate(xAxisDuration: 2.0, yAxisDuration: 2.0)
+        simulationDetailGraphView!.descriptionText = ""
+
+    }
+    
+    func chartValueSelected(chartView: ChartViewBase, entry: ChartDataEntry, dataSetIndex: Int, highlight: ChartHighlight) {
         
     }
 }

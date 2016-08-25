@@ -9,7 +9,7 @@
 import UIKit
 import Charts
 
-class GraphViewController: UIViewController {
+class GraphViewController: UIViewController, ChartViewDelegate {
 
     @IBOutlet weak var stockPriceGraphView: LineChartView!
     @IBOutlet weak var simulationResultGraphView: LineChartView!
@@ -24,6 +24,8 @@ class GraphViewController: UIViewController {
         super.viewDidLoad()
         drawPriceGraph()
         drawSimGraph()
+        stockPriceGraphView.delegate = self
+        simulationResultGraphView.delegate = self
         stockPriceGraphView.xAxis.labelPosition = .Bottom
         simulationResultGraphView.xAxis.labelPosition = .Bottom
         stockPriceGraphView.noDataText = "No stock graph available"
@@ -34,59 +36,55 @@ class GraphViewController: UIViewController {
     internal func drawPriceGraph() {
         let months: [String]! = dates
         let price = self.prices
-//        price = price.reverse()
         
-        func setChart(dataPoints: [String], values: [Double]) {
-            var dataEntries: [ChartDataEntry] = []
-            for i in 0..<dataPoints.count {
-                let dataEntry = ChartDataEntry(value: values[i], xIndex: i)
-                dataEntries.append(dataEntry)
-            }
-            
-            let lineChartDataSet = LineChartDataSet(yVals: dataEntries, label: "Prices")
-            lineChartDataSet.circleRadius = 0.07    //2.0
-            lineChartDataSet.setColor(UIColor.blueColor().colorWithAlphaComponent(0.5))
-            let lineChartData = LineChartData(xVals: dataPoints, dataSet: lineChartDataSet)
-            stockPriceGraphView!.data = lineChartData
-            stockPriceGraphView!.animate(xAxisDuration: 2.0, yAxisDuration: 2.0)
-            stockPriceGraphView!.descriptionText = ""
+        
+        var dataEntries = [ChartDataEntry]()
+        for i in 0..<months.count {
+            let dataEntry = ChartDataEntry(value: price[i], xIndex: i)
+            dataEntries.append(dataEntry)
         }
+            
+        let lineChartDataSet = LineChartDataSet(yVals: dataEntries, label: "Prices")
+            
+        lineChartDataSet.circleRadius = 0.07    //2.0
+        lineChartDataSet.setColor(UIColor.blueColor().colorWithAlphaComponent(0.5))
+        let lineChartData = LineChartData(xVals: months, dataSet: lineChartDataSet)
+        stockPriceGraphView!.data = lineChartData
+        stockPriceGraphView!.animate(xAxisDuration: 2.0, yAxisDuration: 2.0)
+        stockPriceGraphView!.descriptionText = ""
         
-        setChart(months, values: price)
     }
     
     internal func drawSimGraph() {
         let result = self.results
         let index = self.index
         if result.count != 0 {
-            func setChart(dataPoints: [String], values: [Double]) {
-                var dataEntries: [ChartDataEntry] = []
-                for i in 0..<dataPoints.count {
-                    let dataEntry = ChartDataEntry(value: values[i], xIndex: i)
-                    dataEntries.append(dataEntry)
-                }
-            
-                let lineChartDataSet = LineChartDataSet(yVals: dataEntries, label: "Balance")
-                lineChartDataSet.circleRadius = 0.07    //2.0
-                lineChartDataSet.setColor(UIColor.blueColor().colorWithAlphaComponent(0.5))
-                let lineChartData = LineChartData(xVals: dataPoints, dataSet: lineChartDataSet)
-                simulationResultGraphView!.data = lineChartData
-                simulationResultGraphView!.animate(xAxisDuration: 2.0, yAxisDuration: 2.0)
-                simulationResultGraphView!.descriptionText = ""
-            }
-        
-            setChart(index, values: result)
+        var dataEntries = [ChartDataEntry]()
+        for i in 0..<index.count {
+            let dataEntry = ChartDataEntry(value: result[i], xIndex: i)
+            dataEntries.append(dataEntry)
         }
+        
+        let lineChartDataSet = LineChartDataSet(yVals: dataEntries, label: "Balance")
+        lineChartDataSet.circleRadius = 0.07    //2.0
+        lineChartDataSet.setColor(UIColor.blueColor().colorWithAlphaComponent(0.5))
+        let lineChartData = LineChartData(xVals: index, dataSet: lineChartDataSet)
+        simulationResultGraphView!.data = lineChartData
+        simulationResultGraphView!.animate(xAxisDuration: 2.0, yAxisDuration: 2.0)
+        simulationResultGraphView!.descriptionText = ""
+            
+        }
+    }
+    
+    func chartValueSelected(chartView: ChartViewBase, entry: ChartDataEntry, dataSetIndex: Int, highlight: ChartHighlight) {
+        print("\(entry.value) in \(dates[entry.xIndex])")
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if let sdvc = segue.destinationViewController as? SimulationDetailViewController {
-            print("0")
             if let identifer = segue.identifier {
-                print("1")
                 switch identifer {
                 case "Show Detail":
-                    print("2")
                     sdvc.simulationInfo = self.simulationInfo
                     sdvc.index = self.index
                     sdvc.results = self.results

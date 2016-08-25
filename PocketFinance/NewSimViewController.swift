@@ -169,26 +169,24 @@ class NewSimViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         
-        let dfltF:Double = 0.8
-        let dfltM:Double = 2
+        let dfltF: Double = 0.8
+        let dfltM: Double = 2
         
+        let strategy = textStrat.text
+        let simType = textSimType.text
+        let simName = textName.text
+        let startBalance = Double(textStartBal.text!)
+        let startDate = textStartDate.text
+        let endDate = textEndDate.text
+        let ticker = textStock.text
+        let weight = 1.0
+        let F : Double
+        let M : Double
+        let K : Double        
+        let rfr = Double(textWeight.text!)
+        
+
         if btnDone === sender {
-            
-            let strategy = textStrat.text
-            let simType = textSimType.text
-            let simName = textName.text
-            let startBalance = Double(textStartBal.text!)
-            let startDate = textStartDate.text
-            let endDate = textEndDate.text
-            let ticker = textStock.text
-            let weight = 1.0
-            let F : Double
-            let M : Double
-            let K : Double
-            
-            //temp
-            let rfr = Double(textWeight.text!)
-            
             // Run simulations
             if strategy == "CPPI" {
                 F = (textOPT1.text == "") ? dfltF * startBalance! : Double(textOPT1.text!)! * startBalance!
@@ -207,6 +205,10 @@ class NewSimViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
                     simInstance!.runStopLoss()
                 }
             }
+        }
+        
+        if let father = navigationController?.viewControllers[(navigationController?.viewControllers.count)!-2] as? SimulationDetailViewController {
+            
         }
     }
 
