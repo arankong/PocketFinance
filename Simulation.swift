@@ -129,13 +129,15 @@ class Simulation: NSObject, NSCoding {
         let alpha = self.startBalance / stockPurchasePrice
         var B: Double = alpha * optionPrice
         self.arrayPortfolioValue.append(alpha * min(stockPurchasePrice, self.K) + B)
-        
-        for i in 1 ..< arrayPrice.count {
-            B = B * exp(rfr * 1/252)
-            stockSellingPrice = min(arrayPrice[i], self.K)
-            arrayPortfolioValue.append(B + stockSellingPrice * alpha)
+        if arrayPrice.count < 1 {
+            
+        } else {
+            for i in 1 ..< arrayPrice.count {
+                B = B * exp(rfr * 1/252)
+                stockSellingPrice = min(arrayPrice[i], self.K)
+                arrayPortfolioValue.append(B + stockSellingPrice * alpha)
+            }
         }
-        
         print("Strike = " + String(K))
         print("Price Array")
         print(arrayPrice)
@@ -178,26 +180,29 @@ class Simulation: NSObject, NSCoding {
         arrayAlpha.append(position)
         
         self.arrayPortfolioValue.append((S0 >= K) ? B + numOption * K : B)
-        
-        // Rebalances starting from day1
-        for i in 1 ..< arrayPrice.count {
+        if arrayPrice.count < 1 {
             
-            let Sk: Double = arrayPrice[i]
-            // Rebalance
-            if Sk < K && position == 1 {
-                alpha = -1
-                position = 0
-            } else if Sk >= K && position == 0 {
-                alpha = 1
-                position = 1
-            } else {
-                alpha = 0
+        } else {
+            // Rebalances starting from day1
+            for i in 1 ..< arrayPrice.count {
+            
+                let Sk: Double = arrayPrice[i]
+                // Rebalance
+                if Sk < K && position == 1 {
+                    alpha = -1
+                    position = 0
+                } else if Sk >= K && position == 0 {
+                    alpha = 1
+                    position = 1
+                } else {
+                    alpha = 0
+                }
+            
+                B = B * exp(rfr * 1/252) - alpha * Sk * numOption
+                arrayAlpha.append(alpha)
+            
+                arrayPortfolioValue.append(B + position * numOption * K)
             }
-            
-            B = B * exp(rfr * 1/252) - alpha * Sk * numOption
-            arrayAlpha.append(alpha)
-            
-            arrayPortfolioValue.append(B + position * numOption * K)
         }
         print("Strike = " + String(K))
         print("Price Array")

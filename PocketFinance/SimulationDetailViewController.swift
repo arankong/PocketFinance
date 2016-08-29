@@ -123,6 +123,21 @@ class SimulationDetailViewController: UIViewController, ChartViewDelegate {
             multiplierOrNone.hidden = true
             moltiplierOrNoneLabel.hidden = true
         }
-
     }
+    
+    
+    @IBAction func saveChart(sender: UIBarButtonItem) {
+        let saveAlert = UIAlertController(title: "Save Image", message: "Save the image to camera roll", preferredStyle: UIAlertControllerStyle.Alert)
+        
+        saveAlert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: { (action: UIAlertAction!) in
+            
+        }))
+        
+        saveAlert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: { (action: UIAlertAction!) in
+            self.simulationDetailGraphView.saveToCameraRoll()
+        }))
+        
+        presentViewController(saveAlert, animated: true, completion: nil)
+    }
+    
 }

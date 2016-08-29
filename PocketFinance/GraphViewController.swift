@@ -29,14 +29,13 @@ class GraphViewController: UIViewController, ChartViewDelegate {
         stockPriceGraphView.xAxis.labelPosition = .Bottom
         simulationResultGraphView.xAxis.labelPosition = .Bottom
         stockPriceGraphView.noDataText = "No stock graph available"
-        simulationResultGraphView.noDataText = "No simulation result available"
+        simulationResultGraphView.noDataText = "Could not connect to the server"
         // Do any additional setup after loading the view.
     }
 
     internal func drawPriceGraph() {
         let months: [String]! = dates
         let price = self.prices
-        
         
         var dataEntries = [ChartDataEntry]()
         for i in 0..<months.count {
