@@ -60,7 +60,7 @@ class GraphViewController: UIViewController, ChartViewDelegate {
         let index = self.index
         if result.count != 0 {
         var dataEntries = [ChartDataEntry]()
-        for i in 0..<index.count {
+        for i in 0..<result.count {
             let dataEntry = ChartDataEntry(value: result[i], xIndex: i)
             dataEntries.append(dataEntry)
         }
@@ -85,9 +85,19 @@ class GraphViewController: UIViewController, ChartViewDelegate {
             if let identifer = segue.identifier {
                 switch identifer {
                 case "Show Detail":
-                    sdvc.simulationInfo = self.simulationInfo
-                    sdvc.index = self.index
-                    sdvc.results = self.results
+                    sdvc.simulationInfo.name = simulationInfo.name
+                    sdvc.simulationInfo.strategy = simulationInfo.strategy
+                    sdvc.simulationInfo.startBalance = simulationInfo.startBalance
+                    sdvc.simulationInfo.startDate = simulationInfo.startDate
+                    sdvc.simulationInfo.endDate = simulationInfo.endDate
+                    sdvc.simulationInfo.stock = simulationInfo.stock
+                    sdvc.simulationInfo.riskFreeRate = simulationInfo.riskFreeRate
+                    sdvc.simulationInfo.floor = simulationInfo.floor
+                    sdvc.simulationInfo.multiplier = simulationInfo.multiplier
+                    sdvc.simulationInfo.strike = simulationInfo.strike
+                    sdvc.simulationInfo.result = results
+                    sdvc.simulationInfo.index = index
+                    sdvc.appendSimulationInfo(sdvc.simulationInfo)
                 default: break
                 }
             }

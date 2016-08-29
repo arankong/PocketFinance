@@ -595,13 +595,11 @@
                     <navigationItem key="navigationItem" title="New Simulation" id="Tdl-NO-tDD">
                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="cgy-hG-yAv">
                             <connections>
-                                <action selector="btnDone:" destination="ucf-89-K96" id="EqG-Bu-cps"/>
-                                <segue destination="QtJ-ML-PhA" kind="unwind" unwindAction="unwindToSimList:" id="uos-Mj-Rog"/>
+                                <action selector="buttonDone:" destination="ucf-89-K96" id="AbI-wG-2B8"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="btnDone" destination="cgy-hG-yAv" id="5hE-la-mM0"/>
                         <outlet property="labelOPT1" destination="eFa-AT-ZmA" id="Tse-dX-p3N"/>
                         <outlet property="labelOPT2" destination="2Pd-61-DOf" id="Yi3-ne-f8w"/>
                         <outlet property="pickDate" destination="1Zm-KX-Oue" id="71e-JG-lWM"/>
@@ -619,7 +617,6 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Dax-08-H1B" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="QtJ-ML-PhA" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="957" y="1204"/>
         </scene>
@@ -1045,7 +1042,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="aUB-ql-d2m"/>
-        <segue reference="eyU-Ww-kAX"/>
+        <segue reference="gxp-g3-bxh"/>
+        <segue reference="23s-Iw-OTE"/>
     </inferredMetricsTieBreakers>
 </document>

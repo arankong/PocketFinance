@@ -43,7 +43,6 @@ class StockPrices {
         var sYql = sYqlTemplate.stringByReplacingOccurrencesOfString("{TICKER}", withString: ticker)
         sYql = sYql.stringByReplacingOccurrencesOfString("{START}", withString: startDate)
         sYql = sYql.stringByReplacingOccurrencesOfString("{END}", withString: endDate)
-        print(sYql)
         sYql = sYql.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
         
         let urlYql = (NSURL(string: sYql))!
@@ -62,8 +61,6 @@ class StockPrices {
                     let jsonDict = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers) as! NSDictionary
                     //print(jsonDict)
                     let query: NSDictionary = jsonDict["query"] as! NSDictionary
-                    //let results: NSDictionary = query["results"] as? NSDictionary
-                    //let quote: [NSDictionary] = results["quote"]as! [NSDictionary]
                     completionHandler(query,nil)
                     return
                 } catch let error as NSError {

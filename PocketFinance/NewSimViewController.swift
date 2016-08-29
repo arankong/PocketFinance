@@ -25,7 +25,6 @@ class NewSimViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     @IBOutlet weak var textEndDate: UITextField!
     @IBOutlet weak var textStock: UITextField!
     @IBOutlet weak var textWeight: UITextField!
-    @IBOutlet weak var btnDone: UIBarButtonItem!
     @IBOutlet weak var textName: UITextField!
     @IBOutlet weak var textStartBal: UITextField!
     
@@ -162,10 +161,7 @@ class NewSimViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         }
     }
     
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    @IBAction func buttonDone(sender: UIBarButtonItem) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         
@@ -180,37 +176,57 @@ class NewSimViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         let endDate = textEndDate.text
         let ticker = textStock.text
         let weight = 1.0
-        let F : Double
-        let M : Double
-        let K : Double        
+        var F = 0.0
+        var M = 0.0
+        var K = 0.0
         let rfr = Double(textWeight.text!)
         
-
-        if btnDone === sender {
-            // Run simulations
-            if strategy == "CPPI" {
-                F = (textOPT1.text == "") ? dfltF * startBalance! : Double(textOPT1.text!)! * startBalance!
-                M = (textOPT2.text == "") ? dfltM : Double(textOPT2.text!)!
-
-                simInstance = Simulation(name: simName!, strategy: strategy!, type: simType!, startBalance: startBalance!, startDate: startDate!, endDate: endDate!, ticker: ticker!, weight: weight, rfr: rfr!, F: F, M: M, K:nil, arrayPortfolioValue : nil)
-                simInstance!.runCPPI()
+        // Run simulations
+        if strategy == "CPPI" {
+            F = (textOPT1.text == "") ? dfltF * startBalance! : Double(textOPT1.text!)! * startBalance!
+            M = (textOPT2.text == "") ? dfltM : Double(textOPT2.text!)!
                 
-            } else if strategy == "Covered Call Writing" || strategy == "Stop Loss" {
-                K = Double(textOPT1.text!)!
+            simInstance = Simulation(name: simName!, strategy: strategy!, type: simType!, startBalance: startBalance!, startDate: startDate!, endDate: endDate!, ticker: ticker!, weight: weight, rfr: rfr!, F: F, M: M, K:nil, arrayPortfolioValue : nil)
+            simInstance!.runCPPI()
                 
-                simInstance = Simulation(name: simName!, strategy: strategy!, type: simType!, startBalance: startBalance!, startDate: startDate!, endDate: endDate!, ticker: ticker!, weight: weight, rfr: rfr!, F: nil, M: nil, K:K, arrayPortfolioValue : nil)
-                if strategy == "Covered Call Writing" {
-                    simInstance!.runCoveredCall()
-                } else {
-                    simInstance!.runStopLoss()
-                }
+        } else if strategy == "Covered Call Writing" || strategy == "Stop Loss" {
+            K = Double(textOPT1.text!)!
+                
+            simInstance = Simulation(name: simName!, strategy: strategy!, type: simType!, startBalance: startBalance!, startDate: startDate!, endDate: endDate!, ticker: ticker!, weight: weight, rfr: rfr!, F: nil, M: nil, K:K, arrayPortfolioValue : nil)
+            if strategy == "Covered Call Writing" {
+                simInstance!.runCoveredCall()
+            } else {
+                simInstance!.runStopLoss()
             }
         }
         
-        if let father = navigationController?.viewControllers[(navigationController?.viewControllers.count)!-2] as? SimulationDetailViewController {
-            
+        if let vc = navigationController?.viewControllers[(navigationController?.viewControllers.count)!-2] as? ViewController {
+            vc.arraySimulation.append(simInstance!)
+            vc.saveSims()
+            vc.segStockSim.selectedSegmentIndex = 1
+            vc.actionSegCtrl(vc.segStockSim)
         }
+        
+        if let sdvc = navigationController?.viewControllers[(navigationController?.viewControllers.count)!-2] as? SimulationDetailViewController {
+            sdvc.simulationInfo.name = simName!
+            sdvc.simulationInfo.strategy = strategy!
+            sdvc.simulationInfo.startBalance = "\(startBalance!)"
+            sdvc.simulationInfo.startDate = startDate!
+            sdvc.simulationInfo.endDate = endDate!
+            sdvc.simulationInfo.stock = ticker!
+            sdvc.simulationInfo.riskFreeRate = "\(rfr!)"
+            sdvc.simulationInfo.floor = "\(F)"
+            sdvc.simulationInfo.multiplier = "\(M)"
+            sdvc.simulationInfo.strike = "\(K)"
+            sdvc.simulationInfo.result = (simInstance?.arrayPortfolioValue)!
+            for i in 0..<sdvc.simulationInfo.result.count {
+                sdvc.simulationInfo.index.append("\(i)")
+            }
+            sdvc.appendSimulationInfo(sdvc.simulationInfo)
+            sdvc.drawDetailGraph()
+            simInstance = nil
+        }
+        navigationController?.popViewControllerAnimated(true)
     }
-
 }
 

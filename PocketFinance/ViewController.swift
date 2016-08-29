@@ -206,18 +206,5 @@ class ViewController: UIViewController, UITextFieldDelegate,UITableViewDelegate,
     func loadSims() -> [Simulation]? {
         return NSKeyedUnarchiver.unarchiveObjectWithFile(Simulation.ArchiveURL.path!) as? [Simulation]
     }
-    
-    // MARK: Navigation
-    @IBAction func unwindToSimList(sender: UIStoryboardSegue) {
-        print("navigation")
-        let sourceViewController = sender.sourceViewController as? NewSimViewController, sim = sourceViewController!.simInstance
-        // Add a new simulation
-        arraySimulation.append(sim!)
-        saveSims()
-        
-        segStockSim.selectedSegmentIndex = 1
-        self.actionSegCtrl(segStockSim)
-
-    }
 }
 

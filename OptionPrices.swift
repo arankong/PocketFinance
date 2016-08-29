@@ -48,7 +48,6 @@ class OptionPrices {
         sYql = sYql.stringByReplacingOccurrencesOfString("{DAY}",withString: day)
         sYql = sYql.stringByReplacingOccurrencesOfString("{MONTH}",withString: month)
         sYql = sYql.stringByReplacingOccurrencesOfString("{YEAR}",withString: year)
-        print(sYql)
         sYql = sYql.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
         
         let urlYql = (NSURL(string: sYql))!
@@ -79,11 +78,8 @@ class OptionPrices {
                     // Now we can get the perfect JSON object
                     let jsonDict = try NSJSONSerialization.JSONObjectWithData(tempNSData, options: NSJSONReadingOptions.MutableContainers) as! NSDictionary
                     
-                    print(jsonDict)
-                    //                    let price = jsonDict["underlying_price"]
-                    
-                    //                    let query: NSDictionary = jsonDict["calls"] as! NSDictionary
-                    
+//                    print(jsonDict)
+
                     completionHandler(jsonDict, nil)
                     return
                     

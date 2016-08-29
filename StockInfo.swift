@@ -87,8 +87,6 @@ class StockInfo: NSObject, NSCoding {
 
         sYql = sYql.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
         let urlYql = (NSURL(string: sYql))!
-        print(urlYql)
-
         let request = NSURLRequest(URL: urlYql)
         let config = NSURLSessionConfiguration.defaultSessionConfiguration()
         let session = NSURLSession(configuration: config)
@@ -136,7 +134,6 @@ class StockInfo: NSObject, NSCoding {
         var sYql = sYqlTemplate.stringByReplacingOccurrencesOfString("{TICKER}", withString: ticker)
         sYql = sYql.stringByReplacingOccurrencesOfString("{START}", withString: startDate)
         sYql = sYql.stringByReplacingOccurrencesOfString("{END}", withString: endDate)
-        print(sYql)
         sYql = sYql.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
         
         let urlYql = (NSURL(string: sYql))!
