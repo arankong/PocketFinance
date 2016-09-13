@@ -1,0 +1,6 @@
+framework module Pods_PocketFinance {
+  umbrella header "Pods-PocketFinance-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -21,6 +21,7 @@
 		5030C7FA1D4A9190003E4FEE /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5030C7F31D4A90F6003E4FEE /* Charts.framework */; };
 		5030C7FB1D4A9190003E4FEE /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5030C7F31D4A90F6003E4FEE /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5030C8001D4A91F3003E4FEE /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5030C7FF1D4A91F3003E4FEE /* GraphViewController.swift */; };
+		F0A9D986463F8B28B062337F /* Pods_PocketFinance.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03F2D53CD7311369826BC5A4 /* Pods_PocketFinance.framework */; };
 		F4370E281D6E30290014E409 /* SimulationDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4370E271D6E30290014E409 /* SimulationDetailViewController.swift */; };
 		F46465941D57CE3700929424 /* OptionPrices.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46465931D57CE3700929424 /* OptionPrices.swift */; };
 /* End PBXBuildFile section */
@@ -78,6 +79,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		03F2D53CD7311369826BC5A4 /* Pods_PocketFinance.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PocketFinance.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		12CC0A8A9E128FA52A0FACF3 /* Pods-PocketFinance.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketFinance.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PocketFinance/Pods-PocketFinance.debug.xcconfig"; sourceTree = "<group>"; };
 		5030C7C31D4A5BDE003E4FEE /* PocketFinance.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PocketFinance.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5030C7C61D4A5BDE003E4FEE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5030C7CD1D4A5BDE003E4FEE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -93,6 +96,7 @@
 		5030C7E81D4A6100003E4FEE /* SimTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimTableViewCell.swift; sourceTree = "<group>"; };
 		5030C7EB1D4A90F5003E4FEE /* Charts.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Charts.xcodeproj; path = Charts/Charts.xcodeproj; sourceTree = "<group>"; };
 		5030C7FF1D4A91F3003E4FEE /* GraphViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphViewController.swift; sourceTree = "<group>"; };
+		73119D00F8DDD5EC915A7760 /* Pods-PocketFinance.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketFinance.release.xcconfig"; path = "Pods/Target Support Files/Pods-PocketFinance/Pods-PocketFinance.release.xcconfig"; sourceTree = "<group>"; };
 		F4370E271D6E30290014E409 /* SimulationDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimulationDetailViewController.swift; sourceTree = "<group>"; };
 		F46465931D57CE3700929424 /* OptionPrices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionPrices.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -103,12 +107,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				5030C7FA1D4A9190003E4FEE /* Charts.framework in Frameworks */,
+				F0A9D986463F8B28B062337F /* Pods_PocketFinance.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		04C5E3A3642A0F65B37C55F4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				03F2D53CD7311369826BC5A4 /* Pods_PocketFinance.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		5030C7BA1D4A5BDE003E4FEE = {
 			isa = PBXGroup;
 			children = (
@@ -119,6 +132,8 @@
 				5030C7C51D4A5BDE003E4FEE /* PocketFinance */,
 				5030C7C41D4A5BDE003E4FEE /* Products */,
 				5030C7EB1D4A90F5003E4FEE /* Charts.xcodeproj */,
+				95540E8C40DA05F88B0172A3 /* Pods */,
+				04C5E3A3642A0F65B37C55F4 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -159,6 +174,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		95540E8C40DA05F88B0172A3 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				12CC0A8A9E128FA52A0FACF3 /* Pods-PocketFinance.debug.xcconfig */,
+				73119D00F8DDD5EC915A7760 /* Pods-PocketFinance.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -166,10 +190,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5030C7D51D4A5BDE003E4FEE /* Build configuration list for PBXNativeTarget "PocketFinance" */;
 			buildPhases = (
+				7E4FE4025834A682B4E7FB7C /* [CP] Check Pods Manifest.lock */,
 				5030C7BF1D4A5BDE003E4FEE /* Sources */,
 				5030C7C01D4A5BDE003E4FEE /* Frameworks */,
 				5030C7C11D4A5BDE003E4FEE /* Resources */,
 				5030C7FE1D4A9190003E4FEE /* Embed Frameworks */,
+				36FF870DE0A51DAAC40A1B0D /* [CP] Embed Pods Frameworks */,
+				CCB676249F406E9EC1D53E91 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -263,6 +290,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		36FF870DE0A51DAAC40A1B0D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PocketFinance/Pods-PocketFinance-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7E4FE4025834A682B4E7FB7C /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		CCB676249F406E9EC1D53E91 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PocketFinance/Pods-PocketFinance-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		5030C7BF1D4A5BDE003E4FEE /* Sources */ = {
@@ -392,6 +467,7 @@
 		};
 		5030C7D61D4A5BDE003E4FEE /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 12CC0A8A9E128FA52A0FACF3 /* Pods-PocketFinance.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
@@ -404,6 +480,7 @@
 		};
 		5030C7D71D4A5BDE003E4FEE /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 73119D00F8DDD5EC915A7760 /* Pods-PocketFinance.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
