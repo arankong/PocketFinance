@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import THCalendarDatePicker
 
-class NewSimViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
+class NewSimViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, THDatePickerDelegate {
 
     // MARK: Initialization
     required init?(coder aDecoder: NSCoder) {
@@ -19,10 +20,8 @@ class NewSimViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     @IBOutlet weak var pickStrat: UIPickerView!
     @IBOutlet weak var textStrat: UITextField!
     @IBOutlet weak var textSimType: UITextField!
-    
-    @IBOutlet weak var pickDate: UIDatePicker!
-    @IBOutlet weak var textStartDate: UITextField!
-    @IBOutlet weak var textEndDate: UITextField!
+    @IBOutlet weak var startDateLabel: UILabel!
+    @IBOutlet weak var endDateLabel: UILabel!
     @IBOutlet weak var textStock: UITextField!
     @IBOutlet weak var textWeight: UITextField!
     @IBOutlet weak var textName: UITextField!
@@ -38,14 +37,32 @@ class NewSimViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     
     var arrayStrat: [String] = ["","CPPI","Covered Call Writing","Stop Loss"]
     
-    var dDate =  NSDate()
+    var curDate = NSDate()
     let dfltDateFormat = "yyyy-MM-dd"
+    var startDateSelected = true
+    
+    lazy var datePicker : THDatePickerViewController = {
+        let picker = THDatePickerViewController.datePicker()
+        picker.delegate = self
+        picker.date = self.curDate
+        picker.setAllowClearDate(false)
+        picker.setClearAsToday(true)
+        picker.setAutoCloseOnSelectDate(true)
+        picker.setAllowSelectionOfSelectedDate(true)
+        picker.setDisableYearSwitch(false)
+        picker.setDisableFutureSelection(false)
+        picker.autoCloseCancelDelay = 5.0
+        picker.rounded = true
+        picker.dateTitle = "Calendar"
+        picker.selectedBackgroundColor = UIColor(red: 125.0/255.0, green: 208.0/255.0, blue: 0.0/255.0, alpha: 1.0)
+        picker.currentDateColor = UIColor(red: 242.0/255.0, green: 121.0/255.0, blue: 53.0/255.0, alpha: 1.0)
+        picker.currentDateColorSelected = UIColor.yellowColor()
+        return picker
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         pickStrat.hidden = true
-        pickDate.hidden = true
-        pickDate.datePickerMode = .Date
 
         pickStrat.delegate = self
         pickStrat.dataSource = self
@@ -61,8 +78,8 @@ class NewSimViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         textSimType.text = "Historical Data"
         textWeight.text = "0.05"
         textStock.text = "GOOG"
-        textStartDate.text = "2016-07-01"
-        textEndDate.text = "2016-08-01"
+        startDateLabel.text = "2016-07-01"
+        endDateLabel.text = "2016-08-01"
     }
     
     override func didReceiveMemoryWarning() {
@@ -75,27 +92,67 @@ class NewSimViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         pickStrat.hidden = false
     }
     
-    @IBAction func clickStartDate(sender: AnyObject) {
-        pickDate.hidden = false
+    /* https://vandadnp.wordpress.com/2014/07/07/swift-convert-unmanaged-to-string/ */
+    func convertCfTypeToString(cfValue: Unmanaged<NSString>!) -> String?{
+        /* Coded by Vandad Nahavandipoor */
+        let value = Unmanaged<CFStringRef>.fromOpaque(
+            cfValue.toOpaque()).takeUnretainedValue() as CFStringRef
+        if CFGetTypeID(value) == CFStringGetTypeID(){
+            return value as String
+        } else {
+            return nil
+        }
+    }
+    
+    @IBAction func clickStartDate(sender: UIButton) {
+        datePicker.date = self.curDate
+        datePicker.setDateHasItemsCallback { (date: NSDate!) -> Bool in
+            let tmp = (arc4random() % 30)+1
+            return (tmp % 5 == 0)
+        }
+        presentSemiViewController(datePicker, withOptions: [
+            convertCfTypeToString(KNSemiModalOptionKeys.shadowOpacity) as String! : 0.3 as Float,
+            convertCfTypeToString(KNSemiModalOptionKeys.animationDuration) as String! : 1.0 as Float,
+            convertCfTypeToString(KNSemiModalOptionKeys.pushParentBack) as String! : false as Bool
+            ])
+        startDateSelected = true
+    }
+    
+    @IBAction func clickEndDate(sender: UIButton) {
+        datePicker.date = self.curDate
+        datePicker.setDateHasItemsCallback { (date: NSDate!) -> Bool in
+            let tmp = (arc4random() % 30)+1
+            return (tmp % 5 == 0)
+        }
+        presentSemiViewController(datePicker, withOptions: [
+            convertCfTypeToString(KNSemiModalOptionKeys.shadowOpacity) as String! : 0.3 as Float,
+            convertCfTypeToString(KNSemiModalOptionKeys.animationDuration) as String! : 1.0 as Float,
+            convertCfTypeToString(KNSemiModalOptionKeys.pushParentBack) as String! : false as Bool
+            ])
+        startDateSelected = false
     }
 
-    @IBAction func doneStartDate(sender: AnyObject) {
-        pickDate.hidden = true
-        textStartDate.text = dateToString(dDate)
+
+    // MARK: THDatePickerDelegate
+    
+    func datePickerDonePressed(datePicker: THDatePickerViewController!) {
+        if startDateSelected {
+            startDateLabel.text = dateToString(curDate)
+        } else {
+            endDateLabel.text = dateToString(curDate)
+        }
+        curDate = datePicker.date
+        dismissSemiModalView()
     }
     
-    @IBAction func clickEndDate(sender: AnyObject) {
-        pickDate.hidden = false
+    func datePickerCancelPressed(datePicker: THDatePickerViewController!) {
+        dismissSemiModalView()
     }
     
-    @IBAction func doneEndDate(sender: AnyObject) {
-        pickDate.hidden = true
-        textEndDate.text = dateToString(dDate)
+    func datePicker(datePicker: THDatePickerViewController!, selectedDate: NSDate!) {
+        print("Date selected")
     }
     
-    @IBAction func pickDate(sender: AnyObject) {
-        dDate = pickDate.date
-    }
     
     @IBAction func clickHistorical(sender: AnyObject) {
         textSimType.text = "Historical Data"
@@ -152,7 +209,6 @@ class NewSimViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
             
             textSimType.userInteractionEnabled = false
             //textStartDate.userInteractionEnabled = false   // comment out for testing purpose
-            textEndDate.userInteractionEnabled = false
             
             labelOPT1.hidden = false
             labelOPT1.text = "Option Strike"
@@ -172,8 +228,8 @@ class NewSimViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         let simType = textSimType.text
         let simName = textName.text
         let startBalance = Double(textStartBal.text!)
-        let startDate = textStartDate.text
-        let endDate = textEndDate.text
+        let startDate = startDateLabel.text
+        let endDate = endDateLabel.text
         let ticker = textStock.text
         let weight = 1.0
         var F = 0.0
