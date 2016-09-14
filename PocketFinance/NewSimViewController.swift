@@ -51,7 +51,7 @@ class NewSimViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         picker.setAllowSelectionOfSelectedDate(true)
         picker.setDisableYearSwitch(false)
         picker.setDisableFutureSelection(false)
-        picker.autoCloseCancelDelay = 5.0
+        picker.autoCloseCancelDelay = 2.3
         picker.rounded = true
         picker.dateTitle = "Calendar"
         picker.selectedBackgroundColor = UIColor(red: 125.0/255.0, green: 208.0/255.0, blue: 0.0/255.0, alpha: 1.0)
@@ -136,11 +136,6 @@ class NewSimViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     // MARK: THDatePickerDelegate
     
     func datePickerDonePressed(datePicker: THDatePickerViewController!) {
-        if startDateSelected {
-            startDateLabel.text = dateToString(curDate)
-        } else {
-            endDateLabel.text = dateToString(curDate)
-        }
         curDate = datePicker.date
         dismissSemiModalView()
     }
@@ -150,7 +145,12 @@ class NewSimViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     }
     
     func datePicker(datePicker: THDatePickerViewController!, selectedDate: NSDate!) {
-        print("Date selected")
+        if startDateSelected {
+            startDateLabel.text = dateToString(selectedDate)
+        } else {
+            endDateLabel.text = dateToString(selectedDate)
+        }
+        curDate = datePicker.date
     }
     
     
