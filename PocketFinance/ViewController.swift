@@ -21,6 +21,26 @@ class ViewController: UIViewController, UITextFieldDelegate,UITableViewDelegate,
     
     var arrayStock = [StockInfo]()
     var arraySimulation = [Simulation]()
+    @IBOutlet weak var addSimulationButton: UIButton!
+    
+    
+    @IBOutlet weak var currentStockPriceLabel: UILabel!
+    @IBOutlet weak var strikeLabel: UILabel!
+    @IBOutlet weak var volatilityLabel: UILabel!
+    @IBOutlet weak var expireTimeLabel: UILabel!
+    @IBOutlet weak var interestRateLabel: UILabel!
+    @IBOutlet weak var numberOfTimeStepsLabel: UILabel!
+    @IBOutlet weak var optionTypeLabel: UILabel!
+    @IBOutlet weak var resultLabel: UILabel!
+    
+    @IBOutlet weak var currentStockPriceText: UITextField!
+    @IBOutlet weak var strikeText: UITextField!
+    @IBOutlet weak var expiryTimeText: UITextField!
+    @IBOutlet weak var interestRateText: UITextField!
+    @IBOutlet weak var volatilityText: UITextField!
+    @IBOutlet weak var numberOfTimeStepsText: UITextField!
+    @IBOutlet weak var optionTypeText: UITextField!
+    @IBOutlet weak var computeButton: UIButton!
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if let gvc = segue.destinationViewController as? GraphViewController {
@@ -64,6 +84,28 @@ class ViewController: UIViewController, UITextFieldDelegate,UITableViewDelegate,
         
         segStockSim.selectedSegmentIndex = 0
         
+        currentStockPriceLabel.hidden = true
+        currentStockPriceText.hidden = true
+        strikeLabel.hidden = true
+        strikeText.hidden = true
+        expireTimeLabel.hidden = true
+        expiryTimeText.hidden = true
+        interestRateLabel.hidden = true
+        interestRateText.hidden = true
+        volatilityLabel.hidden = true
+        volatilityText.hidden = true
+        optionTypeLabel.hidden = true
+        optionTypeText.hidden = true
+        numberOfTimeStepsLabel.hidden = true
+        numberOfTimeStepsText.hidden = true
+        computeButton.hidden = true
+        resultLabel.hidden = true
+        tableStockPrice.hidden = false
+        textStockSymbol.hidden = false
+        btnAdd.hidden = false
+        addSimulationButton.hidden = false
+        
+        
         // Load any saved meals
         if let savedStocks = loadStocks() {
             arrayStock += savedStocks
@@ -85,15 +127,74 @@ class ViewController: UIViewController, UITextFieldDelegate,UITableViewDelegate,
     // MARK: Actions
     
     @IBAction func actionSegCtrl(sender: UISegmentedControl) {
-        if segStockSim.selectedSegmentIndex == 0{
+        if segStockSim.selectedSegmentIndex == 0 {
+            currentStockPriceLabel.hidden = true
+            currentStockPriceText.hidden = true
+            strikeLabel.hidden = true
+            strikeText.hidden = true
+            expireTimeLabel.hidden = true
+            expiryTimeText.hidden = true
+            interestRateLabel.hidden = true
+            interestRateText.hidden = true
+            volatilityLabel.hidden = true
+            volatilityText.hidden = true
+            optionTypeLabel.hidden = true
+            optionTypeText.hidden = true
+            numberOfTimeStepsLabel.hidden = true
+            numberOfTimeStepsText.hidden = true
+            computeButton.hidden = true
+            resultLabel.hidden = true
+            tableStockPrice.hidden = false
+            textStockSymbol.hidden = false
+            btnAdd.hidden = false
+            addSimulationButton.hidden = false
             tableStockPrice.reloadData()
             tableStockPrice.rowHeight = 30
-            
-        } else {
+        } else if segStockSim.selectedSegmentIndex == 1 {
+            currentStockPriceLabel.hidden = true
+            currentStockPriceText.hidden = true
+            strikeLabel.hidden = true
+            strikeText.hidden = true
+            expireTimeLabel.hidden = true
+            expiryTimeText.hidden = true
+            interestRateLabel.hidden = true
+            interestRateText.hidden = true
+            volatilityLabel.hidden = true
+            volatilityText.hidden = true
+            optionTypeLabel.hidden = true
+            optionTypeText.hidden = true
+            numberOfTimeStepsLabel.hidden = true
+            numberOfTimeStepsText.hidden = true
+            computeButton.hidden = true
+            resultLabel.hidden = true
+            tableStockPrice.hidden = false
+            textStockSymbol.hidden = false
+            btnAdd.hidden = false
+            addSimulationButton.hidden = false
             tableStockPrice.reloadData()
             tableStockPrice.rowHeight = 62
-            
-        }    
+        } else {
+            tableStockPrice.hidden = true
+            textStockSymbol.hidden = true
+            btnAdd.hidden = true
+            addSimulationButton.hidden = true
+            currentStockPriceLabel.hidden = false
+            currentStockPriceText.hidden = false
+            strikeLabel.hidden = false
+            strikeText.hidden = false
+            expireTimeLabel.hidden = false
+            expiryTimeText.hidden = false
+            interestRateLabel.hidden = false
+            interestRateText.hidden = false
+            volatilityLabel.hidden = false
+            volatilityText.hidden = false
+            optionTypeLabel.hidden = false
+            optionTypeText.hidden = false
+            numberOfTimeStepsLabel.hidden = false
+            numberOfTimeStepsText.hidden = false
+            computeButton.hidden = false
+            resultLabel.hidden = false
+        }
     }
 
     @IBAction func btnAddStock(sender: UIButton) {
@@ -109,6 +210,51 @@ class ViewController: UIViewController, UITextFieldDelegate,UITableViewDelegate,
 
         }
     }
+    
+    
+    @IBAction func computeTheValue(sender: UIButton) {
+        let optionPrice = doOptionPricing()
+        resultLabel.text = "Result: \(optionPrice)"
+    }
+    
+    func doOptionPricing() -> Double {
+        let s0 = Double(currentStockPriceText.text!)!
+        let K = Double(strikeText.text!)!
+        let T = Double(expiryTimeText.text!)!
+        let r = Double(interestRateText.text!)!
+        let sigma = Double(volatilityText.text!)!
+        let opttype = Double(optionTypeText.text!)!
+        let Nsteps = Int(numberOfTimeStepsText.text!)!
+        
+        let delt = T/Double(Nsteps)
+        let u = exp(sigma * sqrt(delt))
+        let d = 1 / u
+        let a = exp(r * delt)
+        let p = (a - d)/(u - d)
+        
+        var s = [Double](count: Nsteps+1, repeatedValue: 0)
+        var v = [Double](count: Nsteps+1, repeatedValue: 0)
+        
+        for j in 0...Nsteps {
+            s[j] = s0 * pow(u, Double(j)) * pow(d, Double(Nsteps-j))
+            if opttype == 0 {
+                v[j] = max(s[j] - K, 0)
+            } else {
+                v[j] = max(K - s[j], 0)
+            }
+        }
+        
+        var n = Nsteps-1
+        repeat {
+            for j in 0...n {
+                v[j] = exp(-r*delt) * (p*v[j+1] + (1-p)*v[j])
+            }
+            n -= 1
+        } while n >= 0
+
+        return v[0]
+    }
+    
     
     // MARK: UITextFieldDelegate
     func textFieldShouldReturn(textStockSymbol: UITextField) -> Bool {
