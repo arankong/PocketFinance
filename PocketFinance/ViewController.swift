@@ -237,6 +237,7 @@ class ViewController: UIViewController, UITextFieldDelegate,UITableViewDelegate,
         let Nsteps = Int(numberOfTimeStepsText.text!)!
         
         let delt = T/Double(Nsteps)
+        // Tree parameters
         let u = exp(sigma * sqrt(delt))
         let d = 1 / u
         let a = exp(r * delt)
@@ -245,6 +246,7 @@ class ViewController: UIViewController, UITextFieldDelegate,UITableViewDelegate,
         var s = [Double](count: Nsteps+1, repeatedValue: 0)
         var v = [Double](count: Nsteps+1, repeatedValue: 0)
         
+        // Backward recursion
         for j in 0...Nsteps {
             s[j] = s0 * pow(u, Double(j)) * pow(d, Double(Nsteps-j))
             if opttype == 0 {
