@@ -128,7 +128,6 @@ class ViewController: UIViewController, UITextFieldDelegate,UITableViewDelegate,
     
     @IBAction func actionSegCtrl(sender: UISegmentedControl) {
         if segStockSim.selectedSegmentIndex == 0 {
-<<<<<<< Updated upstream
             currentStockPriceLabel.hidden = true
             currentStockPriceText.hidden = true
             strikeLabel.hidden = true
@@ -195,15 +194,6 @@ class ViewController: UIViewController, UITextFieldDelegate,UITableViewDelegate,
             numberOfTimeStepsText.hidden = false
             computeButton.hidden = false
             resultLabel.hidden = false
-=======
-            tableStockPrice.reloadData()
-            tableStockPrice.rowHeight = 30
-        } else if segStockSim.selectedSegmentIndex == 1 {
-            tableStockPrice.reloadData()
-            tableStockPrice.rowHeight = 62
-        } else {
-            
->>>>>>> Stashed changes
         }
     }
 
@@ -286,10 +276,8 @@ class ViewController: UIViewController, UITextFieldDelegate,UITableViewDelegate,
     func tableView(_tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
         if segStockSim.selectedSegmentIndex == 0 {
             return arrayStock.count
-        } else if segStockSim.selectedSegmentIndex == 1 {
-            return arraySimulation.count
         } else {
-            return 0
+            return arraySimulation.count
         }
     }
     
