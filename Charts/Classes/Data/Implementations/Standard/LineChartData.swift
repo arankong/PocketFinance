@@ -14,7 +14,7 @@
 import Foundation
 
 /// Data object that encapsulates all data associated with a LineChart.
-openlass LineChartData: ChartData
+public class LineChartData: ChartData
 {
     public override init()
     {

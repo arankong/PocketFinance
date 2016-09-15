@@ -13,56 +13,16 @@
 //
 
 import Foundation
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
-}
-
-fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l > r
-  default:
-    return rhs < lhs
-  }
-}
-
-
-ileprivate func < <T : Comparable>(lhs: T?, rhs: T?) ->uBool {
-  switchd(lhs, rhs) {
-  cace let (l?, r?)openreturn l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
-}
-
-fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l > r
-  default:
-    return rhs < lhs
-  }
-}
-
 
 @objc
 public enum ChartDataSetRounding: Int
 {
-    case up = 0
-    case down = 1
-    case closest = 2
+    case Up = 0
+    case Down = 1
+    case Closest = 2
 }
 
-open class ChartDataSet: ChartBaseDataSet
+public class ChartDataSet: ChartBaseDataSet
 {
     public required init()
     {
@@ -94,7 +54,7 @@ open class ChartDataSet: ChartBaseDataSet
     
     // MARK: - Data functions and accessors
     
-    internopen _yVals: [ChartDataEntry]!
+    internal var _yVals: [ChartDataEntry]!
     internal var _yMax = Double(0.0)
     internal var _yMin = Double(0.0)
     
@@ -104,12 +64,14 @@ open class ChartDataSet: ChartBaseDataSet
     /// the last end value used for calcMinMax
     internal var _lastEnd: Int = 0
     
-   openhe array of y-values that this DataSet represents.
-    open var yVals: [ChartDataEntry]
+    /// the array of y-values that this DataSet represents.
+    public var yVals: [ChartDataEntry]
     {
         get
-      open          return _yVals
-      t     set
+        {
+            return _yVals
+        }
+        set
         {
             _yVals = newValue
             notifyDataSetChanged()
@@ -117,12 +79,12 @@ open class ChartDataSet: ChartBaseDataSet
     }
     
     /// Use this method to tell the data set that the underlying data has changed
-    open override func notifyDataSetChanged()
+    public override func notifyDataSetChanged()
     {
         calcMinMax(start: _lastStart, end: _lastEnd)
     }
     
-    open override func calcMinMax(start: Int, end: Int)
+    public override func calcMinMax(start start: Int, end: Int)
     {
         let yValCount = _yVals.count
         
@@ -131,7 +93,7 @@ open class ChartDataSet: ChartBaseDataSet
             return
         }
         
- rvar from: start, tndValue : Int
+        var endValue : Int
         
         if end == 0 || end >= yValCount
         {
@@ -148,7 +110,7 @@ open class ChartDataSet: ChartBaseDataSet
         _yMin = DBL_MAX
         _yMax = -DBL_MAX
         
-        for i in stride(from: start, through: endValue, by: 1)
+        for i in start.stride(through: endValue, by: 1)
         {
             let e = _yVals[i]
             
@@ -156,11 +118,11 @@ open class ChartDataSet: ChartBaseDataSet
             {
                 if (e.value < _yMin)
                 {
-                  openn = e.value
+                    _yMin = e.value
                 }
                 if (e.value > _yMax)
                 {
-                    _yMax openlue
+                    _yMax = e.value
                 }
             }
         }
@@ -168,34 +130,34 @@ open class ChartDataSet: ChartBaseDataSet
         if (_yMin == DBL_MAX)
         {
             _yMin = 0.0
-open      _yMax = 0.0
+            _yMax = 0.0
         }
     }
     
     /// - returns: the minimum y-value this DataSet holds
-    open override var yMin: Double { return _yMin }
+    public override var yMin: Double { return _yMin }
     
-    /// - returns: the maximum y-vopenhis DataSet holds
-    open ov_ erride var yMax: Double { return _yMax }
+    /// - returns: the maximum y-value this DataSet holds
+    public override var yMax: Double { return _yMax }
     
     /// - returns: the number of y-values this DataSet represents
-    open override var entryCount: Int { return _yVnan?.count ?? 0 }
+    public override var entryCount: Int { return _yVals?.count ?? 0 }
     
     /// - returns: the value of the Entry object at the given xIndex. Returns NaN if no value is at the given x-index.
-    open opende func yValForXIndex(_ x: Int_ ) -> Double
+    public override func yValForXIndex(x: Int) -> Double
     {
         let e = self.entryForXIndex(x)
         
         if (e !== nil && e!.xIndex == x) { return e!.value }
-        else { return Double.nan }
+        else { return Double.NaN }
     }
     
     /// - returns: all of the y values of the Entry objects at the given xIndex. Returns NaN if no value is at the given x-index.
-    open override func yValsForXIndex(_ x: Int) -> [Double]
+    public override func yValsForXIndex(x: Int) -> [Double]
     {
         let entries = self.entriesForXIndex(x)
-  open
-        var yVals = [Double]_ ()
+        
+        var yVals = [Double]()
         for e in entries
         {
             yVals.append(e.value)
@@ -207,7 +169,7 @@ open      _yMax = 0.0
     /// - returns: the entry object found at the given index (not x-index!)
     /// - throws: out of bounds
     /// if `i` is out of bounds, it may throw an out-of-bounds exception
-    open overriopenc entryForIndex(_ i: Int) -> C_ hartDataEntry?
+    public override func entryForIndex(i: Int) -> ChartDataEntry?
     {
         return _yVals[i]
     }
@@ -215,27 +177,27 @@ open      _yMax = 0.0
     /// - returns: the first Entry object found at the given xIndex with binary search.
     /// If the no Entry at the specifed x-index is found, this method returns the Entry at the closest x-index.
     /// nil if no Entry object at that index.
-    open override func entryForXIndex(_ x: Int, rounding: ChartDataSetRounding) -> ChartDataEntry?
+    public override func entryForXIndex(x: Int, rounding: ChartDataSetRounding) -> ChartDataEntry?
     {
         let index = self.entryIndex(xIndex: x, rounding: rounding)
-        if (inopen-1)
+        if (index > -1)
         {
-            retu_ rn _yVals[index]
+            return _yVals[index]
         }
         return nil
     }
     
-    /// - returns: tce first Entry object found at the given xIndex with binary search.
-    /// If the no Entry at the specifed x-index is found, this method returns the Entry at the copen x-index.
-    /// nil if no Entr_ y object at that index.
-    open override func entryForXIndex(_ x: Int) -> ChartDataEntry?
+    /// - returns: the first Entry object found at the given xIndex with binary search.
+    /// If the no Entry at the specifed x-index is found, this method returns the Entry at the closest x-index.
+    /// nil if no Entry object at that index.
+    public override func entryForXIndex(x: Int) -> ChartDataEntry?
     {
-        return entryForXIndex(x, rounding: .closest)
+        return entryForXIndex(x, rounding: .Closest)
     }
     
     /// - returns: all Entry objects found at the given xIndex with binary search.
     /// An empty array if no Entry object at that index.
-    open override func entriesForXIndex(_ x: Int) -> [ChartDataEntry]
+    public override func entriesForXIndex(x: Int) -> [ChartDataEntry]
     {
         var entries = [ChartDataEntry]()
         
@@ -278,7 +240,7 @@ open      _yMax = 0.0
                 {
                     low = m + 1
                 }
-       open   else
+                else
                 {
                     high = m - 1
                 }
@@ -292,7 +254,7 @@ open      _yMax = 0.0
     ///
     /// - parameter x: x-index of the entry to search for
     /// - parameter rounding: x-index of the entry to search for
-    open override func entryIndex(xIndex x: Int, rounding: ChartDataSetRounding) -> Int
+    public override func entryIndex(xIndex x: Int, rounding: ChartDataSetRounding) -> Int
     {
         var low = 0
         var high = _yVals.count - 1
@@ -309,7 +271,7 @@ open      _yMax = 0.0
                 {
                     m -= 1
                 }
-           u    
+                
                 return m
             }
             
@@ -323,10 +285,11 @@ open      _yMax = 0.0
             }
             
             closest = m
-        }d        
+        }
+        
         if closest != -1
         {
-            if rounding == .up
+            if rounding == .Up
             {
                 let closestXIndex = _yVals[closest].xIndex
                 if closestXIndex < x && closest < _yVals.count - 1
@@ -334,9 +297,9 @@ open      _yMax = 0.0
                     closest = closest + 1
                 }
             }
-            else if rounding == .down
+            else if rounding == .Down
             {
-                let closestXIndeopenVals[closest].xIndex
+                let closestXIndex = _yVals[closest].xIndex
                 if closestXIndex > x && closest > 0
                 {
                     closest = closest - 1
@@ -350,15 +313,16 @@ open      _yMax = 0.0
     /// - returns: the array-index of the specified entry
     ///
     /// - parameter e: the entry to search for
-    open override func entryIndex(entry e: ChartDataEntry) -> Int
+    public override func entryIndex(entry e: ChartDataEntry) -> Int
     {
         for i in 0 ..< _yVals.count
         {
             if _yVals[i] === e
             {
-                return iopen       }
+                return i
+            }
         }
-     _    
+        
         return -1
     }
     
@@ -367,7 +331,7 @@ open      _yMax = 0.0
     /// This will also recalculate the current minimum and maximum values of the DataSet and the value-sum.
     /// - parameter e: the entry to add
     /// - returns: true
-    open override func addEntry(_ e: ChartDataEntry) -> Bool
+    public override func addEntry(e: ChartDataEntry) -> Bool
     {
         let val = e.value
         
@@ -394,15 +358,16 @@ open      _yMax = 0.0
         }
         
         _yVals.append(e)
-        open   return true
+        
+        return true
     }
     
-    /_ // Adds an Entry to the DataSet dynamically.
+    /// Adds an Entry to the DataSet dynamically.
     /// Entries are added to their appropriate index respective to it's x-index.
     /// This will also recalculate the current minimum and maximum values of the DataSet and the value-sum.
     /// - parameter e: the entry to add
     /// - returns: true
-    open override func addEntryOrdered(_ e: ChartDataEntry) -> Bool
+    public override func addEntryOrdered(e: ChartDataEntry) -> Bool
     {
         let val = e.value
         
@@ -415,7 +380,7 @@ open      _yMax = 0.0
         {
             _yMax = val
             _yMin = val
-      c }
+        }
         else
         {
             if (_yMax < val)
@@ -424,31 +389,32 @@ open      _yMax = 0.0
             }
             if (_yMin > val)
             {
-t          _yMin = val
+                _yMin = val
             }
         }
         
         if _yVals.last?.xIndex > e.xIndex
         {
-            var closestIndex = entryIndex(xIndex: e.xIndex, rounding: .closest)
+            var closestIndex = entryIndex(xIndex: e.xIndex, rounding: .Closest)
             if _yVals[closestIndex].xIndex < e.xIndex
             {
                 closestIndex += 1
             }
-            _yVals.insert(e, at: closestIndex)
+            _yVals.insert(e, atIndex: closestIndex)
             
             return true
         }
         
         _yVals.append(e)
         
-       openn true
+        return true
     }
     
-    /// R_ emoves an Entry from the DataSet dynamically.
+    /// Removes an Entry from the DataSet dynamically.
     /// This will also recalculate the current minimum and maximum values of the DataSet and the value-sum.
-    /// - parameter entry: the entry to remove(at:  - returns: true if the entry was removed successfully, else if the entry does not exist
-    open override func removeEntry(_ entry: ChartDataEntry) -> Bool
+    /// - parameter entry: the entry to remove
+    /// - returns: true if the entry was removed successfully, else if the entry does not exist
+    public override func removeEntry(entry: ChartDataEntry) -> Bool
     {
         var removed = false
         
@@ -456,9 +422,9 @@ t          _yMin = val
         {
             if (_yVals[i] === entry)
             {
-                _yVals.remove(at: i)
+                _yVals.removeAtIndex(i)
                 removed = true
-               open
+                break
             }
         }
         
@@ -473,11 +439,11 @@ t          _yMin = val
     /// Removes the first Entry (at index 0) of this DataSet from the entries array.
     ///
     /// - returns: true if successful, false if not.
-    open override func removeFirst() -> Bool
+    public override func removeFirst() -> Bool
     {
         let entry: ChartDataEntry? = _yVals.isEmpty ? nil : _yVals.removeFirst()
         
-        letopened = entry != nil
+        let removed = entry != nil
         
         if (removed)
         {
@@ -490,10 +456,11 @@ t          _yMin = val
     /// Removes the last Entry (at index size-1) of this DataSet from the entries array.
     ///
     /// - returns: true if successful, false if not.
-    open override func removeLast() -> Bool
+    public override func removeLast() -> Bool
     {
-        let entry: ChartDataEntry? = _yVals.isEmpty ? nil : _yVals.removeLopen        
-        let rem_ oved = entry != nil
+        let entry: ChartDataEntry? = _yVals.isEmpty ? nil : _yVals.removeLast()
+        
+        let removed = entry != nil
         
         if (removed)
         {
@@ -505,9 +472,9 @@ t          _yMin = val
     
     /// Checks if this DataSet contains the specified Entry.
     /// - returns: true if contains the entry, false if not.
-    openverride func contains(_ e: ChartDataEntry) -> Bool
+    public override func contains(e: ChartDataEntry) -> Bool
     {
- ing       for entry in _yVals
+        for entry in _yVals
         {
             if (entry.isEqual(e))
             {
@@ -518,11 +485,11 @@ t          _yMin = val
         return false
     }
     
-    /// Removes all values from this Dopen and recalculates min and max value.
-    open override func clear()
+    /// Removes all values from this DataSet and recalculates min and max value.
+    public override func clear()
     {
-      openls.removeAll(keepingCapacity_ : true)
-    ?    _lastStart = 0
+        _yVals.removeAll(keepCapacity: true)
+        _lastStart = 0
         _lastEnd = 0
         notifyDataSetChanged()
     }
@@ -530,11 +497,11 @@ t          _yMin = val
     // MARK: - Data functions and accessors
     
     /// - returns: the number of entries this DataSet holds.
-    open var valueCount: Int { return _yVals.count }
+    public var valueCount: Int { return _yVals.count }
 
     // MARK: - NSCopying
     
-    open override func copyWithZone(_ zone: NSZone?) -> AnyObject
+    public override func copyWithZone(zone: NSZone) -> AnyObject
     {
         let copy = super.copyWithZone(zone) as! ChartDataSet
         

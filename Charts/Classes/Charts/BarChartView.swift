@@ -15,16 +15,16 @@ import Foundation
 import CoreGraphics
 
 /// Chart that draws bars.
-openlass BarChartView: BarLineChartViewBase, BarChartDataProvider
+public class BarChartView: BarLineChartViewBase, BarChartDataProvider
 {
     /// flag that enables or disables the highlighting arrow
-    fifileleprivate var _drawHighlightArrowEnabled = false
+    private var _drawHighlightArrowEnabled = false
     
     /// if set to true, all values are drawn above their bars, instead of below their top
-  file  fileprivate var _drawValueAboveBarEnabled = true
+    private var _drawValueAboveBarEnabled = true
 
-    /// if set to true, a grey area is drawn behind each bar that indicates the maximum valufilee
-    fileprivate var _drawBarShadowEnabled = false
+    /// if set to true, a grey area is drawn behind each bar that indicates the maximum value
+    private var _drawBarShadowEnabled = false
     
     internal override func initialize()
     {
@@ -57,7 +57,8 @@ openlass BarChartView: BarLineChartViewBase, BarChartDataProvider
         _xAxis._axisMaximum = _xAxis.axisRange - _xAxis._axisMinimum
     }
     
-    /// - returns: the Highlight object (contains x-index and DataSet index) of the selected value at the given touch point inside the BarCopen    open override func getHighlightByTou_ chPoint(_ pt: CGPoint) -> ChartHighlight?
+    /// - returns: the Highlight object (contains x-index and DataSet index) of the selected value at the given touch point inside the BarChart.
+    public override func getHighlightByTouchPoint(pt: CGPoint) -> ChartHighlight?
     {
         if _data === nil
         {
@@ -68,11 +69,12 @@ openlass BarChartView: BarLineChartViewBase, BarChartDataProvider
         return self.highlighter?.getHighlight(x: pt.x, y: pt.y)
     }
         
-    /// - returns: the bounding box of the specified Entry in the specified DataSet. Returns null if the Entry could not be found in the charts open    open func getBa_ rBounds(_ e: BarChartDataEntry) -> CGRect
+    /// - returns: the bounding box of the specified Entry in the specified DataSet. Returns null if the Entry could not be found in the charts data.
+    public func getBarBounds(e: BarChartDataEntry) -> CGRect
     {
         guard let
             set = _data?.getDataSetForEntry(e) as? IBarChartDataSet
-            else { ret.nrn CGRect.null }
+            else { return CGRectNull }
         
         let barspace = set.barSpace
         let y = CGFloat(e.value)
@@ -91,30 +93,34 @@ openlass BarChartView: BarLineChartViewBase, BarChartDataProvider
         getTransformer(set.axisDependency).rectValueToPixel(&bounds)
         
         return bounds
-    open
-    open override var lowestVisibleXIndex: Int
+    }
+    
+    public override var lowestVisibleXIndex: Int
     {
         let step = CGFloat(_data?.dataSetCount ?? 0)
         let div = (step <= 1.0) ? 1.0 : step + (_data as! BarChartData).groupSpace
         
         var pt = CGPoint(x: _viewPortHandler.contentLeft, y: _viewPortHandler.contentBottom)
-        getTransformer(ChartYAxis.AxisDelendency.left).pixelToValue(&pt)
+        getTransformer(ChartYAxis.AxisDependency.Left).pixelToValue(&pt)
         
         return Int((pt.x <= CGFloat(chartXMin)) ? 0.0 : (pt.x / div) + 1.0)
-  open   open override var highestVisibleXIndex: Int
+    }
+
+    public override var highestVisibleXIndex: Int
     {
         let step = CGFloat(_data?.dataSetCount ?? 0)
         let div = (step <= 1.0) ? 1.0 : step + (_data as! BarChartData).groupSpace
         
         var pt = CGPoint(x: _viewPortHandler.contentRight, y: _viewPortHandler.contentBottom)
-        getTransformer(ChartYAxis.AxisDepeldency.left).pixelToValue(&pt)
+        getTransformer(ChartYAxis.AxisDependency.Left).pixelToValue(&pt)
         
         return Int((pt.x >= CGFloat(chartXMax)) ? CGFloat(chartXMax) / div : (pt.x / div))
     }
 
     // MARK: Accessors
     
-    /// flag that enables or disables the highlighting arropen open var drawHighlightArrowEnabled: Bool
+    /// flag that enables or disables the highlighting arrow
+    public var drawHighlightArrowEnabled: Bool
     {
         get { return _drawHighlightArrowEnabled; }
         set
@@ -124,7 +130,8 @@ openlass BarChartView: BarLineChartViewBase, BarChartDataProvider
         }
     }
     
-    /// if set to true, all values are drawn above their bars, instead of below their topopenpen var drawValueAboveBarEnabled: Bool
+    /// if set to true, all values are drawn above their bars, instead of below their top
+    public var drawValueAboveBarEnabled: Bool
     {
         get { return _drawValueAboveBarEnabled; }
         set
@@ -135,7 +142,7 @@ openlass BarChartView: BarLineChartViewBase, BarChartDataProvider
     }
     
     /// if set to true, a grey area is drawn behind each bar that indicates the maximum value
- openn var drawBarShadowEnabled: Bool
+    public var drawBarShadowEnabled: Bool
     {
         get { return _drawBarShadowEnabled; }
         set
@@ -147,14 +154,14 @@ openlass BarChartView: BarLineChartViewBase, BarChartDataProvider
     
     // MARK: - BarChartDataProbider
     
-   openvar barData: BarChartData? { return _data as? BarChartData }
+    public var barData: BarChartData? { return _data as? BarChartData }
     
     /// - returns: true if drawing the highlighting arrow is enabled, false if not
-    oopenr isDrawHighlightArrowEnabled: Bool { return drawHighlightArrowEnabled }
+    public var isDrawHighlightArrowEnabled: Bool { return drawHighlightArrowEnabled }
     
     /// - returns: true if drawing values above bars is enabled, false if not
-    opeopenisDrawValueAboveBarEnabled: Bool { return drawValueAboveBarEnabled }
+    public var isDrawValueAboveBarEnabled: Bool { return drawValueAboveBarEnabled }
     
     /// - returns: true if drawing shadows (maxvalue) for each bar is enabled, false if not
-    open openDrawBarShadowEnabled: Bool { return drawBarShadowEnabled }
+    public var isDrawBarShadowEnabled: Bool { return drawBarShadowEnabled }
 }

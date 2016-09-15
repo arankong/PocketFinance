@@ -15,7 +15,7 @@ import Foundation
 import CoreGraphics
 
 /// Chart that draws lines, surfaces, circles, ...
-openlass LineChartView: BarLineChartViewBase, LineChartDataProvider
+public class LineChartView: BarLineChartViewBase, LineChartDataProvider
 {
     internal override func initialize()
     {
@@ -37,5 +37,5 @@ openlass LineChartView: BarLineChartViewBase, LineChartDataProvider
     
     // MARK: - LineChartDataProvider
     
-    opopen lineData: LineChartData? { return _data as? LineChartData }
+    public var lineData: LineChartData? { return _data as? LineChartData }
 }

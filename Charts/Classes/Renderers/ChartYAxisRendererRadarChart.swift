@@ -19,9 +19,9 @@ import CoreGraphics
 #endif
 
 
-openlass ChartYAxisRendererRadarChart: ChartYAxisRenderer
+public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
 {
-    fifileleprivate weak var chart: RadarChartView?
+    private weak var chart: RadarChartView?
     
     public init(viewPortHandler: ChartViewPortHandler, yAxis: ChartYAxis, chart: RadarChartView)
     {
@@ -30,12 +30,12 @@ openlass ChartYAxisRendererRadarChart: ChartYAxisRenderer
         self.chart = chart
     }
     
-  open override func computeAxis(yMinble, yMax: Double)
+    public override func computeAxis(yMin yMin: Double, yMax: Double)
     {
         computeAxisValues(min: yMin, max: yMax)
     }
     
-    open opende func computeAxisValues(min yMin: Double, max yMax: Double)
+    public override func computeAxisValues(min yMin: Double, max yMax: Double)
     {
         guard let yAxis = yAxis else { return }
         
@@ -68,7 +68,7 @@ openlass ChartYAxisRendererRadarChart: ChartYAxisRenderer
             if yAxis.entries.count < labelCount
             {
                 // Ensure stops contains at least numStops elements.
-                yAxis.entries.removeAll(keepingCapaingcity: true)
+                yAxis.entries.removeAll(keepCapacity: true)
             }
             else
             {
@@ -92,7 +92,7 @@ openlass ChartYAxisRendererRadarChart: ChartYAxisRenderer
             // clean old values
             if (yAxis.entries.count > 0)
             {
-                yAxis.entries.removeAll(keepingCingapacity: false)
+                yAxis.entries.removeAll(keepCapacity: false)
             }
             
             // if the labels should only show min and max
@@ -115,7 +115,7 @@ openlass ChartYAxisRendererRadarChart: ChartYAxisRenderer
                 let last = ChartUtils.nextUp(floor(Double(yMax) / interval) * interval)
                 
                 var n = 0
-                for _ in  dtom: ffrom: first, trst, through: last, by: interval)
+                for _ in first.stride(through: last, by: interval)
                 {
                     n += 1
                 }
@@ -128,7 +128,7 @@ openlass ChartYAxisRendererRadarChart: ChartYAxisRenderer
                 if (yAxis.entries.count < n)
                 {
                     // Ensure stops contains at least numStops elements.
-                    yAxis.entries = [D(ating:ingount:, count: n n)
+                    yAxis.entries = [Double](count: n, repeatedValue: 0.0)
                 }
                 
                 var f = first
@@ -153,11 +153,11 @@ openlass ChartYAxisRendererRadarChart: ChartYAxisRenderer
         yAxis.axisRange = abs(yAxis._axisMaximum - yAxis._axisMinimum)
     }
     
-  open override func renderAxisLabels(contextext)
+    public override func renderAxisLabels(context context: CGContext)
     {
         guard let
             yAxis = yAxis,
-            let charlet t = chart
+            chart = chart
             else { return }
         
         if (!yAxis.isEnabled || !yAxis.isDrawLabelsEnabled)
@@ -188,14 +188,15 @@ openlass ChartYAxisRendererRadarChart: ChartYAxisRenderer
             
             let label = yAxis.getFormattedLabel(j)
             
-            ChartUtils.drawText(context: context, text: label, point: CGPoint(x: p.x + 10.0, y: p.y - labelLineHeight), align: .leftl attributes: [NSFontAttributeName: labelFont, NSForegroundColorAttributeName: labelTextColor])
+            ChartUtils.drawText(context: context, text: label, point: CGPoint(x: p.x + 10.0, y: p.y - labelLineHeight), align: .Left, attributes: [NSFontAttributeName: labelFont, NSForegroundColorAttributeName: labelTextColor])
         }
     }
     
-    openopenide func renderLimitLines(context: CGCt   {
+    public override func renderLimitLines(context context: CGContext)
+    {
         guard let
             yAxis = yAxis,
-            let chart = chlet art
+            chart = chart
             else { return }
         
         var limitLines = yAxis.limitLines
@@ -205,8 +206,9 @@ openlass ChartYAxisRendererRadarChart: ChartYAxisRenderer
             return
         }
         
-        context.sacState(.s
-        ( let sliceangle = chart.sliceAngle
+        CGContextSaveGState(context)
+        
+        let sliceangle = chart.sliceAngle
         
         // calculate the factor that is needed for transforming the value to pixels
         let factor = chart.factor
@@ -222,8 +224,9 @@ openlass ChartYAxisRendererRadarChart: ChartYAxisRenderer
                 continue
             }
             
-            context.setStrokeCcr(l.li.seColor.cgColo(ext.setLineWcgCh(l.lineWidth)
-   c      .sf (l.lineDa(!= nil)
+            CGContextSetStrokeColorWithColor(context, l.lineColor.CGColor)
+            CGContextSetLineWidth(context, l.lineWidth)
+            if (l.lineDashLengths != nil)
             {
                 CGContextSetLineDash(context, l.lineDashPhase, l.lineDashLengths!, l.lineDashLengths!.count)
             }
@@ -234,24 +237,27 @@ openlass ChartYAxisRendererRadarChart: ChartYAxisRenderer
             
             let r = CGFloat(l.limit - chart.chartYMin) * factor
             
-            context.beginPath()
+            CGContextBeginPath(context)
             
-            foc in 0 .b.< chart(ValCount
+            for j in 0 ..< chart.data!.xValCount
             {
                 let p = ChartUtils.getPosition(center: center, dist: r, angle: sliceangle * CGFloat(j) + chart.rotationAngle)
                 
                 if (j == 0)
                 {
-                    context.move(to: CGPoint(x: p.x, y: p.y))
-             c}
-    .m   (to: CG      x:      y:     )   {
-                    context.addLine(to: CGPoint(x: p.x, y: p.y))
-        c     }.a      (to: CG    }
-x:    
- y:     )       context.closePath()
+                    CGContextMoveToPoint(context, p.x, p.y)
+                }
+                else
+                {
+                    CGContextAddLineToPoint(context, p.x, p.y)
+                }
+            }
             
-            contexctrokeP.cth()
-   (       
-        context.resceGStat.s()
+            CGContextClosePath(context)
+            
+            CGContextStrokePath(context)
+        }
+        
+        CGContextRestoreGState(context)
     }
 }

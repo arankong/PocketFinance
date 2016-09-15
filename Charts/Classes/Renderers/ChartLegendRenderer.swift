@@ -19,10 +19,10 @@ import CoreGraphics
 #endif
 
 
-openlass ChartLegendRenderer: ChartRendererBase
+public class ChartLegendRenderer: ChartRendererBase
 {
     /// the legend object this renderer renders
-    opopen legend: ChartLegend?
+    public var legend: ChartLegend?
 
     public init(viewPortHandler: ChartViewPortHandler, legend: ChartLegend?)
     {
@@ -32,7 +32,7 @@ openlass ChartLegendRenderer: ChartRendererBase
     }
 
     /// Prepares the legend and calculates all needed forms, labels and colors.
-    openopencomputeLegend(_ data_ : ChartData)
+    public func computeLegend(data: ChartData)
     {
         guard let legend = legend else { return }
         
@@ -122,7 +122,8 @@ openlass ChartLegendRenderer: ChartRendererBase
         legend.calculateDimensions(labelFont: legend.font, viewPortHandler: viewPortHandler)
     }
     
-    openopenrenderLegend(context: CGCt   {
+    public func renderLegend(context context: CGContext)
+    {
         guard let legend = legend else { return }
         
         if !legend.enabled
@@ -157,10 +158,10 @@ openlass ChartLegendRenderer: ChartRendererBase
         
         switch horizontalAlignment
         {
-        case .left:
-        l   
-            if orientation == .vertical
-     v      {
+        case .Left:
+            
+            if orientation == .Vertical
+            {
                 originPosX = xoffset
             }
             else
@@ -168,15 +169,15 @@ openlass ChartLegendRenderer: ChartRendererBase
                 originPosX = viewPortHandler.contentLeft + xoffset
             }
             
-            if (direction == .rightToLeft)
- r          {
+            if (direction == .RightToLeft)
+            {
                 originPosX += legend.neededWidth
             }
             
-        case .right:
-       r    
-            if orientation == .vertical
-     v      {
+        case .Right:
+            
+            if orientation == .Vertical
+            {
                 originPosX = viewPortHandler.chartWidth - xoffset
             }
             else
@@ -184,15 +185,15 @@ openlass ChartLegendRenderer: ChartRendererBase
                 originPosX = viewPortHandler.contentRight - xoffset
             }
             
-            if (direction == .leftToRight)
- l          {
+            if (direction == .LeftToRight)
+            {
                 originPosX -= legend.neededWidth
             }
             
-        case .center:
-      c     
-            if orientation == .vertical
-     v      {
+        case .Center:
+            
+            if orientation == .Vertical
+            {
                 originPosX = viewPortHandler.chartWidth / 2.0
             }
             else
@@ -201,24 +202,24 @@ openlass ChartLegendRenderer: ChartRendererBase
                     + viewPortHandler.contentWidth / 2.0
             }
             
-            originPosX += (direction == .leftToRight
-  l                 ? +xoffset
+            originPosX += (direction == .LeftToRight
+                    ? +xoffset
                     : -xoffset)
             
             // Horizontally layed out legends do the center offset on a line basis,
             // So here we offset the vertical ones only.
-            if orientation == .vertical
-     v      {
-                originPosX += (direction == .leftToRight
-  l                 ? -legend.neededWidth / 2.0 + xoffset
+            if orientation == .Vertical
+            {
+                originPosX += (direction == .LeftToRight
+                    ? -legend.neededWidth / 2.0 + xoffset
                     : legend.neededWidth / 2.0 - xoffset)
             }
         }
         
         switch orientation
         {
-        case .horizontal:
-  h         
+        case .Horizontal:
+            
             var calculatedLineSizes = legend.calculatedLineSizes
             var calculatedLabelSizes = legend.calculatedLabelSizes
             var calculatedLabelBreakPoints = legend.calculatedLabelBreakPoints
@@ -228,14 +229,14 @@ openlass ChartLegendRenderer: ChartRendererBase
             
             switch verticalAlignment
             {
-            case .top:
-         t      posY = yoffset
+            case .Top:
+                posY = yoffset
                 
-            case .bottom:
-      b         posY = viewPortHandler.chartHeight - yoffset - legend.neededHeight
+            case .Bottom:
+                posY = viewPortHandler.chartHeight - yoffset - legend.neededHeight
                 
-            case .center:
-      c         posY = (viewPortHandler.chartHeight - legend.neededHeight) / 2.0 + yoffset
+            case .Center:
+                posY = (viewPortHandler.chartHeight - legend.neededHeight) / 2.0 + yoffset
             }
             
             var lineIndex: Int = 0
@@ -249,11 +250,11 @@ openlass ChartLegendRenderer: ChartRendererBase
                 }
                 
                 if (posX == originPosX &&
-                    horizontalAlignment == .center &&
-    c               lineIndex < calculatedLineSizes.count)
+                    horizontalAlignment == .Center &&
+                    lineIndex < calculatedLineSizes.count)
                 {
-                    posX += (direction == .rightToLeft
-  r                     ? calculatedLineSizes[lineIndex].width
+                    posX += (direction == .RightToLeft
+                        ? calculatedLineSizes[lineIndex].width
                         : -calculatedLineSizes[lineIndex].width) / 2.0
                     lineIndex += 1
                 }
@@ -263,15 +264,15 @@ openlass ChartLegendRenderer: ChartRendererBase
                 
                 if (drawingForm)
                 {
-                    if (direction == .rightToLeft)
- r                  {
+                    if (direction == .RightToLeft)
+                    {
                         posX -= formSize
                     }
                     
                     drawForm(context: context, x: posX, y: posY + formYOffset, colorIndex: i, legend: legend)
                     
-                    if (direction == .leftToRight)
- l                  {
+                    if (direction == .LeftToRight)
+                    {
                         posX += formSize
                     }
                 }
@@ -280,31 +281,31 @@ openlass ChartLegendRenderer: ChartRendererBase
                 {
                     if (drawingForm)
                     {
-                        posX += direction == .rightToLeft ? rformToTextSpace : formToTextSpace
+                        posX += direction == .RightToLeft ? -formToTextSpace : formToTextSpace
                     }
                     
-                    if (direction == .rightToLeft)
- r                  {
+                    if (direction == .RightToLeft)
+                    {
                         posX -= calculatedLabelSizes[i].width
                     }
                     
                     drawLabel(context: context, x: posX, y: posY, label: labels[i]!, font: labelFont, textColor: labelTextColor)
                     
-                    if (direction == .leftToRight)
- l                  {
+                    if (direction == .LeftToRight)
+                    {
                         posX += calculatedLabelSizes[i].width
                     }
                     
-                    posX += direction == .rightToLeft ? rxEntrySpace : xEntrySpace
+                    posX += direction == .RightToLeft ? -xEntrySpace : xEntrySpace
                 }
                 else
                 {
-                    posX += direction == .rightToLeft ? rstackSpace : stackSpace
+                    posX += direction == .RightToLeft ? -stackSpace : stackSpace
                 }
             }
             
-        case .vertical:
-    v       
+        case .Vertical:
+            
             // contains the stacked legend size in pixels
             var stack = CGFloat(0.0)
             var wasStacked = false
@@ -313,20 +314,20 @@ openlass ChartLegendRenderer: ChartRendererBase
             
             switch verticalAlignment
             {
-            case .top:
-         t      posY = (horizontalAlignment == .center
-       c            ? 0.0
+            case .Top:
+                posY = (horizontalAlignment == .Center
+                    ? 0.0
                     : viewPortHandler.contentTop)
                 posY += yoffset
                 
-            case .bottom:
-      b         posY = (horizontalAlignment == .center
-       c            ? viewPortHandler.chartHeight
+            case .Bottom:
+                posY = (horizontalAlignment == .Center
+                    ? viewPortHandler.chartHeight
                     : viewPortHandler.contentBottom)
                 posY -= legend.neededHeight + yoffset
                 
-            case .center:
-      c         
+            case .Center:
+                
                 posY = viewPortHandler.chartHeight / 2.0 - legend.neededHeight / 2.0 + legend.yOffset
             }
             
@@ -337,8 +338,8 @@ openlass ChartLegendRenderer: ChartRendererBase
                 
                 if (drawingForm)
                 {
-                    if (direction == .leftToRight)
- l                  {
+                    if (direction == .LeftToRight)
+                    {
                         posX += stack
                     }
                     else
@@ -348,8 +349,8 @@ openlass ChartLegendRenderer: ChartRendererBase
                     
                     drawForm(context: context, x: posX, y: posY + formYOffset, colorIndex: i, legend: legend)
                     
-                    if (direction == .leftToRight)
- l                  {
+                    if (direction == .LeftToRight)
+                    {
                         posX += formSize
                     }
                 }
@@ -358,16 +359,16 @@ openlass ChartLegendRenderer: ChartRendererBase
                 {
                     if (drawingForm && !wasStacked)
                     {
-                        posX += direction == .leftToRight ? lormToTextSpace : -formToTextSpace
+                        posX += direction == .LeftToRight ? formToTextSpace : -formToTextSpace
                     }
                     else if (wasStacked)
                     {
                         posX = originPosX
                     }
                     
-                    if (direction == .rightToLeft)
- r                  {
-                        posX -= (labels[i] as NSString!).size(attributes: [(attttribut: Name: labelFont]).width
+                    if (direction == .RightToLeft)
+                    {
+                        posX -= (labels[i] as NSString!).sizeWithAttributes([NSFontAttributeName: labelFont]).width
                     }
                     
                     if (!wasStacked)
@@ -393,36 +394,44 @@ openlass ChartLegendRenderer: ChartRendererBase
         }
     }
 
-    fileprivate var file_formLineSegmentsBuffer = [CGPoint](repeating: (count:ing 
-    /// D, count: 2raws the Legend-form at the given position with the color at the given index.
-    open func drawFoopentext: CGContext, x: Ct: CGFloat, colorIndex: Int, legend: ChartLegend)
+    private var _formLineSegmentsBuffer = [CGPoint](count: 2, repeatedValue: CGPoint())
+    
+    /// Draws the Legend-form at the given position with the color at the given index.
+    public func drawForm(context context: CGContext, x: CGFloat, y: CGFloat, colorIndex: Int, legend: ChartLegend)
     {
-        guard let formColor = legend.colors[colorIndex] , formColor != NSUIColor.c,else {
+        guard let formColor = legend.colors[colorIndex] where formColor != NSUIColor.clearColor() else {
             return
-  r        
+        }
+        
         let formsize = legend.formSize
         
-        context.saveGState()
-        defer { ctext.r.sstoreGSta(       
-        swch (leg.rnd.form)
-   (       case .circle:
-            context.setFillColor(formColor.cgcolor)
-            ccext.fi.slEllipse(in( - formsizcgC 2.0, width: formsc, heig.ft: formsiz(in:e .square:
-            context.setFillColor(formColor.cgColor)
-            context.fillsCGRect(x: x, y: y -crmsize.s/ 2.0, widt(: formsizecgC        case .linec      .f   (context.setLineWidth(legend.formLineWidth)
-            context.setStrokeColor(formColol.cgColor)
+        CGContextSaveGState(context)
+        defer { CGContextRestoreGState(context) }
+        
+        switch (legend.form)
+        {
+        case .Circle:
+            CGContextSetFillColorWithColor(context, formColor.CGColor)
+            CGContextFillEllipseInRect(context, CGRect(x: x, y: y - formsize / 2.0, width: formsize, height: formsize))
+        case .Square:
+            CGContextSetFillColorWithColor(context, formColor.CGColor)
+            CGContextFillRect(context, CGRect(x: x, y: y - formsize / 2.0, width: formsize, height: formsize))
+        case .Line:
             
-       c  _for.sLineSegment(.x = x
-            _formLineSegmencuffer[.s].y = y
-     (mentsBuffecgC].x = x + formsize
+            CGContextSetLineWidth(context, legend.formLineWidth)
+            CGContextSetStrokeColorWithColor(context, formColor.CGColor)
+            
+            _formLineSegmentsBuffer[0].x = x
+            _formLineSegmentsBuffer[0].y = y
+            _formLineSegmentsBuffer[1].x = x + formsize
             _formLineSegmentsBuffer[1].y = y
             CGContextStrokeLineSegments(context, _formLineSegmentsBuffer, 2)
         }
     }
 
     /// Draws the provided label at the given position.
-    open func drawLabel(context: CGContext, x: CGFloat, y: CGFloat, label: String, font: NSUIFont, textColor: NSUIColor)
+    public func drawLabel(context context: CGContext, x: CGFloat, y: CGFloat, label: String, font: NSUIFont, textColor: NSUIColor)
     {
-        ChartUtils.drawopenontext: context, text:toint: CGPoint(x: x, y: y), align: .left, attributes: [NSFontAttributeName: font, NSForegroundColorAttributeName: textColor])
+        ChartUtils.drawText(context: context, text: label, point: CGPoint(x: x, y: y), align: .Left, attributes: [NSFontAttributeName: font, NSForegroundColorAttributeName: textColor])
     }
 }

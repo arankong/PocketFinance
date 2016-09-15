@@ -12,10 +12,10 @@
 import Foundation
 import CoreGraphics
 
-openlass BubbleChartDataEntry: ChartDataEntry
+public class BubbleChartDataEntry: ChartDataEntry
 {
     /// The size of the bubble.
-    opopen size = CGFloat(0.0)
+    public var size = CGFloat(0.0)
     
     public required init()
     {
@@ -45,7 +45,7 @@ openlass BubbleChartDataEntry: ChartDataEntry
     
     // MARK: NSCopying
     
-    openopenide func copyWithZone(_ zone_ : NSZone?) -?> AnyObject
+    public override func copyWithZone(zone: NSZone) -> AnyObject
     {
         let copy = super.copyWithZone(zone) as! BubbleChartDataEntry
         copy.size = size

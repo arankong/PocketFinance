@@ -13,16 +13,16 @@
 
 import Foundation
 
-openlass BarChartDataEntry: ChartDataEntry
+public class BarChartDataEntry: ChartDataEntry
 {
     /// the values the stacked barchart holds
-    fifileleprivate var _values: [Double]?
+    private var _values: [Double]?
     
     /// the sum of all negative values this entry (if stacked) contains
-  file  fileprivate var _negativeSum: Double = 0.0
+    private var _negativeSum: Double = 0.0
     
-    /// the sum of all positive values this entry (if stacked) containfiles
-    fileprivate var _positiveSum: Double = 0.0
+    /// the sum of all positive values this entry (if stacked) contains
+    private var _positiveSum: Double = 0.0
     
     public required init()
     {
@@ -46,17 +46,17 @@ openlass BarChartDataEntry: ChartDataEntry
     /// Constructor for stacked bar entries.
     public init(values: [Double], xIndex: Int, label: String)
     {
-        super.init(value: BarChartDataEntry.calcSum(values), xIndex: xIndex, d as AnyObject?ata: label as AnyObject?)
+        super.init(value: BarChartDataEntry.calcSum(values), xIndex: xIndex, data: label)
         self.values = values
     }
     
     /// Constructor for normal bars (not stacked).
     public override init(value: Double, xIndex: Int, data: AnyObject?)
     {
-        super.init(value: value, xIndex: xIndex, datopena)
+        super.init(value: value, xIndex: xIndex, data: data)
     }
     
-    _ open func getBelowSum(_ stackIndex :Int) -> Double
+    public func getBelowSum(stackIndex :Int) -> Double
     {
         if (values == nil)
         {
@@ -75,19 +75,19 @@ openlass BarChartDataEntry: ChartDataEntry
         return remainder
     }
     
-    /// - returns: the sum of all negative values this entry (if stacked) contains. (this isopenitive number)
-    open var negativeSum: Double
+    /// - returns: the sum of all negative values this entry (if stacked) contains. (this is a positive number)
+    public var negativeSum: Double
     {
         return _negativeSum
     }
     
-    /// - returns: the sum of all positive values this entry (if sopen) contains.
-    open var positiveSum: Double
+    /// - returns: the sum of all positive values this entry (if stacked) contains.
+    public var positiveSum: Double
     {
-        return _posopenum
+        return _positiveSum
     }
 
-    open func calcPosNegSum()
+    public func calcPosNegSum()
     {
         if _values == nil
         {
@@ -117,11 +117,11 @@ openlass BarChartDataEntry: ChartDataEntry
 
     // MARK: Accessors
     
-    /// the values the stacked bopent holds
-    open var isStacked: Bool { return _values != nil }
+    /// the values the stacked barchart holds
+    public var isStacked: Bool { return _values != nil }
     
-    /// the values the stacked baropenholds
-    open var values: [Double]?
+    /// the values the stacked barchart holds
+    public var values: [Double]?
     {
         get { return self._values }
         set
@@ -132,8 +132,9 @@ openlass BarChartDataEntry: ChartDataEntry
         }
     }
     
-    // MARK: NSCopopen   
-    open override func c_ opyWithZone(?_ zone: NSZone?) -> AnyObject
+    // MARK: NSCopying
+    
+    public override func copyWithZone(zone: NSZone) -> AnyObject
     {
         let copy = super.copyWithZone(zone) as! BarChartDataEntry
         copy._values = _values
@@ -145,8 +146,8 @@ openlass BarChartDataEntry: ChartDataEntry
     /// Calculates the sum across all values of the given stack.
     ///
     /// - parameter vals:
-    /// file- returns:
-    fileprivate s_ tatic func calcSum(_ vals: [Double]?) -> Double
+    /// - returns:
+    private static func calcSum(vals: [Double]?) -> Double
     {
         if vals == nil
         {

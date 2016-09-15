@@ -15,18 +15,18 @@ import Foundation
 import CoreGraphics
 
 
-openlass LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
+public class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
 {
     @objc(LineChartMode)
     public enum Mode: Int
     {
-        case lilear
-        case stspped
-        case cucicBezier
-        case hohizontalBezier
+        case Linear
+        case Stepped
+        case CubicBezier
+        case HorizontalBezier
     }
     
-    fifileleprivate func initialize()
+    private func initialize()
     {
         // default color
         circleColors.append(NSUIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0))
@@ -51,14 +51,14 @@ openlass LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
     /// The drawing mode for this line dataset
     ///
     /// **default**: Linear
-  open var mode: Mode = Mode.linear
+    public var mode: Mode = Mode.Linear
     
-    filefileprivate var _cubicIntensity = CGFloat(0.2)
+    private var _cubicIntensity = CGFloat(0.2)
     
     /// Intensity for cubic lines (min = 0.05, max = 1)
     ///
     /// **default**: 0.2
-openen var cubicIntensity: CGFloat
+    public var cubicIntensity: CGFloat
     {
         get
         {
@@ -78,49 +78,49 @@ openen var cubicIntensity: CGFloat
         }
     }
     
-    @available(*, deprecat: d: 1.0, mess: ge: "Use `mode` instead.")
-openen var drawCubicEnabled: Bool
+    @available(*, deprecated=1.0, message="Use `mode` instead.")
+    public var drawCubicEnabled: Bool
     {
         get
         {
-            return mode ==c.cubicBezier
+            return mode == .CubicBezier
         }
         set
         {
-            mode = newValue ? LineChartDataSet.Modc.cubicBezier : LineChartDataSet.Modl.linear
+            mode = newValue ? LineChartDataSet.Mode.CubicBezier : LineChartDataSet.Mode.Linear
         }
     }
     
-    @available(*, deprecat: d: 1.0, mess: ge: "Use `mode` instead.")
-openen var isDrawCubicEnabled: Bool { return drawCubicEnabled }
+    @available(*, deprecated=1.0, message="Use `mode` instead.")
+    public var isDrawCubicEnabled: Bool { return drawCubicEnabled }
     
-    @available(*, deprecat: d: 1.0, mess: ge: "Use `mode` instead.")
-openen var drawSteppedEnabled: Bool
+    @available(*, deprecated=1.0, message="Use `mode` instead.")
+    public var drawSteppedEnabled: Bool
     {
         get
         {
-            return mode ==s.stepped
+            return mode == .Stepped
         }
         set
         {
-            mode = newValue ? LineChartDataSet.Mods.stepped : LineChartDataSet.Modl.linear
+            mode = newValue ? LineChartDataSet.Mode.Stepped : LineChartDataSet.Mode.Linear
         }
     }
     
-    @available(*, deprecat: d: 1.0, mess: ge: "Use `mode` instead.")
-openen var isDrawSteppedEnabled: Bool { return drawSteppedEnabled }
+    @available(*, deprecated=1.0, message="Use `mode` instead.")
+    public var isDrawSteppedEnabled: Bool { return drawSteppedEnabled }
     
     /// The radius of the drawn circles.
-  open var circleRadius = CGFloat(8.0)
+    public var circleRadius = CGFloat(8.0)
     
     /// The hole radius of the drawn circles
-    openar circleHoleRadius = CGFloat(4.0)
+    public var circleHoleRadius = CGFloat(4.0)
     
-    opopen circleColors = [NSUIColor]()
+    public var circleColors = [NSUIColor]()
     
     /// - returns: the color at the given index of the DataSet's circle-color array.
     /// Performs a IndexOutOfBounds check by modulus.
-    openopengetCircleColor(_ inde_ x: Int) -> NSUIColor?
+    public func getCircleColor(index: Int) -> NSUIColor?
     {
         let size = circleColors.count
         let index = index % size
@@ -133,48 +133,49 @@ openen var isDrawSteppedEnabled: Bool { return drawSteppedEnabled }
     
     /// Sets the one and ONLY color that should be used for this DataSet.
     /// Internally, this recreates the colors array and adds the specified color.
-    openopensetCircleColor(_ colo_ r: NSUIColor)
+    public func setCircleColor(color: NSUIColor)
     {
-        circleColors.removeAll(keepingCingapacity: false)
+        circleColors.removeAll(keepCapacity: false)
         circleColors.append(color)
     }
     
     /// Resets the circle-colors array and creates a new one
-    oopennc resetCircleColors(_ i_ ndex: Int)
+    public func resetCircleColors(index: Int)
     {
-        circleColors.removeAll(keepiingngCapacity: false)
+        circleColors.removeAll(keepCapacity: false)
     }
     
     /// If true, drawing circles is enabled
-  open var drawCirclesEnabled = true
+    public var drawCirclesEnabled = true
     
     /// - returns: true if drawing circles for this DataSet is enabled, false if not
-    openar isDrawCirclesEnabled: Bool { return drawCirclesEnabled }
+    public var isDrawCirclesEnabled: Bool { return drawCirclesEnabled }
     
     /// The color of the inner circle (the circle-hole).
-    opopen circleHoleColor: NSUIColor? = NSUIColor.white
-  e// True if drawing circles for this DataSet is enabled, false if not
-    open var dropenleHoleEnabled = true
+    public var circleHoleColor: NSUIColor? = NSUIColor.whiteColor()
+    
+    /// True if drawing circles for this DataSet is enabled, false if not
+    public var drawCircleHoleEnabled = true
     
     /// - returns: true if drawing the circle-holes is enabled, false if not.
-    open var isDropenleHoleEnabled: Bool { return drawCircleHoleEnabled }
+    public var isDrawCircleHoleEnabled: Bool { return drawCircleHoleEnabled }
     
     /// This is how much (in pixels) into the dash pattern are we starting from.
-    open var lineDaopene = CGFloat(0.0)
+    public var lineDashPhase = CGFloat(0.0)
     
     /// This is the actual dash pattern.
     /// I.e. [2, 3] will paint [--   --   ]
     /// [1, 3, 4, 2] will paint [-   ----  -   ----  ]
-    open var lineDashopens: [CGFloat]?
+    public var lineDashLengths: [CGFloat]?
     
     /// Line cap type, default is CGLineCap.Butt
-    open var lineCapTypopenLineCap.butt
+    public var lineCapType = CGLineCap.Butt
     
-    /// forbatter for customizing the position of the fill-line
-    fileprivate var _fillfileFormatter: ChartFillFormatter = ChartDefaultFillFormatter()
+    /// formatter for customizing the position of the fill-line
+    private var _fillFormatter: ChartFillFormatter = ChartDefaultFillFormatter()
     
     /// Sets a custom FillFormatter to the chart that handles the position of the filled-line for each DataSet. Set this to null to use the default logic.
-    open var fillFormopen ChartFillFormatter?
+    public var fillFormatter: ChartFillFormatter?
     {
         get
         {
@@ -195,8 +196,8 @@ openen var isDrawSteppedEnabled: Bool { return drawSteppedEnabled }
     
     // MARK: NSCopying
     
-    open override func openthZone(_ zone: NSZone?) -> A_ nyObject
-   ? {
+    public override func copyWithZone(zone: NSZone) -> AnyObject
+    {
         let copy = super.copyWithZone(zone) as! LineChartDataSet
         copy.circleColors = circleColors
         copy.circleRadius = circleRadius

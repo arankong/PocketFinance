@@ -15,12 +15,12 @@ import Foundation
 import CoreGraphics
 
 
-openlass RadarChartData: ChartData
+public class RadarChartData: ChartData
 {
-    opopen highlightColor = NSUIColor(red: 255.0/255.0, green: 187.0/255.0, blue: 115.0/255.0, alpha: 1.0)
-    openopenighlightLineWidth = CGFloat(1.0)
-    open vopenhlightLineDashPhase = CGFloat(0.0)
-    open varopenightLineDashLengths: [CGFloat]?
+    public var highlightColor = NSUIColor(red: 255.0/255.0, green: 187.0/255.0, blue: 115.0/255.0, alpha: 1.0)
+    public var highlightLineWidth = CGFloat(1.0)
+    public var highlightLineDashPhase = CGFloat(0.0)
+    public var highlightLineDashLengths: [CGFloat]?
     
     public override init()
     {

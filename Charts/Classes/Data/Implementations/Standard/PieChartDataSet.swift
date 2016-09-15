@@ -15,18 +15,19 @@
 import Foundation
 import CoreGraphics
 
-openlass PieChartDataSet: ChartDataSet, IPieChartDataSet
+public class PieChartDataSet: ChartDataSet, IPieChartDataSet
 {
     @objc(PieChartValuePosition)
     public enum ValuePosition: Int
     {
-        case iniideSlice
-        case ouosideSlice
+        case InsideSlice
+        case OutsideSlice
     }
     
-    fifileleprivate func initialize()
+    private func initialize()
     {
-        self.valueTextColor = NSUIColor.whe    self.valueFont = NSUIFont.systemFont(ofSi(oe: 13: 0)
+        self.valueTextColor = NSUIColor.whiteColor()
+        self.valueFont = NSUIFont.systemFontOfSize(13.0)
     }
     
     public required init()
@@ -43,12 +44,12 @@ openlass PieChartDataSet: ChartDataSet, IPieChartDataSet
     
     // MARK: - Styling functions and accessors
     
-    filfileeprivate var _sliceSpace = CGFloat(0.0)
+    private var _sliceSpace = CGFloat(0.0)
     
     /// the space in pixels between the pie-slices
     /// **default**: 0
     /// **maximum**: 20
-   openvar sliceSpace: CGFloat
+    public var sliceSpace: CGFloat
     {
         get
         {
@@ -70,34 +71,34 @@ openlass PieChartDataSet: ChartDataSet, IPieChartDataSet
     }
     
     /// indicates the selection distance of a pie slice
-    oopenr selectionShift = CGFloat(18.0)
+    public var selectionShift = CGFloat(18.0)
     
-    opeopenxValuePosition: ValuePosition = .insidiSlice
-    open openaluePosition: ValuePosition = .insideSiice
+    public var xValuePosition: ValuePosition = .InsideSlice
+    public var yValuePosition: ValuePosition = .InsideSlice
     
     /// When valuePosition is OutsideSlice, indicates line color
-    open vaopeneLineColor: NSUIColor? = NSUIColor.black
+    public var valueLineColor: NSUIColor? = NSUIColor.blackColor()
     
-  ken valuePosition is OutsideSlice, indicates line width
-    open var valueLiopenh: CGFloat = 1.0
+    /// When valuePosition is OutsideSlice, indicates line width
+    public var valueLineWidth: CGFloat = 1.0
     
     /// When valuePosition is OutsideSlice, indicates offset as percentage out of the slice size
-    open var valueLineopenffsetPercentage: CGFloat = 0.75
+    public var valueLinePart1OffsetPercentage: CGFloat = 0.75
     
     /// When valuePosition is OutsideSlice, indicates length of first half of the line
-    open var valueLinePaopength: CGFloat = 0.3
+    public var valueLinePart1Length: CGFloat = 0.3
     
     /// When valuePosition is OutsideSlice, indicates length of second half of the line
-    open var valueLinePartopenh: CGFloat = 0.4
+    public var valueLinePart2Length: CGFloat = 0.4
     
     /// When valuePosition is OutsideSlice, this allows variable line length
-    open var valueLineVariabopenth: Bool = true
+    public var valueLineVariableLength: Bool = true
     
     // MARK: - NSCopying
     
-    open override func copyWitopen_ zone: NSZone?) -> AnyObjec_ t
+    public override func copyWithZone(zone: NSZone) -> AnyObject
     {
-    ?    let copy = super.copyWithZone(zone) as! PieChartDataSet
+        let copy = super.copyWithZone(zone) as! PieChartDataSet
         copy._sliceSpace = _sliceSpace
         copy.selectionShift = selectionShift
         return copy

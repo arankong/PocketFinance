@@ -37,40 +37,40 @@ class NewSimViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     
     var arrayStrat: [String] = ["","CPPI","Covered Call Writing","Stop Loss"]
     
-    var curDate = te()
+    var curDate = NSDate()
     let dfltDateFormat = "yyyy-MM-dd"
     var startDateSelected = true
     
     lazy var datePicker : THDatePickerViewController = {
         let picker = THDatePickerViewController.datePicker()
-        picker?.?delegate = self
-        picker??.date = self.curDate
-        picker??.setAllowClearDate(false)
-        picke?r?.setClearAsToday(true)
-        pick?er?.setAutoCloseOnSelectDate(true)
-        pic?ker?.setAllowSelectionOfSelectedDate(true)
-        pi?cker?.setDisableYearSwitch(false)
-        p?icker?.setDisableFutureSelection(false)
-        ?picker?.autoCloseCancelDelay = 2.3
-       ?.isRicker?.isRounded = true
-    ?    picker?.dateTitle = "Calendar"
-   ?     picker?.selectedBackgroundColor = UIColor(red: 125.0/255.0, green: 208.0/255.0, blue: 0.0/255.0, alpha: 1.0)
-  ?      picker?.currentDateColor = UIColor(red: 242.0/255.0, green: 121.0/255.0, blue: 53.0/255.0, alpha: 1.0)
- ?       picker?.currentDateColorSelected =w.yellow
-        return! picker!
+        picker.delegate = self
+        picker.date = self.curDate
+        picker.setAllowClearDate(false)
+        picker.setClearAsToday(true)
+        picker.setAutoCloseOnSelectDate(true)
+        picker.setAllowSelectionOfSelectedDate(true)
+        picker.setDisableYearSwitch(false)
+        picker.setDisableFutureSelection(false)
+        picker.autoCloseCancelDelay = 2.3
+        picker.rounded = true
+        picker.dateTitle = "Calendar"
+        picker.selectedBackgroundColor = UIColor(red: 125.0/255.0, green: 208.0/255.0, blue: 0.0/255.0, alpha: 1.0)
+        picker.currentDateColor = UIColor(red: 242.0/255.0, green: 121.0/255.0, blue: 53.0/255.0, alpha: 1.0)
+        picker.currentDateColorSelected = UIColor.yellowColor()
+        return picker
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        piisHiStrat.isHidden = true
+        pickStrat.hidden = true
 
         pickStrat.delegate = self
         pickStrat.dataSource = self
       
-        isHibelOPT1.isHidden = true
-      isHilabelOPT2.isHidden = true
-   isHi   textOPT1.isHidden = true
- isHi     textOPT2.isHidden = true
+        labelOPT1.hidden = true
+        labelOPT2.hidden = true
+        textOPT1.hidden = true
+        textOPT2.hidden = true
         
         //textStrat.text = "CPPI"
         textName.text = "Test1"
@@ -88,14 +88,15 @@ class NewSimViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     }
     
     // MARK: Actions
-    @IBAction fu_ nc clickTextStrat(_ sender: AnyObject) isHi        pickStrat.isHidden = false
+    @IBAction func clickTextStrat(sender: AnyObject) {
+        pickStrat.hidden = false
     }
     
     /* https://vandadnp.wordpress.com/2014/07/07/swift-convert-unmanaged-to-string/ */
-    func _ convertCfTypeToString(_ cfValue: Unmanaged<NSString>!) -> String?{
+    func convertCfTypeToString(cfValue: Unmanaged<NSString>!) -> String?{
         /* Coded by Vandad Nahavandipoor */
-        let vg = Unmanaged<CFString>.fromOpaque(
-            cfValue.toOpaque()).takeUnretaigalue() as CFString
+        let value = Unmanaged<CFStringRef>.fromOpaque(
+            cfValue.toOpaque()).takeUnretainedValue() as CFStringRef
         if CFGetTypeID(value) == CFStringGetTypeID(){
             return value as String
         } else {
@@ -103,9 +104,9 @@ class NewSimViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         }
     }
     
-    @IBAction fu_ nc clickStartDate(_ sender: UIButton) {
+    @IBAction func clickStartDate(sender: UIButton) {
         datePicker.date = self.curDate
-        datePicker.setDateHasIt Callback { (date: Date!) -> Bool in
+        datePicker.setDateHasItemsCallback { (date: NSDate!) -> Bool in
             let tmp = (arc4random() % 30)+1
             return (tmp % 5 == 0)
         }
@@ -117,9 +118,9 @@ class NewSimViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         startDateSelected = true
     }
     
-    @IBAction _ func clickEndDate(_ sender: UIButton) {
+    @IBAction func clickEndDate(sender: UIButton) {
         datePicker.date = self.curDate
-        datePicker.setDateHasIt Callback { (date: Date!) -> Bool in
+        datePicker.setDateHasItemsCallback { (date: NSDate!) -> Bool in
             let tmp = (arc4random() % 30)+1
             return (tmp % 5 == 0)
         }
@@ -134,16 +135,16 @@ class NewSimViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
 
     // MARK: THDatePickerDelegate
     
-    func date_ PickerDonePressed(_ datePicker: THDatePickerViewController!) {
+    func datePickerDonePressed(datePicker: THDatePickerViewController!) {
         curDate = datePicker.date
         dismissSemiModalView()
     }
     
-    func date_ PickerCancelPressed(_ datePicker: THDatePickerViewController!) {
+    func datePickerCancelPressed(datePicker: THDatePickerViewController!) {
         dismissSemiModalView()
     }
-   _  
-    func datePicker(_ datePicker: THDatePickerViewCo oller!, selectedDate: Date!) {
+    
+    func datePicker(datePicker: THDatePickerViewController!, selectedDate: NSDate!) {
         if startDateSelected {
             startDateLabel.text = dateToString(selectedDate)
         } else {
@@ -153,45 +154,47 @@ class NewSimViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     }
     
     
-    @IBAction_  func clickHistorical(_ sender: AnyObject) {
+    @IBAction func clickHistorical(sender: AnyObject) {
         textSimType.text = "Historical Data"
     }
     
-   _  @IBAction func clickRT(_ sender: AnyObject) {
+    @IBAction func clickRT(sender: AnyObject) {
         textSimType.text = "Real-time Data"
     }
- _    
- :func dateToString(_ dDate:Date) -> String {
-      let dateFormatter = DateFormatter()
+    
+    func dateToString(dDate:NSDate) -> String {
+        let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = dfltDateFormat
-        let sDate : Strin(f = : ormatter.string(from: dDate)
+        let sDate : String = dateFormatter.stringFromDate(dDate)
     
         return sDate
     }
     
     // The number of columns of data
-    f(in omponents(in pickerView: UIPickerView) -> Int {
+    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
         return 1
     }
     
     // The number of rows of data
-    fun_ c pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return arrayStrat.count
     }
     
     // The data to return for the row and component (column) that's being passed in
-    f_ unc pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return arrayStrat[row]
     }
 
     // Catpure the picker view selection
     // This method is triggered whenever the user makes a change to the picker selection.
-   _  func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {isHi       pickStrat.isHidden = true
+    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        pickStrat.hidden = true
         textStrat.text = arrayStrat[row]
         if row == 1{
- isHi         labelOPT1.isHidden = falseisHi           labelOPT2.isHidden = faisHie
-            textOPT1.isHidden = isHilse
-            textOPT2.isHidden = false
+            labelOPT1.hidden = false
+            labelOPT2.hidden = false
+            textOPT1.hidden = false
+            textOPT2.hidden = false
             
             labelOPT1.text = "Floor"
             labelOPT2.text = "Multiplier"
@@ -203,18 +206,18 @@ class NewSimViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
 //            textSimType.text = "Real-time Data"
 //            textStartDate.text = dateToString(NSDate())
 //            textEndDate.text = dateToString(NSDate())
-        isUs  
-            textSimType.isUserInteractionEnabled = false
+            
+            textSimType.userInteractionEnabled = false
             //textStartDate.userInteractionEnabled = false   // comment out for testing purpose
-    isHi      
-            labelOPT1.isHidden = false
-            labelOPT1.text = "OptisHin Strike"
-            textOPT1.isHidden = false
+            
+            labelOPT1.hidden = false
+            labelOPT1.text = "Option Strike"
+            textOPT1.hidden = false
             
         }
     }
-_     
-    @IBAction func buttonDone(_ sender: UIBarButtonItem) {
+    
+    @IBAction func buttonDone(sender: UIBarButtonItem) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         
@@ -279,7 +282,7 @@ _
             sdvc.drawDetailGraph()
             simInstance = nil
         }
-        na(aigation: ontroller?.popViewController(animated: true)
+        navigationController?.popViewControllerAnimated(true)
     }
 }
 

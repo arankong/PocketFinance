@@ -16,18 +16,18 @@ import CoreGraphics
     import UIKit
 #endif
 
-openlass AnimatedViewPortJob: ChartViewPortJob
+public class AnimatedViewPortJob: ChartViewPortJob
 {
     internal var phase: CGFloat = 1.0
     internal var xOrigin: CGFloat = 0.0
     internal var yOrigin: CGFloat = 0.0
     
-    fifileleprivate var _startTim TimeInterval = 0.0
-    filefileprivate var _displayLink: NSUIDisplayLink!
-file    fileprivate var _d tion: TimeInterval = 0.file0
-    fileprivate var ndTime: TimeInterval = 0.0
- file   
-    fileprivate var _easing: ChartEasingFunctionBlock?
+    private var _startTime: NSTimeInterval = 0.0
+    private var _displayLink: NSUIDisplayLink!
+    private var _duration: NSTimeInterval = 0.0
+    private var _endTime: NSTimeInterval = 0.0
+    
+    private var _easing: ChartEasingFunctionBlock?
     
     public init(
         viewPortHandler: ChartViewPortHandler,
@@ -37,7 +37,7 @@ file    fileprivate var _d tion: TimeInterval = 0.file0
         view: ChartViewBase,
         xOrigin: CGFloat,
         yOrigin: CGFloat,
-      duration: TimeInterval,
+        duration: NSTimeInterval,
         easing: ChartEasingFunctionBlock?)
     {
         super.init(viewPortHandler: viewPortHandler,
@@ -55,11 +55,14 @@ file    fileprivate var _d tion: TimeInterval = 0.file0
     deinit
     {
         stop(finish: false)
-    }open    open override func doJob()
+    }
+    
+    public override func doJob()
     {
         start()
     }
- open  open func start()
+    
+    public func start()
     {
         _startTime = CACurrentMediaTime()
         _endTime = _startTime + _duration
@@ -68,14 +71,15 @@ file    fileprivate var _d tion: TimeInterval = 0.file0
         updateAnimationPhase(_startTime)
         
         _displayLink = NSUIDisplayLink(target: self, selector: #selector(AnimatedViewPortJob.animationLoop))
-        _displayLi(to: .add(tpmainn RunLoopMo commonMMode.coes)
+        _displayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
     }
     
-    open fuopenp(finish: Bool)
-h      if (_displayLink != nil)
+    public func stop(finish finish: Bool)
+    {
+        if (_displayLink != nil)
         {
-            _displayLink.remove(from: RunLoop.m(fin,:  forMopModenes)
-          _disMode.coayLink = nil
+            _displayLink.removeFromRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
+            _displayLink = nil
             
             if finish
             {
@@ -92,12 +96,12 @@ h      if (_displayLink != nil)
         }
     }
     
-    fileprivate func updateAnimatfileionPhase(_ currentTime: TimeInterv_ al)
+    private func updateAnimationPhase(currentTime: NSTimeInterval)
     {
-      let elapsedTime: TimeInterval = currentTi - _startTime
-        let duration: TimeInterval = _duration
-      var elapsed: TimeInterval = elapsedTime
-      if elapsed > duration
+        let elapsedTime: NSTimeInterval = currentTime - _startTime
+        let duration: NSTimeInterval = _duration
+        var elapsed: NSTimeInterval = elapsedTime
+        if elapsed > duration
         {
             elapsed = duration
         }
@@ -112,9 +116,9 @@ h      if (_displayLink != nil)
         }
     }
     
-    @objc fileprivate func animationLoop(file)
+    @objc private func animationLoop()
     {
-        let currentTime: TimeInterval = CACurrentMe Time()
+        let currentTime: NSTimeInterval = CACurrentMediaTime()
         
         updateAnimationPhase(currentTime)
         

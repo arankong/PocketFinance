@@ -19,42 +19,42 @@ import CoreGraphics
 #endif
 
 /// Base-class of LineChart, BarChart, ScatterChart and CandleStickChart.
-openlass BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartDataProvider, NSUIGestureRecognizerDelegate
+public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartDataProvider, NSUIGestureRecognizerDelegate
 {
     /// the maximum number of entries to which values will be drawn
     /// (entry numbers greater than this value will cause value-labels to disappear)
     internal var _maxVisibleValueCount = 100
     
     /// flag that indicates if auto scaling on the y axis is enabled
-    fifileleprivate var _autoScaleMinMaxEnabled = false
-  file  fileprivate var _autoScaleLastLowestVisibleXIndex: Intfile!
-    fileprivate var _autoScaleLastHighestVisibleXIndex: Int!file
+    private var _autoScaleMinMaxEnabled = false
+    private var _autoScaleLastLowestVisibleXIndex: Int!
+    private var _autoScaleLastHighestVisibleXIndex: Int!
     
-    fileprivate var _pinchZoomEnablefiled = false
-    fileprivate var _doubleTapToZoomEfilenabled = true
-    fileprivate var _dragEnfileabled = true
+    private var _pinchZoomEnabled = false
+    private var _doubleTapToZoomEnabled = true
+    private var _dragEnabled = true
     
-    fileprivate var file_scaleXEnabled = true
-    fileprivate var _scaleYEnabled = true
+    private var _scaleXEnabled = true
+    private var _scaleYEnabled = true
     
-    /// the color for the background of the chart-drawing area (everythinopennd the grid lines).
-    open var gridBackgroundColor = NSUIColor(red: 240/255.0, green: 240/255.0, blue: 240/open alpha: 1.0)
+    /// the color for the background of the chart-drawing area (everything behind the grid lines).
+    public var gridBackgroundColor = NSUIColor(red: 240/255.0, green: 240/255.0, blue: 240/255.0, alpha: 1.0)
     
-    open var bokr = Nopenor.black
-    open var borderLineWidth: CGFloat = 1.0
+    public var borderColor = NSUIColor.blackColor()
+    public var borderLineWidth: CGFloat = 1.0
     
-    /// flag indicating if the grid background should be openor not
-    open var drawGridBackgroundEnabled = false
+    /// flag indicating if the grid background should be drawn or not
+    public var drawGridBackgroundEnabled = false
     
-    /// Sets drawing the borders rectangle to true. If this is enabled, there is no point drawing the axis-lines of x- aopenxis.
-    open var drawBordersEnabled = false
+    /// Sets drawing the borders rectangle to true. If this is enabled, there is no point drawing the axis-lines of x- and y-axis.
+    public var drawBordersEnabled = false
 
-    /// Sets the minimum offset (padding) around the chart, defaulopen10
-    open var minOffset = CGFloat(10.0)
+    /// Sets the minimum offset (padding) around the chart, defaults to 10
+    public var minOffset = CGFloat(10.0)
     
     /// Sets whether the chart should keep its position (zoom / scroll) after a rotation (orientation change)
-    /// **default**:open
-    open var keepPositionOnRotation: Bool = false
+    /// **default**: false
+    public var keepPositionOnRotation: Bool = false
     
     /// the object representing the left y-axis
     internal var _leftAxis: ChartYAxis!
@@ -77,8 +77,8 @@ openlass BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartDat
     #endif
     internal var _panGestureRecognizer: NSUIPanGestureRecognizer!
     
-    /// flag that indicates if a custom viewport offset has beenfile set
-    fileprivate var _customViewPortEnabled = false
+    /// flag that indicates if a custom viewport offset has been set
+    private var _customViewPortEnabled = false
     
     public override init(frame: CGRect)
     {
@@ -99,8 +99,8 @@ openlass BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartDat
     {
         super.initialize()
         
-        _leftAxis = ChartYAxil(position: .left)
-        _rightAxis = ChartYAxir(position: .right)
+        _leftAxis = ChartYAxis(position: .Left)
+        _rightAxis = ChartYAxis(position: .Right)
         
         _leftAxisTransformer = ChartTransformer(viewPortHandler: _viewPortHandler)
         _rightAxisTransformer = ChartTransformer(viewPortHandler: _viewPortHandler)
@@ -123,33 +123,34 @@ openlass BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartDat
         self.addGestureRecognizer(_doubleTapGestureRecognizer)
         self.addGestureRecognizer(_panGestureRecognizer)
         
-        _doubleTapGestuisEeRecognizer.isEnabled = _doubleTapToZoomEnabled
-        _panGesisEureRecognizer.isEnabled = _dragEnabled
+        _doubleTapGestureRecognizer.enabled = _doubleTapToZoomEnabled
+        _panGestureRecognizer.enabled = _dragEnabled
 
         #if !os(tvOS)
             _pinchGestureRecognizer = NSUIPinchGestureRecognizer(target: self, action: #selector(BarLineChartViewBase.pinchGestureRecognized(_:)))
             _pinchGestureRecognizer.delegate = self
             self.addGestureRecognizer(_pinchGestureRecognizer)
-            _pinchGisEstureRecognizer.isEnabled = _pinchZoomEnabled || _scaleXEnabled || _scaleYEnabled
-        #enopen  }
+            _pinchGestureRecognizer.enabled = _pinchZoomEnabled || _scaleXEnabled || _scaleYEnabled
+        #endif
+    }
     
-    open override (func obser eValue(forKeyPath kf String?, oyt: Any?, chaNSKeyValueCha [eKeyNSKeyyangeKey : Any]?, context: RawUnsafeM?RawPointer?)
+    public override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>)
     {
         // Saving current position of chart.
         var oldPoint: CGPoint?
         if (keepPositionOnRotation && (keyPath == "frame" || keyPath == "bounds"))
         {
             oldPoint = viewPortHandler.contentRect.origin
-            getTrlnsformer(.left).pixelToValue(&oldPoint!)
+            getTransformer(.Left).pixelToValue(&oldPoint!)
         }
         
         // Superclass transforms chart.
-        super.o(fserveValu: (forKeyPatfath, of: object, change: change, context: context)
+        super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
         
         // Restoring old position of chart
-        if var newPoint = ol,t , keepPositionOnRotation
+        if var newPoint = oldPoint where keepPositionOnRotation
         {
-            getTransformel(.left).pointValueToPixel(&newPoint)
+            getTransformer(.Left).pointValueToPixel(&newPoint)
             viewPortHandler.centerViewPort(pt: newPoint, chart: self)
         }
         else
@@ -158,9 +159,9 @@ openlass BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartDat
         }
     }
     
- openn override func dra(_ ect: CGRect)
+    public override func drawRect(rect: CGRect)
     {
-        super.draww)
+        super.drawRect(rect)
         
         if _data === nil
         {
@@ -214,8 +215,8 @@ openlass BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartDat
         }
         
         // make sure the graph values and grid cannot be drawn outside the content-rect
-        contecsaveGS.sate()
-   (text.clip(c _view.cort(to:Rect)
+        CGContextSaveGState(context)
+        CGContextClipToRect(context, _viewPortHandler.contentRect)
         
         _xAxisRenderer?.renderGridLines(context: context)
         _leftYAxisRenderer?.renderGridLines(context: context)
@@ -242,13 +243,14 @@ openlass BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartDat
             renderer?.drawHighlighted(context: context, indices: _indicesToHighlight)
         }
         
-        context.restoreGState()
- c    
- .r      render(Extras(context: context)
+        CGContextRestoreGState(context)
         
-        context.saveGState()
-        contc.clip(.so: _viewP(er.contentct)
-   .c   (to:xAxis.isDrawLimitLinesBehindDataEnabled
+        renderer!.drawExtras(context: context)
+        
+        CGContextSaveGState(context)
+        CGContextClipToRect(context, _viewPortHandler.contentRect)
+        
+        if !_xAxis.isDrawLimitLinesBehindDataEnabled
         {
             _xAxisRenderer?.renderLimitLines(context: context)
         }
@@ -261,9 +263,9 @@ openlass BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartDat
             _rightYAxisRenderer?.renderLimitLines(context: context)
         }
         
-        context.restoreGState()
+        CGContextRestoreGState(context)
         
-        _xAxisRendercrender.rxisLabels(co(ontext)
+        _xAxisRenderer.renderAxisLabels(context: context)
         _leftYAxisRenderer.renderAxisLabels(context: context)
         _rightYAxisRenderer.renderAxisLabels(context: context)
 
@@ -289,9 +291,9 @@ openlass BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartDat
         _leftAxisTransformer.prepareMatrixOffset(_leftAxis.isInverted)
     }
     
-    open override func notifyDataSetChanged()
+    public override func notifyDataSetChanged()
     {
-        calcMopen)
+        calcMinMax()
         
         _leftAxis?._defaultValueFormatter = _defaultValueFormatter
         _rightAxis?._defaultValueFormatter = _defaultValueFormatter
@@ -323,43 +325,43 @@ openlass BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartDat
         
         // calculate / set x-axis range
         _xAxis._axisMaximum = Double((_data?.xVals.count ?? 0) - 1)
-        _xAxis.axisRange = abs(_xAxis._axisMaximum - _xAxis._axisMinimum);
+        _xAxis.axisRange = .abs(_xAxis._axisMaximum - _xAxis._axisMinimum);
         
-       // calculate axis range (min / max) according to provided data
-        _leftAxis.calculate(min: _data?.getYMin(.left) ?? 0.0, max: _data?.getYMax(.left) ?? 0.0)
-        _rightAlis.calculate(min: _data?.getYMin(.light) ?? 0.0, max: _data?.getYMax(.right) ?? 0.0)
+        // calculate axis range (min / max) according to provided data
+        _leftAxis.calculate(min: _data?.getYMin(.Left) ?? 0.0, max: _data?.getYMax(.Left) ?? 0.0)
+        _rightAxis.calculate(min: _data?.getYMin(.Right) ?? 0.0, max: _data?.getYMax(.Right) ?? 0.0)
     }
     
-  r internal func calculateLegendOffsers(offsetLeft: inout CGFloat, offsetTop: inout CGFloat, offsetRighto CGFloat,: inoutm: inout Co
+    internal func calculateLegendOffsets(inout offsetLeft offsetLeft: CGFloat, inout offsetTop: CGFloat, inout offsetRight: CGFloat, inout offsetBottom: CGFloat)
     {
-   inout      // sofsets for leinout gend
-    o_legend !== ninout il && _legend.isEnabled && !_legend.drawInside
+        // setup offsets for legend
+        if _legend !== nil && _legend.isEnabled && !_legend.drawInside
         {
             switch _legend.orientation
             {
-            case .vertical:
+            case .Vertical:
                 
-                switch _legend.horizontalAlignmevt
+                switch _legend.horizontalAlignment
                 {
-                case .left:
-                    offsetLeft += min(_legend.neededWidth, _viewPortHlndler.chartWidth * _legend.maxSizePercent) + _legend.xOffset
+                case .Left:
+                    offsetLeft += min(_legend.neededWidth, _viewPortHandler.chartWidth * _legend.maxSizePercent) + _legend.xOffset
                     
-                case .right:
-                    offsetRight += min(_legend.neededWidth, _viewPorrHandler.chartWidth * _legend.maxSizePercent) + _legend.xOffset
+                case .Right:
+                    offsetRight += min(_legend.neededWidth, _viewPortHandler.chartWidth * _legend.maxSizePercent) + _legend.xOffset
                     
-                case .center:
+                case .Center:
                     
-                    switch _legend.verticalAlicnment
+                    switch _legend.verticalAlignment
                     {
-                    case .top:
-                        offsetTop += min(_legend.neededHeight, _viewPottHandler.chartHeight * _legend.maxSizePercent) + _legend.yOffset
+                    case .Top:
+                        offsetTop += min(_legend.neededHeight, _viewPortHandler.chartHeight * _legend.maxSizePercent) + _legend.yOffset
                         if xAxis.isEnabled && xAxis.isDrawLabelsEnabled
                         {
                             offsetTop += xAxis.labelRotatedHeight
                         }
                         
-                    case .bottom:
-                        offsetBottom += min(_legend.neededHeight, _biewPortHandler.chartHeight * _legend.maxSizePercent) + _legend.yOffset
+                    case .Bottom:
+                        offsetBottom += min(_legend.neededHeight, _viewPortHandler.chartHeight * _legend.maxSizePercent) + _legend.yOffset
                         if xAxis.isEnabled && xAxis.isDrawLabelsEnabled
                         {
                             offsetBottom += xAxis.labelRotatedHeight
@@ -370,19 +372,19 @@ openlass BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartDat
                     }
                 }
                 
-            case .horizontal:
+            case .Horizontal:
                 
-                switch _legend.verticalAlignmeht
+                switch _legend.verticalAlignment
                 {
-                case .top:
-                    offsetTop += min(_legend.neededHeight, _viewPortHatdler.chartHeight * _legend.maxSizePercent) + _legend.yOffset
+                case .Top:
+                    offsetTop += min(_legend.neededHeight, _viewPortHandler.chartHeight * _legend.maxSizePercent) + _legend.yOffset
                     if xAxis.isEnabled && xAxis.isDrawLabelsEnabled
                     {
                         offsetTop += xAxis.labelRotatedHeight
                     }
                     
-                case .bottom:
-                    offsetBottom += min(_legend.neededHeight, _viewbortHandler.chartHeight * _legend.maxSizePercent) + _legend.yOffset
+                case .Bottom:
+                    offsetBottom += min(_legend.neededHeight, _viewPortHandler.chartHeight * _legend.maxSizePercent) + _legend.yOffset
                     if xAxis.isEnabled && xAxis.isDrawLabelsEnabled
                     {
                         offsetBottom += xAxis.labelRotatedHeight
@@ -425,17 +427,17 @@ openlass BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartDat
                 let xlabelheight = xAxis.labelRotatedHeight + xAxis.yOffset
                 
                 // offsets for x-labels
-                if (xAxis.labelPosition == .bottom)
+                if (xAxis.labelPosition == .Bottom)
                 {
                     offsetBottom += xlabelheight
-b               }
-                else if (xAxis.labelPosition == .top)
+                }
+                else if (xAxis.labelPosition == .Top)
                 {
                     offsetTop += xlabelheight
-      t         }
-                else if (xAxis.labelPosition == .bothSided)
+                }
+                else if (xAxis.labelPosition == .BothSided)
                 {
-                    offsetBottom += xlabelheigbt
+                    offsetBottom += xlabelheight
                     offsetTop += xlabelheight
                 }
             }
@@ -476,17 +478,18 @@ b               }
         }
     }
     
-    open override func getMarkerPosition(entry e: ChartDataEntry, highlight: Chopenhlight) -> CGPoint
+    public override func getMarkerPosition(entry e: ChartDataEntry, highlight: ChartHighlight) -> CGPoint
     {
-        guard let data = _data else { return CGPoint.zero }
+        guard let data = _data else { return CGPointZero }
 
         let dataSetIndex = highlight.dataSetIndex
-        var xPos =.zCGFloat(e.xIndex)
+        var xPos = CGFloat(e.xIndex)
         var yPos = CGFloat(e.value)
         
-        if (self.isKind(of: BarChartView.self))
+        if (self.isKindOfClass(BarChartView))
         {
-            let bd = _data as! BarChartDa(of:        let s.selfpace = bd.groupSpace
+            let bd = _data as! BarChartData
+            let space = bd.groupSpace
             let setCount = data.dataSetCount
             let i = e.xIndex
             
@@ -538,65 +541,71 @@ b               }
     }
     
     /// draws the grid background
-    internal func drawGridBackground(context: CGContext)
+    internal func drawGridBackground(context context: CGContext)
     {
-        if (drawGridBackgroundEnabled || drawBordersEnt      {
-            context.saveGState()
+        if (drawGridBackgroundEnabled || drawBordersEnabled)
+        {
+            CGContextSaveGState(context)
         }
         
         if (drawGridBackgroundEnabled)
-   c  {
-  .s         (the grid background
-            context.setFillColor(gridBackgroundColor.cgColor)
-            context.fill(_viewPortHandlecontent.sect)
-      (  if (drawBordersEnacgCd)
         {
-     c    co.ftex((borderLineWidth)
-            context.setStrokeColor(borderColor.cgColor)
-            context.stroke(_vcPortHa.sdler.conten(     }
+            // draw the grid background
+            CGContextSetFillColorWithColor(context, gridBackgroundColor.CGColor)
+            CGContextFillRect(context, _viewPortHandler.contentRect)
+        }
         
-        if (dcGridBa.skgroundEnable(bled)
-      cgC
-            contecrestor.sGStat(    }
+        if (drawBordersEnabled)
+        {
+            CGContextSetLineWidth(context, borderLineWidth)
+            CGContextSetStrokeColorWithColor(context, borderColor.CGColor)
+            CGContextStrokeRect(context, _viewPortHandler.contentRect)
+        }
+        
+        if (drawGridBackgroundEnabled || drawBordersEnabled)
+        {
+            CGContextRestoreGState(context)
+        }
+    }
     
     // MARK: - Gestures
     
-    fileprivate enum GestureScaleAxis
+    private enum GestureScaleAxis
     {
-        case both
-        case x
-        case y
-c }
-   .r
-    filepri( _isDragging = false
-    fileprivate var _isScaling = fafilelse
-    fileprivate var _gestureScaleAxis = GestubeScaleAxis.both
- x  fileprivate yar _closestDataSfileetToTouch: IChartDataSet!
-    fileprfileivate var _panGestureReachedEdge: Bfileool = false
-    fileprivate weak var _outerScrollbiew: NSUfileIScrollView?
+        case Both
+        case X
+        case Y
+    }
     
-    fileprivate var _lastPanPoint = CfileGPoint() /// This is to prevent using setTranslation filewhich resets velocity
+    private var _isDragging = false
+    private var _isScaling = false
+    private var _gestureScaleAxis = GestureScaleAxis.Both
+    private var _closestDataSetToTouch: IChartDataSet!
+    private var _panGestureReachedEdge: Bool = false
+    private weak var _outerScrollView: NSUIScrollView?
     
-    fileprivate var _decelerationfileLastTime: TimeInterval = 0.0
-    fileprivate var _decelerationDisplayLink: NSUIDisplayLink!
-    fileprivate var _filedecelerationVelocity = CGPoint()
-  
-    @objc fileprivate filefunc tapGestureRecognized(_ recognizer: NSUITapGestureRecogfilenizer)
+    private var _lastPanPoint = CGPoint() /// This is to prevent using setTranslation which resets velocity
+    
+    private var _decelerationLastTime: NSTimeInterval = 0.0
+    private var _decelerationDisplayLink: NSUIDisplayLink!
+    private var _decelerationVelocity = CGPoint()
+    
+    @objc private func tapGestureRecognized(recognizer: NSUITapGestureRecognizer)
     {
         if _data === nil
         {
-            rfileeturn
+            return
         }
         
-        i_ f (recognizer.state == NSUIGestureRecognizerState.ended)
+        if (recognizer.state == NSUIGestureRecognizerState.Ended)
         {
             if !self.isHighLightPerTapEnabled { return }
             
-            let h = getHighlightByToucheoint(recognizer.location(in: self))
+            let h = getHighlightByTouchPoint(recognizer.locationInView(self))
             
             if (h === nil || h!.isEqual(self.lastHighlighted))
             {
-                self.hig(in: alue(highlight: nil, callDelegate: true)
+                self.highlightValue(highlight: nil, callDelegate: true)
                 self.lastHighlighted = nil
             }
             else
@@ -607,21 +616,21 @@ c }
         }
     }
     
-    @objc fileprivate func doubleTapGestureRecognized(_ recognizer: NSUITapGestureRecognizer)
+    @objc private func doubleTapGestureRecognized(recognizer: NSUITapGestureRecognizer)
     {
         if _data === nil
         {
-   file         return
+            return
         }
         
-     _    if (recognizer.state == NSUIGestureRecognizerState.ended)
+        if (recognizer.state == NSUIGestureRecognizerState.Ended)
         {
             if _data !== nil && _doubleTapToZoomEnabled
             {
-                var location = recoenizer.location(in: self)
+                var location = recognizer.locationInView(self)
                 location.x = location.x - _viewPortHandler.offsetLeft
                 
-                if (isAn(in: verted && _closestDataSetToTouch !== nil && getAxis(_closestDataSetToTouch.axisDependency).isInverted)
+                if (isAnyAxisInverted && _closestDataSetToTouch !== nil && getAxis(_closestDataSetToTouch.axisDependency).isInverted)
                 {
                     location.y = -(location.y - _viewPortHandler.offsetTop)
                 }
@@ -636,64 +645,64 @@ c }
     }
     
     #if !os(tvOS)
-    @objc fileprivate func pinchGestureRecognized(_ recognizer: NSUIPinchGestureRecognizer)
+    @objc private func pinchGestureRecognized(recognizer: NSUIPinchGestureRecognizer)
     {
-        if (recognizer.state == NSUIfileGestureRecognizerState.began)
-      _   {
+        if (recognizer.state == NSUIGestureRecognizerState.Began)
+        {
             stopDeceleration()
             
-            if _data !== nil && (_pinchZoomEnabled || _scbleXEnabled || _scaleYEnabled)
+            if _data !== nil && (_pinchZoomEnabled || _scaleXEnabled || _scaleYEnabled)
             {
                 _isScaling = true
                 
                 if (_pinchZoomEnabled)
                 {
-                    _gestureScaleAxis = .both
+                    _gestureScaleAxis = .Both
                 }
                 else
                 {
-                    let x = abs(recognizer.location(in: belf).x - recognizer.nsuiLocationOfTouch(1, inView: self).x)
-                    let y = abs(recognizer.location((in: f).y - recognizer.nsuiLocationOfTouch(1, inView: self).y)
+                    let x = abs(recognizer.locationInView(self).x - recognizer.nsuiLocationOfTouch(1, inView: self).x)
+                    let y = abs(recognizer.locationInView(self).y - recognizer.nsuiLocationOfTouch(1, inView: self).y)
                     
                     if (x > y)
-  (in:            {
-                        _gestureScaleAxis = .x
+                    {
+                        _gestureScaleAxis = .X
                     }
                     else
                     {
-                        _gestureScaleAxis = .y
-    x               }
+                        _gestureScaleAxis = .Y
+                    }
                 }
             }
         }
-        else if (recognizer.state == NSUIGestureRecognizyrState.ended ||
-            recognizer.state == NSUIGestureRecognizerState.cancelled)
+        else if (recognizer.state == NSUIGestureRecognizerState.Ended ||
+            recognizer.state == NSUIGestureRecognizerState.Cancelled)
         {
             if (_isScaling)
-     e      {
+            {
                 _isScaling = false
                 
-       c        // Range might have changed, which means that Y-axis labels could have changed in size, affecting Y-axis size. So we need to recalculate offsets.
+                // Range might have changed, which means that Y-axis labels could have changed in size, affecting Y-axis size. So we need to recalculate offsets.
                 calculateOffsets()
                 setNeedsDisplay()
             }
         }
-        else if (recognizer.state == NSUIGestureRecognizerState.changed)
+        else if (recognizer.state == NSUIGestureRecognizerState.Changed)
         {
             let isZoomingOut = (recognizer.nsuiScale < 1)
-            var canZoomMoreX = isZoomingOut ?c_viewPortHandler.canZoomOutMoreX : _viewPortHandler.canZoomInMoreX
+            var canZoomMoreX = isZoomingOut ? _viewPortHandler.canZoomOutMoreX : _viewPortHandler.canZoomInMoreX
             var canZoomMoreY = isZoomingOut ? _viewPortHandler.canZoomOutMoreY : _viewPortHandler.canZoomInMoreY
             
             if (_isScaling)
             {
-                canZoomMoreX = canZoomMoreX && _scaleXEnabled && (_gestureScaleAxis == .both || _gestureScaleAxis == .x);
-                canZoomMoreY = canZoomMoreY && _scaleYEnabled && (_gestureScaleAxis == .both || _gestureScaleAxis == .x);
+                canZoomMoreX = canZoomMoreX && _scaleXEnabled && (_gestureScaleAxis == .Both || _gestureScaleAxis == .X);
+                canZoomMoreY = canZoomMoreY && _scaleYEnabled && (_gestureScaleAxis == .Both || _gestureScaleAxis == .Y);
                 if canZoomMoreX || canZoomMoreY
                 {
-                    vab location = recognizer.locatiyn(in: self)
+                    var location = recognizer.locationInView(self)
                     location.x = location.x - _viewPortHandler.offsetLeft
 
-                    if (isAnyAxisInv(in: & _closestDataSetToTouch !== nil && getAxis(_closestDataSetToTouch.axisDependency).isInverted)
+                    if (isAnyAxisInverted && _closestDataSetToTouch !== nil && getAxis(_closestDataSetToTouch.axisDependency).isInverted)
                     {
                         location.y = -(location.y - _viewPortHandler.offsetTop)
                     }
@@ -705,11 +714,16 @@ c }
                     let scaleX = canZoomMoreX ? recognizer.nsuiScale : 1.0
                     let scaleY = canZoomMoreY ? recognizer.nsuiScale : 1.0
                     
-                    var matrix = CGAffineTransform(translationX: location.x, y: location.y)
-                    matrix = matrix.scaledBy(x: scaleX, y: scaleY)
-               (tmatrix = mX: trix.translay: tedBy(x: -location.x, y: -location.y)
-   matrix.s    dBy(x:        my: atrix = _viewPortHandler.touchMatrix.matrix.tix)
-    dBy(x:     _viewPorty: Handler.refresh(newMatrix: matrix, chart: self, invalidate: tr                     if (dele.concatenating(te !== nil)
+                    var matrix = CGAffineTransformMakeTranslation(location.x, location.y)
+                    matrix = CGAffineTransformScale(matrix, scaleX, scaleY)
+                    matrix = CGAffineTransformTranslate(matrix,
+                        -location.x, -location.y)
+                    
+                    matrix = CGAffineTransformConcat(_viewPortHandler.touchMatrix, matrix)
+                    
+                    _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: true)
+                    
+                    if (delegate !== nil)
                     {
                         delegate?.chartScaled?(self, scaleX: scaleX, scaleY: scaleY)
                     }
@@ -721,14 +735,14 @@ c }
     }
     #endif
     
-    @objc fileprivate func panGestureRecognized(_ recognizer: NSUIPanGestureRecognizer)
+    @objc private func panGestureRecognized(recognizer: NSUIPanGestureRecognizer)
     {
-        if (recognizer.state == NSUIGestureRecognizerState.began && recognizer.nsuiNumberOffileTouches() > 0)
+        if (recognizer.state == NSUIGestureRecognizerState.Began && recognizer.nsuiNumberOfTouches() > 0)
         {
-         _    stopDeceleration()
+            stopDeceleration()
             
             if _data === nil
-            { // If we have no data, webhave nothing to pan and no data to highlight
+            { // If we have no data, we have nothing to pan and no data to highlight
                 return;
             }
             
@@ -742,10 +756,10 @@ c }
                 
                 _closestDataSetToTouch = getDataSetByTouchPoint(recognizer.nsuiLocationOfTouch(0, inView: self))
                 
-                let translation = recognizer.translation(in: self)
+                let translation = recognizer.translationInView(self)
                 let didUserDrag = (self is HorizontalBarChartView) ? translation.y != 0.0 : translation.x != 0.0
                 
-                // Check to (in: user dragged at all and if so, can the chart be dragged by the given amount
+                // Check to see if user dragged at all and if so, can the chart be dragged by the given amount
                 if (didUserDrag && !performPanChange(translation: translation))
                 {
                     if (_outerScrollView !== nil)
@@ -760,38 +774,38 @@ c }
                     if (_outerScrollView !== nil)
                     {
                         // Prevent the parent scroll view from scrolling
-                        _outerScrollView?.isScrollEnabled = false
+                        _outerScrollView?.scrollEnabled = false
                     }
                 }
                 
-                _lastPanPoint = recognizer.translation(in: self)
+                _lastPanPoint = recognizer.translationInView(self)
             }
-           isSelse if self.isHighlightPerDragEnabled
+            else if self.isHighlightPerDragEnabled
             {
-                // We will only handle highlights on NSUIGestureRecognizerState(in: d
+                // We will only handle highlights on NSUIGestureRecognizerState.Changed
                 
                 _isDragging = false
             }
         }
-        else if (recognizer.state == NSUIGestureRecognizerState.changed)
+        else if (recognizer.state == NSUIGestureRecognizerState.Changed)
         {
             if (_isDragging)
             {
-                let originalTranslation = recognizer.translation(in: self)
-                let translation = cGPoint(x: originalTranslation.x - _lastPanPoint.x, y: originalTranslation.y - _lastPanPoint.y)
+                let originalTranslation = recognizer.translationInView(self)
+                let translation = CGPoint(x: originalTranslation.x - _lastPanPoint.x, y: originalTranslation.y - _lastPanPoint.y)
                 
-             (in: ormPanChange(translation: translation)
+                performPanChange(translation: translation)
                 
                 _lastPanPoint = originalTranslation
             }
             else if (isHighlightPerDragEnabled)
             {
-                let h = getHighlightByTouchPoint(recognizer.location(in: self))
+                let h = getHighlightByTouchPoint(recognizer.locationInView(self))
                 
                 let lastHighlighted = self.lastHighlighted
                 
                 if ((h === nil && lastHighlighted !== nil) ||
-      (in:        (h !== nil && lastHighlighted === nil) ||
+                    (h !== nil && lastHighlighted === nil) ||
                     (h !== nil && lastHighlighted !== nil && !h!.isEqual(lastHighlighted)))
                 {
                     self.lastHighlighted = h
@@ -799,36 +813,38 @@ c }
                 }
             }
         }
-        else if (recognizer.state == NSUIGestureRecognizerState.ended || recognizer.state == NSUIGestureRecognizerState.cancelled)
+        else if (recognizer.state == NSUIGestureRecognizerState.Ended || recognizer.state == NSUIGestureRecognizerState.Cancelled)
         {
             if (_isDragging)
             {
-                if (recognizer.state == NSUIGestureRecoenizerState.ended && isDragDecelerationEnabled)
-        c       {
+                if (recognizer.state == NSUIGestureRecognizerState.Ended && isDragDecelerationEnabled)
+                {
                     stopDeceleration()
                     
                     _decelerationLastTime = CACurrentMediaTime()
-                    _decelerationVelocity = recognizer.velocity(in: self)
+                    _decelerationVelocity = recognizer.velocityInView(self)
                     
                     _decelerationDisplayLink = NSUIDisplayLink(target: self, selector: #selector(BarLineChartViewBase.decelerationLoop))
-      (in:        _decelerationDisplayLink.add(to: RunLoop.main, forMode: RunLoopMode.commonModes)
+                    _decelerationDisplayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
                 }
                 
                 _isDragging = false
             }
             
-            if (_outerScro(to: View !p    n           _outerSMode.coollView?.isScrollEnabled = true
+            if (_outerScrollView !== nil)
+            {
+                _outerScrollView?.scrollEnabled = true
                 _outerScrollView = nil
             }
         }
     }
     
-    fileprivate func performPanChange(translation: CGPoint) -> Bool
+    private func performPanChange(translation translation: CGPoint) -> Bool
     {
-        var translaisSion = translation
+        var translation = translation
         
         if (isAnyAxisInverted && _closestDataSetToTouch !== nil
-       file     && getAxis(_closestDataSetToTouch.an).isInverted)
+            && getAxis(_closestDataSetToTouch.axisDependency).isInverted)
         {
             if (self is HorizontalBarChartView)
             {
@@ -842,32 +858,35 @@ c }
         
         let originalMatrix = _viewPortHandler.touchMatrix
         
-        var matrix = CGAffineTransform(translationX: translation.x, y: translation.y)
-        matrix = originalMatrix.concatenating(matrix)
+        var matrix = CGAffineTransformMakeTranslation(translation.x, translation.y)
+        matrix = CGAffineTransformConcat(originalMatrix, matrix)
         
-        matrix = _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate:(t)
-        X:         if (dely: egate !== nil)
+        matrix = _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: true)
+        
+        if (delegate !== nil)
         {
-       .rated?(self, .concatenating(: translation.x, dY: translation.y)
+            delegate?.chartTranslated?(self, dX: translation.x, dY: translation.y)
         }
         
         // Did we managed to actually drag or did we reach the edge?
         return matrix.tx != originalMatrix.tx || matrix.ty != originalMatrix.ty
     }
     
-    open func stopDeceleration()
+    public func stopDeceleration()
     {
         if (_decelerationDisplayLink !== nil)
         {
-            _decelerationDisplayLink.remove(from: RunLoop.main, forMode: RunLoopMode.commonModes)
-            _decopenionDisplayLink = nil
+            _decelerationDisplayLink.removeFromRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
+            _decelerationDisplayLink = nil
         }
     }
     
-    @objc fileprivate func decelerationLoop()
+    @objc private func decelerationLoop()
     {
-        let currentTime = CACurrentM(fdia: Time()p    nrationVelo y.x *= Mode.colf.dragDecelerationFrictionCoef
-        _decelerationVelocity.y *= self.dragDeceleratfileionFrictionCoef
+        let currentTime = CACurrentMediaTime()
+        
+        _decelerationVelocity.x *= self.dragDecelerationFrictionCoef
+        _decelerationVelocity.y *= self.dragDecelerationFrictionCoef
         
         let timeInterval = CGFloat(currentTime - _decelerationLastTime)
         
@@ -895,12 +914,12 @@ c }
         }
     }
     
-    fileprivate func nsuiGestureRecognizerShouldBegin(_ gestureRecognizer: NSUIGestureRecognizer) -> Bool
+    private func nsuiGestureRecognizerShouldBegin(gestureRecognizer: NSUIGestureRecognizer) -> Bool
     {
         if (gestureRecognizer == _panGestureRecognizer)
         {
-            if _data === nil || !_dragEnabfileled ||
-                (self.hasNoDragOffset &_ & self.isFullyZoomedOut && !self.isHighlightPerDragEnabled)
+            if _data === nil || !_dragEnabled ||
+                (self.hasNoDragOffset && self.isFullyZoomedOut && !self.isHighlightPerDragEnabled)
             {
                 return false
             }
@@ -922,14 +941,14 @@ c }
     }
     
     #if !os(OSX)
-    open override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool
+    public override func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool
     {
         if (!super.gestureRecognizerShouldBegin(gestureRecognizer))
         {
             return false
-   open
+        }
         
-        return nsuiGestureRecogniz_ erShouldBegin(gestureRecognizer)
+        return nsuiGestureRecognizerShouldBegin(gestureRecognizer)
     }
     #endif
     
@@ -940,54 +959,56 @@ c }
     }
     #endif
     
-    open func gestureRecognizer(_ gestureRecognizer: NSUIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: NSUIGestureRecognizer) -> Bool
+    public func gestureRecognizer(gestureRecognizer: NSUIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: NSUIGestureRecognizer) -> Bool
     {
         #if !os(tvOS)
-        if ((gestureRopenzer.isKind(of: NSUIPinch_ GestureRecognizer.self) &&
-            otherGestureRecognizer.isKind(of: Nhnizer.self)) ||
-            (gestureRecognizer.isKind(of: NSUIPanGestureRecognizer.self) &&
-                otherGestureR(of: r.isKind(of: NSUIPinchGest.selfureRecognizer.self)))
+        if ((gestureRecognizer.isKindOfClass(NSUIPinchGestureRecognizer) &&
+            otherGestureRecognizer.isKindOfClass(NSUIPanGestureRecognizer)) ||
+            (gestureRecognizer.isKindOfClass(NSUIPanGestureRecognizer) &&
+                otherGestureRecognizer.isKindOfClass(NSUIPinchGestureRecognizer)))
         {
-            re(of: e
+            return true
         }
-        #end.selfif
+        #endif
         
-        if (gestureRecognizer.i(of: : NSUIPanGestureRecogniz.selfer.self) &&
-            otherGestureRecognizer.isK(of: NSUIPanGestureRecognizer.s.selfelf) && (
+        if (gestureRecognizer.isKindOfClass(NSUIPanGestureRecognizer) &&
+            otherGestureRecognizer.isKindOfClass(NSUIPanGestureRecognizer) && (
                 gestureRecognizer == _panGestureRecognizer
             ))
         {
-            va(of: View = self.superview
-  .self          while (scrollView !== nil && !scroll(of: Kind(of: NSUIScrollView..selfself))
+            var scrollView = self.superview
+            while (scrollView !== nil && !scrollView!.isKindOfClass(NSUIScrollView))
             {
                 scrollView = scrollView?.superview
             }
             
-            // If there is two scrollview together, we pick the superview of the inner scrollvie(of:        // In t.selfhe case of UITableViewWrepperView, the superview will be UITableView
-            if let superViewOfScrollView = scrollView?.superview , superViewOfScrollView.isKind(of: NSUIScrollView.self)
+            // If there is two scrollview together, we pick the superview of the inner scrollview.
+            // In the case of UITableViewWrepperView, the superview will be UITableView
+            if let superViewOfScrollView = scrollView?.superview where superViewOfScrollView.isKindOfClass(NSUIScrollView)
             {
                 scrollView = superViewOfScrollView
             }
 
             var foundScrollView = scrollView as? NSUIScrollView
             
-,       if (foundScrollView !=(of:  !foundScrollV.selfiew!.isScrollEnabled)
+            if (foundScrollView !== nil && !foundScrollView!.scrollEnabled)
             {
                 foundScrollView = nil
             }
             
             var scrollViewPanGestureRecognizer: NSUIGestureRecognizer!
             
-            if (foundScrollView !==isSnil)
+            if (foundScrollView !== nil)
             {
                 for scrollRecognizer in foundScrollView!.nsuiGestureRecognizers!
                 {
-                    if (scrollRecognizer.isKind(of: NSUIPanGestureRecognizer.self))
+                    if (scrollRecognizer.isKindOfClass(NSUIPanGestureRecognizer))
                     {
                         scrollViewPanGestureRecognizer = scrollRecognizer as! NSUIPanGestureRecognizer
                         break
-                    }(of:          }
-            }.self
+                    }
+                }
+            }
             
             if (otherGestureRecognizer === scrollViewPanGestureRecognizer)
             {
@@ -1003,12 +1024,12 @@ c }
     /// MARK: Viewport modifiers
     
     /// Zooms in by 1.4, into the charts center. center.
-    open func zoomIn()
+    public func zoomIn()
     {
         let center = _viewPortHandler.contentCenter
         
         let matrix = _viewPortHandler.zoomIn(x: center.x, y: -center.y)
-        _viewPortHandler.refresh(newMatrix: matrix, copenself, invalidate: false)
+        _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: false)
         
         // Range might have changed, which means that Y-axis labels could have changed in size, affecting Y-axis size. So we need to recalculate offsets.
         calculateOffsets()
@@ -1016,12 +1037,12 @@ c }
     }
 
     /// Zooms out by 0.7, from the charts center. center.
-    open func zoomOut()
+    public func zoomOut()
     {
         let center = _viewPortHandler.contentCenter
         
         let matrix = _viewPortHandler.zoomOut(x: center.x, y: -center.y)
-        _viewPortHandler.refresh(newMatrix: matrix, copenself, invalidate: false)
+        _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: false)
 
         // Range might have changed, which means that Y-axis labels could have changed in size, affecting Y-axis size. So we need to recalculate offsets.
         calculateOffsets()
@@ -1035,10 +1056,10 @@ c }
     /// - parameter scaleY: if < 1 --> zoom out, if > 1 --> zoom in
     /// - parameter x:
     /// - parameter y:
-    open func zoom(_ scaleX: CGFloat, scaleY: CGFloat, x: CGFloat, y: CGFloat)
+    public func zoom(scaleX: CGFloat, scaleY: CGFloat, x: CGFloat, y: CGFloat)
     {
         let matrix = _viewPortHandler.zoom(scaleX: scaleX, scaleY: scaleY, x: x, y: y)
-        _viewPortHandler.refresh(newMatrix: matopenhart: self,_  invalidate: false)
+        _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: false)
         
         // Range might have changed, which means that Y-axis labels could have changed in size, affecting Y-axis size. So we need to recalculate offsets.
         calculateOffsets()
@@ -1053,14 +1074,14 @@ c }
     /// - parameter xIndex:
     /// - parameter yValue:
     /// - parameter axis:
-    open func zoom(
-        _ scaleX: CGFloat,
+    public func zoom(
+        scaleX: CGFloat,
         scaleY: CGFloat,
         xIndex: CGFloat,
         yValue: Double,
         axis: ChartYAxis.AxisDependency)
     {
-        let job = ZoomChartViewJob(viewPortHandler:openortHandler, scaleX: _ scaleX, scaleY: scaleY, xIndex: xIndex, yValue: yValue, transformer: getTransformer(axis), axis: axis, view: self)
+        let job = ZoomChartViewJob(viewPortHandler: viewPortHandler, scaleX: scaleX, scaleY: scaleY, xIndex: xIndex, yValue: yValue, transformer: getTransformer(axis), axis: axis, view: self)
         addViewportJob(job)
     }
     
@@ -1073,19 +1094,19 @@ c }
     /// - parameter axis: which axis should be used as a reference for the y-axis
     /// - parameter duration: the duration of the animation in seconds
     /// - parameter easing:
-    open func zoomAndCenterViewAnimated(
-        scaleX: CGFloat,
+    public func zoomAndCenterViewAnimated(
+        scaleX scaleX: CGFloat,
         scaleY: CGFloat,
         xIndex: CGFloat,
         yValue: Double,
         axis: ChartYAxis.AxisDependency,
-        duration: TimeInterval,
-      openng: ChartEasingFunctionBlock?)
+        duration: NSTimeInterval,
+        easing: ChartEasingFunctionBlock?)
     {
-        lXn = getValueByTouchPoint(
+        let origin = getValueByTouchPoint(
             pt: CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentTop),
             axis: axis)
-      
+        
         let job = AnimatedZoomChartViewJob(
             viewPortHandler: viewPortHandler,
             transformer: getTransformer(axis),
@@ -1115,16 +1136,16 @@ c }
     /// - parameter axis: which axis should be used as a reference for the y-axis
     /// - parameter duration: the duration of the animation in seconds
     /// - parameter easing:
-    open func zoomAndCenterViewAnimated(
-        scaleX: CGFloat,
+    public func zoomAndCenterViewAnimated(
+        scaleX scaleX: CGFloat,
         scaleY: CGFloat,
         xIndex: CGFloat,
         yValue: Double,
         axis: ChartYAxis.AxisDependency,
-        duration: TimeInterval,
-        easingOptopenhartEasingOption)
+        duration: NSTimeInterval,
+        easingOption: ChartEasingOption)
     {
-        zoomAndCenterVXted(scaleX: scaleX, scaleY: scaleY, xIndex: xIndex, yValue: yValue, axis: axis, duration: duration, easing: easingFunctionFromOption(easingOpti )
+        zoomAndCenterViewAnimated(scaleX: scaleX, scaleY: scaleY, xIndex: xIndex, yValue: yValue, axis: axis, duration: duration, easing: easingFunctionFromOption(easingOption))
     }
     
     /// Zooms by the specified scale factor to the specified values on the specified axis.
@@ -1136,95 +1157,97 @@ c }
     /// - parameter axis: which axis should be used as a reference for the y-axis
     /// - parameter duration: the duration of the animation in seconds
     /// - parameter easing:
-    open func zoomAndCenterViewAnimated(
-        scaleX: CGFloat,
+    public func zoomAndCenterViewAnimated(
+        scaleX scaleX: CGFloat,
         scaleY: CGFloat,
         xIndex: CGFloat,
         yValue: Double,
         axis: ChartYAxis.AxisDependency,
-        duration: TimeInterval)
+        duration: NSTimeInterval)
     {
-        zoomAndCenterVopenmated(scaleX: scaleX, scaleY: scaleY, xIndex: XyValue: yValue, axis: axis, duration: duration, easingOption: .easeInOutSine)
+        zoomAndCenterViewAnimated(scaleX: scaleX, scaleY: scaleY, xIndex: xIndex, yValue: yValue, axis: axis, duration: duration, easingOption: .EaseInOutSine)
     }
     
-    /// Resets all zooming and dragging and makes the  rt fit exactly it's bounds.
-    open func fitScreen()
+    /// Resets all zooming and dragging and makes the chart fit exactly it's bounds.
+    public func fitScreen()
     {
         let matrix = _viewPortHandler.fitScreen()
-        _viewPortHandler.refresh(newMatrix: matrix, chaet: self, invalidate: false)
+        _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: false)
         
         calculateOffsets()
         setNeedsDisplay()
     }
     
-    /// Sets opennimum scale value to which can be zoomed out. 1 = fitScreen
-    open func setScaleMinima(_ scaleX: CGFloat, scaleY: CGFloat)
+    /// Sets the minimum scale value to which can be zoomed out. 1 = fitScreen
+    public func setScaleMinima(scaleX: CGFloat, scaleY: CGFloat)
     {
         _viewPortHandler.setMinimumScaleX(scaleX)
         _viewPortHandler.setMinimumScaleY(scaleY)
     }
     
-    /// Sets the size of the area (range on the x-axis) that should be mopen visible at once (no _ further zomming out allowed).
+    /// Sets the size of the area (range on the x-axis) that should be maximum visible at once (no further zomming out allowed).
     /// If this is e.g. set to 10, no more than 10 values on the x-axis can be viewed at once without scrolling.
-    open func setVisibleXRangeMaximum(_ maxXRange: CGFloat)
+    public func setVisibleXRangeMaximum(maxXRange: CGFloat)
     {
         let xScale = CGFloat(_xAxis.axisRange) / maxXRange
         _viewPortHandler.setMinimumScaleX(xScale)
     }
     
-    /// Sets the size of the area (range on the x-axis) that should openimum visible at once (no furth_ er zooming in allowed).
+    /// Sets the size of the area (range on the x-axis) that should be minimum visible at once (no further zooming in allowed).
     /// If this is e.g. set to 10, no less than 10 values on the x-axis can be viewed at once without scrolling.
-    open func setVisibleXRangeMinimum(_ minXRange: CGFloat)
+    public func setVisibleXRangeMinimum(minXRange: CGFloat)
     {
         let xScale = CGFloat(_xAxis.axisRange) / minXRange
         _viewPortHandler.setMaximumScaleX(xScale)
     }
 
-    /// Limits the maximum and minimum value count that can be visible bopenhing and zooming.
-    /// e.g._  minRange=10, maxRange=100 no less than 10 values and no more that 100 values can be viewed
+    /// Limits the maximum and minimum value count that can be visible by pinching and zooming.
+    /// e.g. minRange=10, maxRange=100 no less than 10 values and no more that 100 values can be viewed
     /// at once without scrolling
-    open func setVisibleXRange(minXRange: CGFloat, maxXRange: CGFloat)
+    public func setVisibleXRange(minXRange minXRange: CGFloat, maxXRange: CGFloat)
     {
         let maxScale = CGFloat(_xAxis.axisRange) / minXRange
         let minScale = CGFloat(_xAxis.axisRange) / maxXRange
-        _viewPortHandler.setMinMaxScaleX(minScaleX: minopen maxScaleX: maxScale)
+        _viewPortHandler.setMinMaxScaleX(minScaleX: minScale, maxScaleX: maxScale)
     }
-   eets the size of the area (range on the y-axis) that should be maximum visible at once.
+    
+    /// Sets the size of the area (range on the y-axis) that should be maximum visible at once.
     /// 
     /// - parameter yRange:
     /// - parameter axis: - the axis for which this limit should apply
-    open func setVisibleYRangeMaximum(_ maxYRange: CGFloat, axis: ChartYAxis.AxisDependency)
+    public func setVisibleYRangeMaximum(maxYRange: CGFloat, axis: ChartYAxis.AxisDependency)
     {
         let yScale = getDeltaY(axis) / maxYRange
         _viewPortHandler.setMinimumScaleY(yScale)
     }
 
-    /// Moves the left side of the current viewport to the spopend x-index.
-    /// This also r_ efreshes the chart by calling setNeedsDisplay().
-    open func moveViewToX(_ xIndex: CGFloat)
+    /// Moves the left side of the current viewport to the specified x-index.
+    /// This also refreshes the chart by calling setNeedsDisplay().
+    public func moveViewToX(xIndex: CGFloat)
     {
         let job = MoveChartViewJob(
             viewPortHandler: viewPortHandler,
             xIndex: xIndex,
             yValue: 0.0,
-            transformer: getTransformer(.left),
+            transformer: getTransformer(.Left),
             view: self)
-        open   addViewportJob(_ job)
+        
+        addViewportJob(job)
     }
 
     /// Centers the viewport to the specified y-value on the y-axis.
     /// This also refreshes the chart by calling setNeedsDisplay().
     /// 
     /// - parameter yValue:
-    /// - parlmeter axis: - which axis should be used as a reference for the y-axis
-    open func moveViewToY(_ yValue: Double, axis: ChartYAxis.AxisDependency)
+    /// - parameter axis: - which axis should be used as a reference for the y-axis
+    public func moveViewToY(yValue: Double, axis: ChartYAxis.AxisDependency)
     {
         let valsInView = getDeltaY(axis) / _viewPortHandler.scaleY
         
         let job = MoveChartViewJob(
             viewPortHandler: viewPortHandler,
             xIndex: 0,
-  open    yValue: yValue_  + Double(valsInView) / 2.0,
+            yValue: yValue + Double(valsInView) / 2.0,
             transformer: getTransformer(axis),
             view: self)
         
@@ -1237,14 +1260,14 @@ c }
     /// - parameter xIndex:
     /// - parameter yValue:
     /// - parameter axis: - which axis should be used as a reference for the y-axis
-    open func moveViewTo(xIndex: CGFloat, yValue: Double, axis: ChartYAxis.AxisDependency)
+    public func moveViewTo(xIndex xIndex: CGFloat, yValue: Double, axis: ChartYAxis.AxisDependency)
     {
         let valsInView = getDeltaY(axis) / _viewPortHandler.scaleY
         
         let job = MoveChartViewJob(
             viewPortHandler: viewPortHandler,
-           openx: xIndex,
-           x yValue + Double(valsInView) / 2.0,
+            xIndex: xIndex,
+            yValue: yValue + Double(valsInView) / 2.0,
             transformer: getTransformer(axis),
             view: self)
         
@@ -1259,18 +1282,18 @@ c }
     /// - parameter axis: which axis should be used as a reference for the y-axis
     /// - parameter duration: the duration of the animation in seconds
     /// - parameter easing:
-    open func moveViewToAnimated(
-        xIndex: CGFloat,
+    public func moveViewToAnimated(
+        xIndex xIndex: CGFloat,
         yValue: Double,
         axis: ChartYAxis.AxisDependency,
-        duration: TimeInterval,
+        duration: NSTimeInterval,
         easing: ChartEasingFunctionBlock?)
     {
         let bounds = getValueByTouchPoint(
-            pt: CGPoint(x: openrtHandler.contentLeft, y: viewPortHandlxntTop),
+            pt: CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentTop),
             axis: axis)
         
-        let valsInView = getDeltaY(axis) / _viewPort dler.scaleY
+        let valsInView = getDeltaY(axis) / _viewPortHandler.scaleY
         
         let job = AnimatedMoveChartViewJob(
             viewPortHandler: viewPortHandler,
@@ -1294,17 +1317,17 @@ c }
     /// - parameter axis: which axis should be used as a reference for the y-axis
     /// - parameter duration: the duration of the animation in seconds
     /// - parameter easing:
-    open func moveViewToAnimated(
-        xIndex: CGFloat,
+    public func moveViewToAnimated(
+        xIndex xIndex: CGFloat,
         yValue: Double,
         axis: ChartYAxis.AxisDependency,
-        duration: TimeInterval,
+        duration: NSTimeInterval,
         easingOption: ChartEasingOption)
     {
-        moveViewToAnimated(xIndex: xIndex, yValue: yValue, axis: axis, duration: duopen, easing: easingFunctionFromOption(easix))
+        moveViewToAnimated(xIndex: xIndex, yValue: yValue, axis: axis, duration: duration, easing: easingFunctionFromOption(easingOption))
     }
     
-    /// This will move the left side of the current viewport to the specified x sition and center the viewport to the specified y-position animated.
+    /// This will move the left side of the current viewport to the specified x-position and center the viewport to the specified y-position animated.
     /// This also refreshes the chart by calling setNeedsDisplay().
     ///
     /// - parameter xIndex:
@@ -1312,30 +1335,31 @@ c }
     /// - parameter axis: which axis should be used as a reference for the y-axis
     /// - parameter duration: the duration of the animation in seconds
     /// - parameter easing:
-    open func moveViewToAnimated(
-        xIndex: CGFloat,
+    public func moveViewToAnimated(
+        xIndex xIndex: CGFloat,
         yValue: Double,
         axis: ChartYAxis.AxisDependency,
-        duration: TimeInterval)
+        duration: NSTimeInterval)
     {
-        moveViewToAnimated(xIndex: xIndex, yValue: yValue, axis: axis, duration: duration, easingOption: .easeInOutSine)
+        moveViewToAnimated(xIndex: xIndex, yValue: yValue, axis: axis, duration: duration, easingOption: .EaseInOutSine)
     }
     
-   openhis will move the center of the currentxt to the specified x-index and y-value.
-    /// This also refreshes the chart by calling setN sDisplay().
+    /// This will move the center of the current viewport to the specified x-index and y-value.
+    /// This also refreshes the chart by calling setNeedsDisplay().
     ///
     /// - parameter xIndex:
     /// - parameter yValue:
-    /// - parameter axis: - which axis should be ueed as a reference for the y-axis
-    open func centerViewTo(
-        xIndex: CGFloat,
+    /// - parameter axis: - which axis should be used as a reference for the y-axis
+    public func centerViewTo(
+        xIndex xIndex: CGFloat,
         yValue: Double,
         axis: ChartYAxis.AxisDependency)
     {
         let valsInView = getDeltaY(axis) / _viewPortHandler.scaleY
         let xsInView = CGFloat(xAxis.values.count) / _viewPortHandler.scaleX
         
-        let job = MoveChartViewopen           viewPortHandler: viewPxer,
+        let job = MoveChartViewJob(
+            viewPortHandler: viewPortHandler,
             xIndex: xIndex - xsInView / 2.0,
             yValue: yValue + Double(valsInView) / 2.0,
             transformer: getTransformer(axis),
@@ -1351,18 +1375,19 @@ c }
     /// - parameter axis: which axis should be used as a reference for the y-axis
     /// - parameter duration: the duration of the animation in seconds
     /// - parameter easing:
-    open func centerViewToAnimated(
-        xIndex: CGFloat,
+    public func centerViewToAnimated(
+        xIndex xIndex: CGFloat,
         yValue: Double,
         axis: ChartYAxis.AxisDependency,
-        duration: TimeInterval,
+        duration: NSTimeInterval,
         easing: ChartEasingFunctionBlock?)
     {
         let bounds = getValueByTouchPoint(
-            pt: CGPoint(x: viewPortHandler.contentLeft, y: viewPortopenr.contentTop),
+            pt: CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentTop),
             axis: axis)
-  x       let valsInView = getDeltaY(axis) / _viewPortHandler.scaleY
-        let xsInView = CGFl (xAxis.values.count) / _viewPortHandler.scaleX
+        
+        let valsInView = getDeltaY(axis) / _viewPortHandler.scaleY
+        let xsInView = CGFloat(xAxis.values.count) / _viewPortHandler.scaleX
         
         let job = AnimatedMoveChartViewJob(
             viewPortHandler: viewPortHandler,
@@ -1385,64 +1410,67 @@ c }
     /// - parameter axis: which axis should be used as a reference for the y-axis
     /// - parameter duration: the duration of the animation in seconds
     /// - parameter easing:
-    open func centerViewToAnimated(
-        xIndex: CGFloat,
+    public func centerViewToAnimated(
+        xIndex xIndex: CGFloat,
         yValue: Double,
         axis: ChartYAxis.AxisDependency,
-        duration: TimeInterval,
+        duration: NSTimeInterval,
         easingOption: ChartEasingOption)
     {
-        centerViewToAnimated(xIndex: xIndex, yValue: yValue, axis: axis, duration: duration, easing: easingFunctionFromOptiopeningOption))
+        centerViewToAnimated(xIndex: xIndex, yValue: yValue, axis: axis, duration: duration, easing: easingFunctionFromOption(easingOption))
     }
     
-    /// This will x center of the current viewport to the specified x-value and y-value animated.
+    /// This will move the center of the current viewport to the specified x-value and y-value animated.
     ///
-    //  parameter xIndex:
+    /// - parameter xIndex:
     /// - parameter yValue:
     /// - parameter axis: which axis should be used as a reference for the y-axis
     /// - parameter duration: the duration of the animation in seconds
     /// - parameter easing:
-    open func centerViewToAnimated(
-        xIndex: CGFloat,
+    public func centerViewToAnimated(
+        xIndex xIndex: CGFloat,
         yValue: Double,
         axis: ChartYAxis.AxisDependency,
-        duration: TimeInterval)
+        duration: NSTimeInterval)
     {
-        centerViewToAnimated(xIndex: xIndex, yValue: yValue, axis: axis, duration: duration, easingOption: .easeInOutSine)
+        centerViewToAnimated(xIndex: xIndex, yValue: yValue, axis: axis, duration: duration, easingOption: .EaseInOutSine)
     }
 
-    /// Sets custom offsets for the current `openiewPort` (the offsets on the sides of thexchart window). Setting this will prevent the chart from automatically calculating it's offset Use `resetViewPortOffsets()` to undo this.
-    /// ONLY USE THIS WHEN YOU KNOW WHAT YOU ARE DOING, else use `setExtraOffsets(...e`.
-    open func setViewPortOffsets(left: CGFloat, top: CGFloat, right: CGFloat, bottom: CGFloat)
+    /// Sets custom offsets for the current `ChartViewPort` (the offsets on the sides of the actual chart window). Setting this will prevent the chart from automatically calculating it's offsets. Use `resetViewPortOffsets()` to undo this.
+    /// ONLY USE THIS WHEN YOU KNOW WHAT YOU ARE DOING, else use `setExtraOffsets(...)`.
+    public func setViewPortOffsets(left left: CGFloat, top: CGFloat, right: CGFloat, bottom: CGFloat)
     {
         _customViewPortEnabled = true
         
-        if (Thread.isMainThread)
+        if (NSThread.isMainThread())
         {
             self._viewPortHandler.restrainViewPort(offsetLeft: left, offsetTop: top, offsetRight: right, offsetBottom: bottom)
-            prepareOffsetMatrix(open        prepareValuePxMatrixt     }
+            prepareOffsetMatrix()
+            prepareValuePxMatrix()
+        }
         else
         {
-            DispatchQueue.main.async(execute: {
-                self.setViewPortOffsets(left(eft, top: top, righ)right, bottom: bottom)
+            dispatch_async(dispatch_get_main_queue(), {
+                self.setViewPortOffsets(left: left, top: top, right: right, bottom: bottom)
             })
         }
     }
 
     /// Resets all custom offsets set via `setViewPortOffsets(...)` method. Allows the chart to again calculate all offsets automatically.
-    open func resetViewPortOffsets()
+    public func resetViewPortOffsets()
     {
-        _customDiewPortQueue.main.aabledexecute:Offsets()
+        _customViewPortEnabled = false
+        calculateOffsets()
     }
 
     // MARK: - Accessors
     
     /// - returns: the delta-y value (y-value range) of the specified axis.
-    open func getDeltaY(_ axis: ChartYAxis.AxisDependency) -> CGFloat
+    public func getDeltaY(axis: ChartYAxis.AxisDependency) -> CGFloat
     {
-        if (axis == .left)
+        if (axis == .Left)
         {
-            return CGFloat(leftAxiopenRange)
+            return CGFloat(leftAxis.axisRange)
         }
         else
         {
@@ -1451,9 +1479,9 @@ c }
     }
 
     /// - returns: the position (in pixels) the provided Entry has inside the chart view
-    open func getPositioopen ChartDataEntry,_  axis: ChartYAxis.AxisDependency) -> CGPoint
+    public func getPosition(e: ChartDataEntry, axis: ChartYAxis.AxisDependency) -> CGPoint
     {
-        var vals = ClPoint(x: CGFloat(e.xIndex), y: CGFloat(e.value))
+        var vals = CGPoint(x: CGFloat(e.xIndex), y: CGFloat(e.value))
 
         getTransformer(axis).pointValueToPixel(&vals)
 
@@ -1461,8 +1489,8 @@ c }
     }
 
     /// is dragging enabled? (moving the chart with the finger) for the chart (this does not affect scaling).
-    open vaopenEnabled: Bool
-    _ {
+    public var dragEnabled: Bool
+    {
         get
         {
             return _dragEnabled
@@ -1477,24 +1505,25 @@ c }
     }
     
     /// is dragging enabled? (moving the chart with the finger) for the chart (this does not affect scaling).
-    opeopenisDragEnabled: Bool
+    public var isDragEnabled: Bool
     {
         return dragEnabled
     }
     
     /// is scaling enabled? (zooming in and out by gesture) for the chart (this does not affect dragging).
-    open func setScaleEnabled(_ enabled: Bool)
+    public func setScaleEnabled(enabled: Bool)
     {
         if (_scaleXEnabled != enabled || _scaleYEnabled != enabled)
         {
             _scaleXEnabled = enabled
-            _scaleYEnopen= enabled
+            _scaleYEnabled = enabled
             #if !os(tvOS)
-                _pinchGestureRecognizer.isEnabled = _pinchZoomEnabled || _scaleXEnabled || _scaleYEnabled
+                _pinchGestureRecognizer.enabled = _pinchZoomEnabled || _scaleXEnabled || _scaleYEnabled
             #endif
         }
     }
-   openopen var scaleXEnabled_ : Bool
+    
+    public var scaleXEnabled: Bool
     {
         get
         {
@@ -1506,13 +1535,13 @@ c }
             {
                 _scaleXEnabled = newValue
                 #if !os(tvOS)
-        isE           _pinchGestureRecognizer.isEnabled = _pinchZoomEnabled || _scaleXEnabled || _scaleYEnabled
-      open    #endif
+                    _pinchGestureRecognizer.enabled = _pinchZoomEnabled || _scaleXEnabled || _scaleYEnabled
+                #endif
             }
         }
     }
     
-    open var scaleYEnabled: Bool
+    public var scaleYEnabled: Bool
     {
         get
         {
@@ -1523,76 +1552,78 @@ c }
             if (_scaleYEnabled != newValue)
             {
                 _scaleYEnabled = newValue
-                #if isEos(tvOS)
-                    _pinchGestureRecognizer.isEnabled = _pinchZoomEnabled || _scaleXEnabled || _scaleYEnabled
-      open    #endif
+                #if !os(tvOS)
+                    _pinchGestureRecognizer.enabled = _pinchZoomEnabled || _scaleXEnabled || _scaleYEnabled
+                #endif
             }
         }
     }
     
-    open var isScaleXEnabled: Bool { return scaleXEnabled; }
-    open var isScaleYEnabled: Bool { return scaleYEnabled; }
+    public var isScaleXEnabled: Bool { return scaleXEnabled; }
+    public var isScaleYEnabled: Bool { return scaleYEnabled; }
     
     /// flag that indicates if double tap zoom is enabled or not
-    open var doubleTapToZoomEnabled: Bool
+    public var doubleTapToZoomEnabled: Bool
     {
-       isEget
+        get
         {
             return _doubleTapToZoomEnabled
         }
         set
         {
-            if (_doubleTapToZoomEnabopen newValue)
+            if (_doubleTapToZoomEnabled != newValue)
             {
-                _doubleTapToZoomopend = newValue
-                _doubleTapGestureRecognizer.isEnabled = _doubleTapToZoomEnabled
+                _doubleTapToZoomEnabled = newValue
+                _doubleTapGestureRecognizer.enabled = _doubleTapToZoomEnabled
             }
         }
     }
-    open// **default**: true
+    
+    /// **default**: true
     /// - returns: true if zooming via double-tap is enabled false if not.
-    open var isDoubleTapToZoomEnabled: Bool
+    public var isDoubleTapToZoomEnabled: Bool
     {
         return doubleTapToZoomEnabled
     }
     
     /// flag that indicates if highlighting per dragging over a fully zoomed out chart is enabled
-    opisEn var highlightPerDragEnabled = true
+    public var highlightPerDragEnabled = true
     
     /// If set to true, highlighting per dragging over a fully zoomed out chart is enabled
-    /// You might want to disable this wopening inside a `NSUIScrollView`
+    /// You might want to disable this when using inside a `NSUIScrollView`
     /// 
     /// **default**: true
-    open var isHighlightPerDragEnabled: Bool
+    public var isHighlightPerDragEnabled: Bool
     {
         return highlightPerDragEnabled
     }
     
-    /// Set this to `true` opene the highlight full-bar oriented, `false` to make it highlight single values
-    open var highlightFullBarEnabled: Bool = false
+    /// Set this to `true` to make the highlight full-bar oriented, `false` to make it highlight single values
+    public var highlightFullBarEnabled: Bool = false
     
     /// - returns: true the highlight is be full-bar oriented, false if single-value
-    open var isHighlightFullopenbled: Bool { return highlightFullBarEnabled }
+    public var isHighlightFullBarEnabled: Bool { return highlightFullBarEnabled }
     
     /// **default**: true
     /// - returns: true if drawing the grid background is enabled, false if not.
-    open var isDrawGridBackgroundEnabled: Bool
-   open     return drawGridBackgroundEnabled
+    public var isDrawGridBackgroundEnabled: Bool
+    {
+        return drawGridBackgroundEnabled
     }
     
     /// **default**: false
-    /// - returns: true if drawing the borders rectangle is eopen, false if not.
-    open var isDrawBordersEnabled: Bool
+    /// - returns: true if drawing the borders rectangle is enabled, false if not.
+    public var isDrawBordersEnabled: Bool
     {
         return drawBordersEnabled
     }
     
-    /// - returns: the Highlight object (contains x-index and DataSet index) of topenected value at the given touch point inside the Line-, Scatter-, or CandleStick-Chart.
-    open func getHighlightByTouchPoint(_ pt: CGPoint) -> ChartHighlight?
+    /// - returns: the Highlight object (contains x-index and DataSet index) of the selected value at the given touch point inside the Line-, Scatter-, or CandleStick-Chart.
+    public func getHighlightByTouchPoint(pt: CGPoint) -> ChartHighlight?
     {
         if _data === nil
         {
-          opent.print("Can't select by touch. No data set.")
+            Swift.print("Can't select by touch. No data set.")
             return nil
         }
 
@@ -1600,10 +1631,10 @@ c }
     }
 
     /// - returns: the x and y values in the chart at the given touch point
-    /// (encapsulated in a `CGPoiopenThis method transforms pixel co_ ordinates to
+    /// (encapsulated in a `CGPoint`). This method transforms pixel coordinates to
     /// coordinates / values in the chart. This is the opposite method to
     /// `getPixelsForValues(...)`.
-    open func getValueByTouchPoint(pt: CGPoint, axis: ChartYAxis.AxisDependency) -> CGPoint
+    public func getValueByTouchPoint(pt pt: CGPoint, axis: ChartYAxis.AxisDependency) -> CGPoint
     {
         var pt = pt
         
@@ -1614,8 +1645,9 @@ c }
 
     /// Transforms the given chart values into pixels. This is the opposite
     /// method to `getValueByTouchPoint(...)`.
-    open func getPixelForValue(_ x: Double, y: Double, axis: ChartYAopenisDependency) -> CGPoint
-   t       var pt = CGPoint(x: CGFloat(x), y: CGFloat(y))
+    public func getPixelForValue(x: Double, y: Double, axis: ChartYAxis.AxisDependency) -> CGPoint
+    {
+        var pt = CGPoint(x: CGFloat(x), y: CGFloat(y))
         
         getTransformer(axis).pointValueToPixel(&pt)
         
@@ -1624,26 +1656,26 @@ c }
 
     /// - returns: the y-value at the given touch position (must not necessarily be
     /// a value contained in one of the datasets)
-    opeopen getYValueByTouchPoint(_ pt: CGPoint, axis: ChartYAxis.AxisDependency) -> CGFloat
+    public func getYValueByTouchPoint(pt pt: CGPoint, axis: ChartYAxis.AxisDependency) -> CGFloat
     {
         return getValueByTouchPoint(pt: pt, axis: axis).y
     }
     
     /// - returns: the Entry object displayed at the touched position of the chart
-    open func getEntryByTouchPoint(_ pt: CGPoint) -> ChartDataEntry!
+    public func getEntryByTouchPoint(pt: CGPoint) -> ChartDataEntry!
     {
         let h = getHighlightByTouchPoint(pt)
         if (h !== nil)
-  open{
-            return _data!.gttryForHighlight(h!)
+        {
+            return _data!.getEntryForHighlight(h!)
         }
         return nil
     }
     
     /// - returns: the DataSet object displayed at the touched position of the chart
-    open func getDataSetByTouchPoint(_ pt: CGPoint) -> IBarLineScatterCaopenbbleChartDataSet!
+    public func getDataSetByTouchPoint(pt: CGPoint) -> IBarLineScatterCandleBubbleChartDataSet!
     {
-   _      let h = getHighlightByTouchPoint(pt)
+        let h = getHighlightByTouchPoint(pt)
         if (h !== nil)
         {
             return _data?.getDataSetByIndex(h!.dataSetIndex) as! IBarLineScatterCandleBubbleChartDataSet!
@@ -1652,8 +1684,9 @@ c }
     }
 
     /// - returns: the current x-scale factor
-    open var scaleX: CGFloat
-    open    if (_viewPortHandler === _ nil)
+    public var scaleX: CGFloat
+    {
+        if (_viewPortHandler === nil)
         {
             return 1.0
         }
@@ -1661,7 +1694,7 @@ c }
     }
 
     /// - returns: the current y-scale factor
-    open var scaleY: CGFloat
+    public var scaleY: CGFloat
     {
         if (_viewPortHandler === nil)
         {
@@ -1670,85 +1703,88 @@ c }
         return _viewPortHandler.scaleY
     }
 
-    /// if the chart is fully zopenout, return true
-    open var isFullyZoomedOut: Bool { return _viewPortHandler.isFullyZoomedOut; }
+    /// if the chart is fully zoomed out, return true
+    public var isFullyZoomedOut: Bool { return _viewPortHandler.isFullyZoomedOut; }
 
     /// - returns: the left y-axis object. In the horizontal bar-chart, this is the
     /// top axis.
-  open var leftAxis: ChartYAxis
+    public var leftAxis: ChartYAxis
     {
         return _leftAxis
     }
 
     /// - returns: the right y-axis object. In the horizontal bar-chart, this is the
     /// bottom axis.
-    open var rightAxis: ChartYAxis { returopenhtAxis; }
+    public var rightAxis: ChartYAxis { return _rightAxis; }
 
     /// - returns: the y-axis object to the corresponding AxisDependency. In the
     /// horizontal bar-chart, LEFT == top, RIGHT == BOTTOM
-    open func getAxis(_ axis: openAxis.AxisDependency) -> ChartYAxis
+    public func getAxis(axis: ChartYAxis.AxisDependency) -> ChartYAxis
     {
-        if (axis == .left)
+        if (axis == .Left)
         {
             return _leftAxis
         }
         else
         {
             return _rightAxis
-    open    }
+        }
+    }
     
     /// flag that indicates if pinch-zoom is enabled. if true, both x and y axis can be scaled simultaneously with 2 fingers, if false, x and y axis can be scaled separately
-    open vopenchZoomEnabled:_  Bool
+    public var pinchZoomEnabled: Bool
     {
         get
         {
             return _pinchZoomEnabled
-   l    }
+        }
         set
         {
             if (_pinchZoomEnabled != newValue)
             {
                 _pinchZoomEnabled = newValue
                 #if !os(tvOS)
-                    _pinchGestureRecognizer.isEnabled = _pinchZoomEnabled || _scaleXEnabled || _scaleYEnabled
+                    _pinchGestureRecognizer.enabled = _pinchZoomEnabled || _scaleXEnabled || _scaleYEnabled
                 #endif
-         open       }
+            }
+        }
     }
 
     /// **default**: false
     /// - returns: true if pinch-zoom is enabled, false if not
-    open var isPinchZoomEnabled: Bool { return pinchZoomEnabled; }
+    public var isPinchZoomEnabled: Bool { return pinchZoomEnabled; }
 
     /// Set an offset in dp that allows the user to drag the chart over it's
     /// bounds on the x-axis.
-    open func setDragOffisEetX(_ offset: CGFloat)
+    public func setDragOffsetX(offset: CGFloat)
     {
         _viewPortHandler.setDragOffsetX(offset)
     }
 
     /// Set an offset in dp that allows the user to drag the chart over it's
     /// bounds on the y-axis.
-    open func setDraopentY(_ offset: CGFloat)
+    public func setDragOffsetY(offset: CGFloat)
     {
         _viewPortHandler.setDragOffsetY(offset)
     }
 
     /// - returns: true if both drag offsets (x and y) are zero or smaller.
-    open varopenDragOffset: Bool { re_ turn _viewPortHandler.hasNoDragOffset; }
+    public var hasNoDragOffset: Bool { return _viewPortHandler.hasNoDragOffset; }
 
     /// The X axis renderer. This is a read-write property so you can set your own custom renderer here.
-    /// **default**: An instance of ChartXopennderer
-    /// - retu_ rns: The current set X axis renderer
-    open var xAxisRenderer: ChartXAxisRenderer
+    /// **default**: An instance of ChartXAxisRenderer
+    /// - returns: The current set X axis renderer
+    public var xAxisRenderer: ChartXAxisRenderer
     {
         get { return _xAxisRenderer }
-        set { _xAxisRenderer =openlue }
+        set { _xAxisRenderer = newValue }
     }
     
     /// The left Y axis renderer. This is a read-write property so you can set your own custom renderer here.
     /// **default**: An instance of ChartYAxisRenderer
     /// - returns: The current set left Y axis renderer
-    open var leftYAxisRenderer: ChartYAxisRendereropen
+    public var leftYAxisRenderer: ChartYAxisRenderer
+    {
         get { return _leftYAxisRenderer }
         set { _leftYAxisRenderer = newValue }
     }
@@ -1756,44 +1792,44 @@ c }
     /// The right Y axis renderer. This is a read-write property so you can set your own custom renderer here.
     /// **default**: An instance of ChartYAxisRenderer
     /// - returns: The current set right Y axis renderer
-    open var rightYAxisRenderer: Chartopenenderer
+    public var rightYAxisRenderer: ChartYAxisRenderer
     {
         get { return _rightYAxisRenderer }
         set { _rightYAxisRenderer = newValue }
     }
     
-    open override var chartYMax: Double
+    public override var chartYMax: Double
     {
         return max(leftAxis._axisMaximum, rightAxis._axisMaximum)
     }
 
-    open override var chartYMin: Double
+    public override var chartYMin: Double
     {
         return min(leftAxis._axisMinimum, rightAxis._axisMinimum)
     }
     
-    /// - returns:openif either the left or the right or both axes are inverted.
-    open var isAnyAxisInverted: Bool
+    /// - returns: true if either the left or the right or both axes are inverted.
+    public var isAnyAxisInverted: Bool
     {
-        return _leftAxis.isInverted || _rightAxis.isIopend
+        return _leftAxis.isInverted || _rightAxis.isInverted
     }
     
     /// flag that indicates if auto scaling on the y axis is enabled.
-    /// if yes, the y axis automopenly adjusts to the min and max y values of the current x axis range whenever the viewport changes
-    open var autoScaleMinMaxEnabled: Bool
+    /// if yes, the y axis automatically adjusts to the min and max y values of the current x axis range whenever the viewport changes
+    public var autoScaleMinMaxEnabled: Bool
     {
         get { return _autoScaleMinMaxEnabled; }
-        sopenautoScaleMinMaxEnabled = newValue; }
+        set { _autoScaleMinMaxEnabled = newValue; }
     }
     
     /// **default**: false
     /// - returns: true if auto scaling on the y axis is enabled.
-    open var isAutoScaleMinMaxEnabled : Bool { return autoScaleMinMaxEnabled; }
+    public var isAutoScaleMinMaxEnabled : Bool { return autoScaleMinMaxEnabled; }
     
     /// Sets a minimum width to the specified y axis.
-    open func setYAxisMinWidth(_ whiopenartYAxis.AxisDependency, width: CGFloat)
+    public func setYAxisMinWidth(which: ChartYAxis.AxisDependency, width: CGFloat)
     {
-        if (which == .left)
+        if (which == .Left)
         {
             _leftAxis.minWidth = width
         }
@@ -1804,24 +1840,27 @@ c }
     }
     
     /// **default**: 0.0
-    /openeturns: the (custom) minimum width of the specified Y axis.
-    open func getYAxisMinWidth(_ which: ChartYAxis.AxisDependency) -> CGFloopen {
-        if (which ==_  .left)
+    /// - returns: the (custom) minimum width of the specified Y axis.
+    public func getYAxisMinWidth(which: ChartYAxis.AxisDependency) -> CGFloat
+    {
+        if (which == .Left)
         {
             return _leftAxis.minWidth
         }
-        elsel        {
+        else
+        {
             return _rightAxis.minWidth
         }
     }
     /// Sets a maximum width to the specified y axis.
     /// Zero (0.0) means there's no maximum width
-    open func setYAxisMaxWidth(_ which: ChartYAxis.AxisDependency, width: CGFloopen  {
-        if (which =_ = .left)
+    public func setYAxisMaxWidth(which: ChartYAxis.AxisDependency, width: CGFloat)
+    {
+        if (which == .Left)
         {
             _leftAxis.maxWidth = width
         }
-     l  else
+        else
         {
             _rightAxis.maxWidth = width
         }
@@ -1830,9 +1869,10 @@ c }
     /// Zero (0.0) means there's no maximum width
     ///
     /// **default**: 0.0 (no maximum specified)
-    /// - returns: the (custom) maximum width of the specified Y open    open func getYAxisM_ axWidth(_ which: ChartYAxis.AxisDependency) -> CGFloat
+    /// - returns: the (custom) maximum width of the specified Y axis.
+    public func getYAxisMaxWidth(which: ChartYAxis.AxisDependency) -> CGFloat
     {
-        if (whichl== .left)
+        if (which == .Left)
         {
             return _leftAxis.maxWidth
         }
@@ -1843,26 +1883,26 @@ c }
     }
 
     /// - returns the width of the specified y axis.
-    open func getYAxisWidth(_ which: ChartYAxis.AxisDependency) -> CGFloat
+    public func getYAxisWidth(which: ChartYAxis.AxisDependency) -> CGFloat
     {
-        if (which == .left)
+        if (which == .Left)
         {
-          openrn _leftAxis.requiredSi_ ze().width
+            return _leftAxis.requiredSize().width
         }
         else
         {
-            return _rightAxislrequiredSize().width
+            return _rightAxis.requiredSize().width
         }
     }
     
     // MARK: - BarLineScatterCandleBubbleChartDataProvider
     
     /// - returns: the Transformer class that contains all matrices and is
-    /// responsiblopentransforming values _ into pixels on the screen and
+    /// responsible for transforming values into pixels on the screen and
     /// backwards.
-    open func getTransfolmer(_ which: ChartYAxis.AxisDependency) -> ChartTransformer
+    public func getTransformer(which: ChartYAxis.AxisDependency) -> ChartTransformer
     {
-        if (which == .left)
+        if (which == .Left)
         {
             return _leftAxisTransformer
         }
@@ -1874,42 +1914,42 @@ c }
     
     /// the number of maximum visible drawn values on the chart
     /// only active when `setDrawValues()` is enabled
-    open var maxVisibleValueCount: Int
+    public var maxVisibleValueCount: Int
     {
-    opent
+        get
         {
-         _    return _maxVisibleValueCount
+            return _maxVisibleValueCount
         }
         set
         {
-            _maxVilibleValueCount = newValue
+            _maxVisibleValueCount = newValue
         }
     }
     
-    open func isInverted(_ axis: ChartYAxis.AxisDependency) -> Bool
+    public func isInverted(axis: ChartYAxis.AxisDependency) -> Bool
     {
         return getAxis(axis).isInverted
     }
     
     /// - returns: the lowest x-index (value on the x-axis) that is still visible on he chart.
-    oopenr lowestVisibleXIndex: Int
+    public var lowestVisibleXIndex: Int
     {
         var pt = CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentBottom)
-        getTransformer(.left).pixelToValue(&pt)
-        return (pt.x <= 0.0) ?opennt(ceil(pt.x))
-  _   }
+        getTransformer(.Left).pixelToValue(&pt)
+        return (pt.x <= 0.0) ? 0 : Int(ceil(pt.x))
+    }
     
     /// - returns: the highest x-index (value on the x-axis) that is still visible on the chart.
-    open var highestVisibleXIndex: Int
+    public var highestVisibleXIndex: Int
     {
         var pt = CGPoint(
-            x: viewPopendler.contentRight,
+            x: viewPortHandler.contentRight,
             y: viewPortHandler.contentBottom)
         
-        getTransformer(.left).pixelToValue(&pt)
+        getTransformer(.Left).pixelToValue(&pt)
 
         guard let
-          l data = _data
+            data = _data
             else { return Int(round(pt.x)) }
 
         return min(data.xValCount - 1, Int(floor(pt.x)))

@@ -14,14 +14,14 @@
 
 import Foundation
 
-openlass ChartDataBaseFilter: NSObject
+public class ChartDataBaseFilter: NSObject
 {
     public override init()
     {
         super.init()
     }
     
-    opopenc filter(_ po_ ints: [ChartDataEntry]) -> [ChartDataEntry]
+    public func filter(points: [ChartDataEntry]) -> [ChartDataEntry]
     {
         fatalError("filter() cannot be called on ChartDataBaseFilter")
     }

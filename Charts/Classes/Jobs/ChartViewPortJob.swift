@@ -13,7 +13,7 @@ import Foundation
 import CoreGraphics
 
 // This defines a viewport modification job, used for delaying or animating viewport changes
-openlass ChartViewPortJob
+public class ChartViewPortJob
 {
     internal var point: CGPoint = CGPoint()
     internal weak var viewPortHandler: ChartViewPortHandler?
@@ -36,7 +36,7 @@ openlass ChartViewPortJob
         self.view = view
     }
     
-    opopenc doJob()
+    public func doJob()
     {
         // Override this
     }

@@ -19,9 +19,9 @@ import CoreGraphics
     import UIKit
 #endif
 
-openlass ChartUtils
+public class ChartUtils
 {
-    fifileleprivate static var _defaultValueFormatterNumberFormatter = ChartUtils.generateDefaultValueFormatter()
+    private static var _defaultValueFormatter: NSNumberFormatter = ChartUtils.generateDefaultValueFormatter()
     
     internal struct Math
     {
@@ -31,7 +31,7 @@ openlass ChartUtils
         internal static let RAD2DEG = 180.0 / M_PI
     }
     
-    internal class func roundToNextSignificant(numbere) -> Double
+    internal class func roundToNextSignificant(number number: Double) -> Double
     {
         if (isinf(number) || isnan(number) || number == 0)
         {
@@ -45,7 +45,7 @@ openlass ChartUtils
         return shifted / magnitude
     }
     
-    internal class func decimals(_ numbe_ r: Double) -> Int
+    internal class func decimals(number: Double) -> Int
     {
         if (number == 0.0)
         {
@@ -56,7 +56,7 @@ openlass ChartUtils
         return Int(ceil(-log10(i))) + 2
     }
     
-    internal class func nextUp(_ num_ ber: Double) -> Double
+    internal class func nextUp(number: Double) -> Double
     {
         if (isinf(number) || isnan(number))
         {
@@ -70,7 +70,7 @@ openlass ChartUtils
     
     /// - returns: the index of the DataSet that contains the closest value on the y-axis
     internal class func closestDataSetIndexByPixelY(
-        valsAtIndex: xonDetail],
+        valsAtIndex valsAtIndex: [ChartSelectionDetail],
                     y: CGFloat,
                     axis: ChartYAxis.AxisDependency?) -> Int?
     {
@@ -79,7 +79,8 @@ openlass ChartUtils
     
     /// - returns: the index of the DataSet that contains the closest value on the y-axis
     internal class func closestDataSetIndexByValue(
-        valsAtIndex: [ChartSelectx                   value: Double,
+        valsAtIndex valsAtIndex: [ChartSelectionDetail],
+                    value: Double,
                     axis: ChartYAxis.AxisDependency?) -> Int?
     {
         return closestSelectionDetailByValue(valsAtIndex: valsAtIndex, value: value, axis: axis)?.dataSetIndex
@@ -87,12 +88,12 @@ openlass ChartUtils
     
     /// - returns: the `ChartSelectionDetail` of the closest value on the y-axis
     internal class func closestSelectionDetailByPixelY(
-        valsAtIndex: [ChartSelectionDetail],
-x       y: CGFloat,
+        valsAtIndex valsAtIndex: [ChartSelectionDetail],
+                    y: CGFloat,
                     axis: ChartYAxis.AxisDependency?) -> ChartSelectionDetail?
     {
-        var distance = CGFloat.greatestFiniteMagnitude
-        var detgreatestFiniteMagnitude: ChartSelectionDetail?
+        var distance = CGFloat.max
+        var detail: ChartSelectionDetail?
         
         for i in 0 ..< valsAtIndex.count
         {
@@ -114,7 +115,8 @@ x       y: CGFloat,
     
     /// - returns: the `ChartSelectionDetail` of the closest value on the y-axis
     internal class func closestSelectionDetailByValue(
-        valsAtIndex: [ChartSelectionDx               value: Double,
+        valsAtIndex valsAtIndex: [ChartSelectionDetail],
+                    value: Double,
                     axis: ChartYAxis.AxisDependency?) -> ChartSelectionDetail?
     {
         var distance = DBL_MAX
@@ -140,12 +142,12 @@ x       y: CGFloat,
     
     /// - returns: the minimum distance from a touch-y-value (in pixels) to the closest y-value (in pixels) that is displayed in the chart.
     internal class func getMinimumDistance(
-        _ valsAtIndex: [ChartSelectionD_ etail],
+        valsAtIndex: [ChartSelectionDetail],
         y: CGFloat,
         axis: ChartYAxis.AxisDependency) -> CGFloat
     {
-        var distance = CGFloat.greatestFiniteMagnitude
-     greatestFiniteMagnitude
+        var distance = CGFloat.max
+        
         for i in 0 ..< valsAtIndex.count
         {
             let sel = valsAtIndex[i]
@@ -164,7 +166,7 @@ x       y: CGFloat,
     }
     
     /// Calculates the position around a center point, depending on the distance from the center, and the angle of the position around the center.
-    internal class func getPosition(center: CGPoinr CGFloat, angle: CGFloat) -> CGPoint
+    internal class func getPosition(center center: CGPoint, dist: CGFloat, angle: CGFloat) -> CGPoint
     {
         return CGPoint(
             x: center.x + dist * cos(angle * Math.FDEG2RAD),
@@ -172,26 +174,27 @@ x       y: CGFloat,
         )
     }
     
-    open class func openxt(context: CGContext, textt point: CGPoint, align: NSTextAlignment, attributes: [String : AnyObject]?)
+    public class func drawText(context context: CGContext, text: String, point: CGPoint, align: NSTextAlignment, attributes: [String : AnyObject]?)
     {
         var point = point
         
-        if (align == .center)
+        if (align == .Center)
         {
-        c   point.x -= text.size(attributes: attributes).w(att2.0
-   :     }
-        else if (align == .right)
+            point.x -= text.sizeWithAttributes(attributes).width / 2.0
+        }
+        else if (align == .Right)
         {
-           rpoint.x -= text.size(attributes: attributes).wid(att    }
- :       
+            point.x -= text.sizeWithAttributes(attributes).width
+        }
+        
         NSUIGraphicsPushContext(context)
         
-        (text as NSString).draw(at: point, withAttributes: at(at: )
+        (text as NSString).drawAtPoint(point, withAttributes: attributes)
         
         NSUIGraphicsPopContext()
     }
     
-    open class func drawText(context:opentext, text: String, point: tattributes: [String : AnyObject]?, anchor: CGPoint, angleRadians: CGFloat)
+    public class func drawText(context context: CGContext, text: String, point: CGPoint, attributes: [String : AnyObject]?, anchor: CGPoint, angleRadians: CGFloat)
     {
         var drawOffset = CGPoint()
         
@@ -199,9 +202,9 @@ x       y: CGFloat,
         
         if angleRadians != 0.0
         {
-            let size = text.size(attributes: attributes)
+            let size = text.sizeWithAttributes(attributes)
             
-     (att// Move: the text drawing rect in a way that it always rotates around its center
+            // Move the text drawing rect in a way that it always rotates around its center
             drawOffset.x = -size.width * 0.5
             drawOffset.y = -size.height * 0.5
             
@@ -216,34 +219,34 @@ x       y: CGFloat,
                 translate.y -= rotatedSize.height * (anchor.y - 0.5)
             }
             
-            context.saveGState()
-            context.trancteBy(x.s translat(translate.y)
- c      .t contextBy(x:angleRadians)
-y:             
-            cxt as .rSStri(by: drawOffset, withAttributes: attributes)
+            CGContextSaveGState(context)
+            CGContextTranslateCTM(context, translate.x, translate.y)
+            CGContextRotateCTM(context, angleRadians)
             
-         (at: xt.restoreGState()
+            (text as NSString).drawAtPoint(drawOffset, withAttributes: attributes)
+            
+            CGContextRestoreGState(context)
         }
         else
         {
-            icnchor..r != 0.0 || a(!= 0.0
+            if anchor.x != 0.0 || anchor.y != 0.0
             {
-                let size = text.size(attributes: attributes)
+                let size = text.sizeWithAttributes(attributes)
                 
-                drawOffset.x = -size(att* ancho: .x
+                drawOffset.x = -size.width * anchor.x
                 drawOffset.y = -size.height * anchor.y
             }
             
             drawOffset.x += point.x
             drawOffset.y += point.y
             
-            (text as NSString).draw(at: drawOffset, withAttributes: attributes)
+            (text as NSString).drawAtPoint(drawOffset, withAttributes: attributes)
         }
         
-        NSUIGrap(at: ontext()
+        NSUIGraphicsPopContext()
     }
     
-    internal class func drawMultilineText(context: CGContext, text: String, knownTextSize: CGSize, point: CGPoint, attributes: [StrtObject]?, constrainedToSize: CGSize, anchor: CGPoint, angleRadians: CGFloat)
+    internal class func drawMultilineText(context context: CGContext, text: String, knownTextSize: CGSize, point: CGPoint, attributes: [String : AnyObject]?, constrainedToSize: CGSize, anchor: CGPoint, angleRadians: CGFloat)
     {
         var rect = CGRect(origin: CGPoint(), size: knownTextSize)
         
@@ -266,86 +269,87 @@ y:
                 translate.y -= rotatedSize.height * (anchor.y - 0.5)
             }
             
-            context.saveGState()
-            context.translateBy(x: translate.x, y: translate.y)
-      c   con.sext.rotat(gleRadians)
-  c      .t
-       By(x:s NSString).dry: aw(with: rect, options: .csLineF.ragmen(by:ributes: attributes, context: nil)
+            CGContextSaveGState(context)
+            CGContextTranslateCTM(context, translate.x, translate.y)
+            CGContextRotateCTM(context, angleRadians)
             
-            con(wext: oreGState()
-    u   }
+            (text as NSString).drawWithRect(rect, options: .UsesLineFragmentOrigin, attributes: attributes, context: nil)
+            
+            CGContextRestoreGState(context)
+        }
         else
         {
             if anchor.x != 0.0 || anchor.y != 0.0
-        c {
-   .r            (gin.x = -knownTextSize.width * anchor.x
+            {
+                rect.origin.x = -knownTextSize.width * anchor.x
                 rect.origin.y = -knownTextSize.height * anchor.y
             }
             
             rect.origin.x += point.x
             rect.origin.y += point.y
             
-            (text as NSString).draw(with: rect, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
+            (text as NSString).drawWithRect(rect, options: .UsesLineFragmentOrigin, attributes: attributes, context: nil)
         }
         
-        NSUIGraphic(wPop: xt()
+        NSUIGraphicsPopContext()
     }
     
-u   internal class func drawMultilineText(context: CGContext, text: String, point: CGPoint, attributes: [String : AnyObject]?, constrainedToSize: CGSize, anchor: CGPoint, ants: CGFloat)
+    internal class func drawMultilineText(context context: CGContext, text: String, point: CGPoint, attributes: [String : AnyObject]?, constrainedToSize: CGSize, anchor: CGPoint, angleRadians: CGFloat)
     {
-        let rect = text.boundingRect(with: constrainedToSize, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
-        drawMultilineText(context: (wont: text: text, knownTextSize: reut.size, point: point, attributes: attributes, constrainedToSize: constrainedToSize, anchor: anchor, angleRadians: angleRadians)
+        let rect = text.boundingRectWithSize(constrainedToSize, options: .UsesLineFragmentOrigin, attributes: attributes, context: nil)
+        drawMultilineText(context: context, text: text, knownTextSize: rect.size, point: point, attributes: attributes, constrainedToSize: constrainedToSize, anchor: anchor, angleRadians: angleRadians)
     }
     
     /// - returns: an angle between 0.0 < 360.0 (not less than zero, less than 360)
-    internal class func normalizedAngleFromAngle(_ angle: CGFloat) -> CGFloat
+    internal class func normalizedAngleFromAngle(angle: CGFloat) -> CGFloat
     {
         var angle = angle
         
         while (angle < 0.0)
         {
             angle += 360.0
-_         }
+        }
         
-        return angle.truncatingRemainder(dividingBy: 360.0)
+        return angle % 360.0
     }
     
-    fileprivate class func generateDefaultValueFormatter() -> NumberFormatter
-    .truncatingRemainder(dividingBy:      )  let formatter file= NumberFormatter()
-        formatter.minimumIntegerDiNs = 1
-        formatter.maximumFractionDigitsN1
+    private class func generateDefaultValueFormatter() -> NSNumberFormatter
+    {
+        let formatter = NSNumberFormatter()
+        formatter.minimumIntegerDigits = 1
+        formatter.maximumFractionDigits = 1
         formatter.minimumFractionDigits = 1
         formatter.usesGroupingSeparator = true
         return formatter
     }
     
     /// - returns: the default value formatter used for all chart components that needs a default
-    internal class func defaultValueFormatter() -> NumberFormatter
+    internal class func defaultValueFormatter() -> NSNumberFormatter
     {
         return _defaultValueFormatter
     }
     
-    internal class func sizeOfRNtedRectangle(_ rectangleSize: CGSize, degrees: CGFloat) -> CGSize
+    internal class func sizeOfRotatedRectangle(rectangleSize: CGSize, degrees: CGFloat) -> CGSize
     {
-        let radians = degrees * Math.FDEG2RAD_ 
+        let radians = degrees * Math.FDEG2RAD
         return sizeOfRotatedRectangle(rectangleWidth: rectangleSize.width, rectangleHeight: rectangleSize.height, radians: radians)
     }
     
-    internal class func sizeOfRotatedRectangle(_ rectangleSize: CGSize, radians: CGFloat) -> CGSize
+    internal class func sizeOfRotatedRectangle(rectangleSize: CGSize, radians: CGFloat) -> CGSize
     {
-        return sizeOfRotatedRectangle(recta_ ngleWidth: rectangleSize.width, rectangleHeight: rectangleSize.height, radians: radians)
+        return sizeOfRotatedRectangle(rectangleWidth: rectangleSize.width, rectangleHeight: rectangleSize.height, radians: radians)
     }
     
-    internal class func sizeOfRotatedRectangle(rectangleWidth: CGFloat, rectangleHeight: CGFloat, degrees: CGFloat) -> CGSize
+    internal class func sizeOfRotatedRectangle(rectangleWidth rectangleWidth: CGFloat, rectangleHeight: CGFloat, degrees: CGFloat) -> CGSize
     {
-        let radians = degreehD
+        let radians = degrees * Math.FDEG2RAD
         return sizeOfRotatedRectangle(rectangleWidth: rectangleWidth, rectangleHeight: rectangleHeight, radians: radians)
     }
     
-    internal class func sizeOfRotatedRectangle(rectangleWidth: CGFloat, rectangleHeight: CGFloat, radians: CGFloat) -> CGSize
+    internal class func sizeOfRotatedRectangle(rectangleWidth rectangleWidth: CGFloat, rectangleHeight: CGFloat, radians: CGFloat) -> CGSize
     {
         return CGSize(
-            width: ahh * cos(radians)) + abs(rectangleHeight * sin(radians)),
+            width: abs(rectangleWidth * cos(radians)) + abs(rectangleHeight * sin(radians)),
             height: abs(rectangleWidth * sin(radians)) + abs(rectangleHeight * cos(radians))
         )
     }
@@ -390,13 +394,13 @@ _         }
             }
             else
             {
-                newArray.append(val! as NSObject)
+                newArray.append(val!)
             }
         }
         return newArray
     }
     
-    internal class func bridgedObjCGetStringArray (objc a as NSObjectrray: [NSObject]) -> [String?]
+    internal class func bridgedObjCGetStringArray (objc array: [NSObject]) -> [String?]
     {
         var newArray = [String?]()
         for object in array

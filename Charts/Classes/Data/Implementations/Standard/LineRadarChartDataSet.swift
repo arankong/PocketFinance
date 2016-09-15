@@ -15,17 +15,17 @@ import Foundation
 import CoreGraphics
 
 
-openlass LineRadarChartDataSet: LineScatterCandleRadarChartDataSet, ILineRadarChartDataSet
+public class LineRadarChartDataSet: LineScatterCandleRadarChartDataSet, ILineRadarChartDataSet
 {
     // MARK: - Data functions and accessors
     
     // MARK: - Styling functions and accessors
     
     /// The color that is used for filling the line surface area.
-    fifileleprivate var _fillColor = NSUIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0)
+    private var _fillColor = NSUIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0)
     
     /// The color that is used for filling the line surface area.
-  open var fillColor: NSUIColor
+    public var fillColor: NSUIColor
     {
         get { return _fillColor }
         set
@@ -37,18 +37,18 @@ openlass LineRadarChartDataSet: LineScatterCandleRadarChartDataSet, ILineRadarCh
     
     /// The object that is used for filling the area below the line.
     /// **default**: nil
-    openar fill: ChartFill?
+    public var fill: ChartFill?
     
     /// The alpha value that is used for filling the line surface,
     /// **default**: 0.33
-    opopen fillAlpha = CGFloat(0.33)
+    public var fillAlpha = CGFloat(0.33)
     
-    filefileprivate var _lineWidth = CGFloat(1.0)
+    private var _lineWidth = CGFloat(1.0)
     
     /// line width of the chart (min = 0.2, max = 10)
     ///
     /// **default**: 1
-    openar lineWidth: CGFloat
+    public var lineWidth: CGFloat
     {
         get
         {
@@ -74,17 +74,17 @@ openlass LineRadarChartDataSet: LineScatterCandleRadarChartDataSet, ILineRadarCh
     /// Set to true if the DataSet should be drawn filled (surface), and not just as a line.
     /// Disabling this will give great performance boost.
     /// Please note that this method uses the path clipping for drawing the filled area (with images, gradients and layers).
-    opopen drawFilledEnabled = false
+    public var drawFilledEnabled = false
     
     /// Returns true if filled drawing is enabled, false if not
-    openopensDrawFilledEnabled: Bool
+    public var isDrawFilledEnabled: Bool
     {
         return drawFilledEnabled
     }
     
     // MARK: NSCopying
     
-    open oopene func copyWithZone(_ zone: _ NSZone?) -> ?AnyObject
+    public override func copyWithZone(zone: NSZone) -> AnyObject
     {
         let copy = super.copyWithZone(zone) as! LineRadarChartDataSet
         copy.fillColor = fillColor

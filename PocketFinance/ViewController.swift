@@ -42,14 +42,15 @@ class ViewController: UIViewController, UITextFieldDelegate,UITableViewDelegate,
     @IBOutlet weak var optionTypeText: UITextField!
     @IBOutlet weak var computeButton: UIButton!
     
-    override func prepare(ffo e: UIStoryboardSegue, sender: Any?) y   if let gvc = segue.destination as? Grapn {
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if let gvc = segue.destinationViewController as? GraphViewController {
             if let identifer = segue.identifier {
                 switch identifer {
                 case "Show Graph":
                     if let cell = sender as? UITableViewCell {
-                        if let index = tableStockPrice.indexPath(for: cell) {
-          (f  :           let selectedSim = arraySimulation[(index as NSIndexPath).row(]
-    as NSIndexPath)                         gvc.prices = selectedSim.underlying.priceArray
+                        if let index = tableStockPrice.indexPathForCell(cell) {
+                            let selectedSim = arraySimulation[index.row]
+                            gvc.prices = selectedSim.underlying.priceArray
                             gvc.results = selectedSim.arrayPortfolioValue
                             gvc.simulationInfo = (selectedSim.name, selectedSim.strategy, "\(selectedSim.startBalance)", selectedSim.startDate, selectedSim.endDate, selectedSim.ticker, "\(selectedSim.rfr)", "\(selectedSim.F)", "\(selectedSim.M)", "\(selectedSim.K)")
                             for i in 0..<gvc.prices.count {
@@ -60,7 +61,8 @@ class ViewController: UIViewController, UITextFieldDelegate,UITableViewDelegate,
                     }
                 case "Show Stock":
                     if let cell = sender as? UITableViewCell {
-                        if let index = tableStockPrice.indexPath(for: cel(f) :                          let selectedStock = arrayStock[(index as N(SInde as NSIndexPath)xPath).row]
+                        if let index = tableStockPrice.indexPathForCell(cell) {
+                            let selectedStock = arrayStock[index.row]
                             gvc.prices = selectedStock.priceArray
                             for i in 0..<gvc.prices.count {
                                 gvc.dates.append("\(i)")
@@ -82,23 +84,26 @@ class ViewController: UIViewController, UITextFieldDelegate,UITableViewDelegate,
         
         segStockSim.selectedSegmentIndex = 0
         
-        currentStockPriceisHibel.isHidden = true
-        currentStockPrisHieText.isHidden = true
-        stisHikeLabel.isHidden = true
-       isHitrikeText.isHidden = true
-        exisHireTimeLabel.isHidden = true
-       isHixpiryTimeText.isHidden = true
-        isHiterestRateLabel.isHidden = true
-     isHi interestRateText.isHidden = true
-  isHi    volatilityLabel.isHidden = trueisHi       volatilityText.isHidden = truisHi        optionTypeLabel.isHidden = isHiue
-        optionTypeText.isHidden = true
- isHi     numberOfTimeStepsLabel.isHidden = truisHi        numberOfTimeStepsText.isHiisHien = true
-        computeButton.isHiHidden = true
-        resultLabel.isisHidden = true
-        tableStockPrice.iisHiidden = false
-        textStisHikSymbol.isHidden = false
-        btnAdd.iisHiidden = false
-        addSimulationButton.isHidden = false
+        currentStockPriceLabel.hidden = true
+        currentStockPriceText.hidden = true
+        strikeLabel.hidden = true
+        strikeText.hidden = true
+        expireTimeLabel.hidden = true
+        expiryTimeText.hidden = true
+        interestRateLabel.hidden = true
+        interestRateText.hidden = true
+        volatilityLabel.hidden = true
+        volatilityText.hidden = true
+        optionTypeLabel.hidden = true
+        optionTypeText.hidden = true
+        numberOfTimeStepsLabel.hidden = true
+        numberOfTimeStepsText.hidden = true
+        computeButton.hidden = true
+        resultLabel.hidden = true
+        tableStockPrice.hidden = false
+        textStockSymbol.hidden = false
+        btnAdd.hidden = false
+        addSimulationButton.hidden = false
         
         
         // Load any saved meals
@@ -119,84 +124,85 @@ class ViewController: UIViewController, UITextFieldDelegate,UITableViewDelegate,
         }
     }
     
-    // MARK: _ Actions
+    // MARK: Actions
     
-    @IBAction func actionSegCtrl(_ sender: UISegmentedControl) {
-        if segStockSim.selectedSegmentisHidex == 0 {
-            currentStockPriceLabel.isHiHidden = true
-            currentStoisHiPriceText.isHidden = true
-         isHi strikeLabel.isHidden = true
-           isHitrikeText.isHidden = true
-            eisHiireTimeLabel.isHidden = true
-            eisHiiryTimeText.isHidden = true
-            iisHierestRateLabel.isHidden = true
-         isHi interestRateText.isHidden = true
-     isHi     volatilityLabel.isHidden = true
-   isHi       volatilityText.isHidden = true
- isHi         optionTypeLabel.isHidden = true
-      isHi    optionTypeText.isHidden = true
-           isHiumberOfTimeStepsLabel.isHidden = true
-isHi          numberOfTimeStepsText.isHiisHien = true
-            computeButton.isHiisHien = true
-            resultLabel.isHiddeisHi= true
-            tableStockPriisHi.isHidden = false
-            textStockSymbolisHisHidden = false
-            btnAdd.isHidden = false
-            addSimulationButton.isHidden = false
+    @IBAction func actionSegCtrl(sender: UISegmentedControl) {
+        if segStockSim.selectedSegmentIndex == 0 {
+            currentStockPriceLabel.hidden = true
+            currentStockPriceText.hidden = true
+            strikeLabel.hidden = true
+            strikeText.hidden = true
+            expireTimeLabel.hidden = true
+            expiryTimeText.hidden = true
+            interestRateLabel.hidden = true
+            interestRateText.hidden = true
+            volatilityLabel.hidden = true
+            volatilityText.hidden = true
+            optionTypeLabel.hidden = true
+            optionTypeText.hidden = true
+            numberOfTimeStepsLabel.hidden = true
+            numberOfTimeStepsText.hidden = true
+            computeButton.hidden = true
+            resultLabel.hidden = true
+            tableStockPrice.hidden = false
+            textStockSymbol.hidden = false
+            btnAdd.hidden = false
+            addSimulationButton.hidden = false
             tableStockPrice.reloadData()
             tableStockPrice.rowHeight = 30
-     isHi } else if segStockSim.selectedSegmentIndex ==isHi {
-            currentStockPriceLabeisHiisHidden = true
-            currentisHiockPriceText.isHidden = true
-           isHitrikeLabel.isHidden = true
-            isHirikeText.isHidden = true
-            expirisHiimeLabel.isHidden = true
-            expiisHiTimeText.isHidden = true
-            intisHiestRateLabel.isHidden = true
-          isHiinterestRateText.isHidden = true
-       isHi   volatilityLabel.isHidden = true
-    isHi      volatilityText.isHidden = true
-          isHioptionTypeLabel.isHidden = true
-            opisHionTypeText.isHidden = true
-           isHiumberOfTimeStepsLabel.isHidden = truisHi            numberOfTimeStepsText.isHiddisHi = true
-            computeButton.isHiddeisHi= true
-            resultLabel.iisHiidden = true
-            tableStockPrice.isHiisHien = false
-            textStockSymbol.isHidden = false
-            btnAdd.isHidden = false
-            addSimulationButton.isHidden = false
- isHi         tableStockPrice.reloadData()
-  isHi        tableStockPrice.rowHeigisHi = 62
+        } else if segStockSim.selectedSegmentIndex == 1 {
+            currentStockPriceLabel.hidden = true
+            currentStockPriceText.hidden = true
+            strikeLabel.hidden = true
+            strikeText.hidden = true
+            expireTimeLabel.hidden = true
+            expiryTimeText.hidden = true
+            interestRateLabel.hidden = true
+            interestRateText.hidden = true
+            volatilityLabel.hidden = true
+            volatilityText.hidden = true
+            optionTypeLabel.hidden = true
+            optionTypeText.hidden = true
+            numberOfTimeStepsLabel.hidden = true
+            numberOfTimeStepsText.hidden = true
+            computeButton.hidden = true
+            resultLabel.hidden = true
+            tableStockPrice.hidden = false
+            textStockSymbol.hidden = false
+            btnAdd.hidden = false
+            addSimulationButton.hidden = false
+            tableStockPrice.reloadData()
+            tableStockPrice.rowHeight = 62
         } else {
-            tableStocisHirice.isHidden = true
-            textStockSymboisHiisHidden = true
-            btnAdd.isHidden = tisHie
-            addSimulationButton.isHisHiden = true
-            currentStockPisHiceLabel.isHidden = false
-            currisHitStockPriceText.isHidden = false
-       isHi   strikeLabel.isHidden = false
-           isHitrikeText.isHidden = false
-            expisHieTimeLabel.isHidden = false
-            eisHiiryTimeText.isHidden = false
-           isHinterestRateLabel.isHidden = false
-       isHi   interestRateText.isHidden = false
-   isHi       volatilityLabel.isHidden = false
-        isHi  volatilityText.isHidden = false
-            oisHiionTypeLabel.isHidden = false
-         isHi optionTypeText.isHidden = false
-    isHi      numberOfTimeStepsLabel.isHidden = false
-            num_ berOfTimeStepsText.isHidden = false
-            computeButton.isHidden = false
-            resultLabel.isHidden = false
+            tableStockPrice.hidden = true
+            textStockSymbol.hidden = true
+            btnAdd.hidden = true
+            addSimulationButton.hidden = true
+            currentStockPriceLabel.hidden = false
+            currentStockPriceText.hidden = false
+            strikeLabel.hidden = false
+            strikeText.hidden = false
+            expireTimeLabel.hidden = false
+            expiryTimeText.hidden = false
+            interestRateLabel.hidden = false
+            interestRateText.hidden = false
+            volatilityLabel.hidden = false
+            volatilityText.hidden = false
+            optionTypeLabel.hidden = false
+            optionTypeText.hidden = false
+            numberOfTimeStepsLabel.hidden = false
+            numberOfTimeStepsText.hidden = false
+            computeButton.hidden = false
+            resultLabel.hidden = false
         }
     }
 
-    @IBAction func btnAddStock(_ sender: UIButton) {
+    @IBAction func btnAddStock(sender: UIButton) {
         if textStockSymbol.text != "" {
             let newTicker = textStockSymbol.text! as String
             let newStock = StockInfo(ticker: newTicker) as StockInfo
 
-            arrayStock.append(newStoc_ k)
+            arrayStock.append(newStock)
 
             textStockSymbol.text = ""
             tableStockPrice.reloadData()
@@ -206,7 +212,7 @@ isHi          numberOfTimeStepsText.isHiisHien = true
     }
     
     
-    @IBAction func computeTheValue(_ sender: UIButton) {
+    @IBAction func computeTheValue(sender: UIButton) {
         let optionPrice = doOptionPricing()
         resultLabel.text = "Result: \(optionPrice)"
     }
@@ -221,15 +227,14 @@ isHi          numberOfTimeStepsText.isHiisHien = true
         let Nsteps = Int(numberOfTimeStepsText.text!)!
         
         let delt = T/Double(Nsteps)
-        // Trrepeating: 0, ee parameters
-1(sigma * sqrt(delt))
-      repeating: 0,   let d = 1 / 1xp(r * delt)
+        let u = exp(sigma * sqrt(delt))
+        let d = 1 / u
+        let a = exp(r * delt)
         let p = (a - d)/(u - d)
         
-        var s = [Double](repeating: 0, count: Nsteps+1)
-        var v = [Double](repeating: 0, count: Nsteps+1)
+        var s = [Double](count: Nsteps+1, repeatedValue: 0)
+        var v = [Double](count: Nsteps+1, repeatedValue: 0)
         
-        // Backward recursion
         for j in 0...Nsteps {
             s[j] = s0 * pow(u, Double(j)) * pow(d, Double(Nsteps-j))
             if opttype == 0 {
@@ -242,7 +247,7 @@ isHi          numberOfTimeStepsText.isHiisHien = true
         var n = Nsteps-1
         repeat {
             for j in 0...n {
-                v[j] = exp(-r*delt) * (p*v[j+1] + (1-p)_ *v[j])
+                v[j] = exp(-r*delt) * (p*v[j+1] + (1-p)*v[j])
             }
             n -= 1
         } while n >= 0
@@ -252,71 +257,73 @@ isHi          numberOfTimeStepsText.isHiisHien = true
     
     
     // MARK: UITextFieldDelegate
-    func textFieldShouldReturn(_ textStockSymbo_ l: UITextField) -> Bool {
+    func textFieldShouldReturn(textStockSymbol: UITextField) -> Bool {
         // Hide the keyboard.
         textStockSymbol.resignFirstResponder()
         return true
     }
     
- (in FieldDidEndEditing(_ textField: UITextField) {
+    func textFieldDidEndEditing(textField: UITextField) {
         self.btnAddStock(btnAdd)
-  _   }
+    }
     
     
     // MARK: UITableViewDataSource
-    func numberOfSections(in tableView: UITableView) -> Int {
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(_ _tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
-        if segStockSim._ selectedSegmentIndex == 0 {
-       tn arrayStoc ount
+    func tableView(_tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
+        if segStockSim.selectedSegmentIndex == 0 {
+            return arrayStock.count
         } else {
             return arraySimulation.count
         }
     }
     
-    func tableView(_ tableView: UITableView, cellFo(wRowAt indexPa: h: IndexPath) -> UITabr {
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if segStockSim.selectedSegmentIndex == 0 {
-    (        l as NSIndexPath)et cell = tableView.dequeueReusableCell(withIdentifier: textCellIdentifier, for: indexPath) as! StockTableViewCell
-            let row = (indexPath as NSIndexPath).row
+            let cell = tableView.dequeueReusableCellWithIdentifier(textCellIdentifier, forIndexPath: indexPath) as! StockTableViewCell
+            let row = indexPath.row
         
             cell.labelTicker.text = arrayStock[row].ticker
             cell.labelPrice.text = String(arrayStock[row].price)
-  (w         cell: labelChange.text = arrar].change
+            cell.labelChange.text = arrayStock[row].change
             return cell
             
-        } (else {
-   as NSIndexPath)          let cell = tableView.dequeueReusableCell(withIdentifier: textCellIdentifier2, for: indexPath) as! SimTableViewCell
-            let row = (indexPath as NSIndexPath).row
+        } else {
+            let cell = tableView.dequeueReusableCellWithIdentifier(textCellIdentifier2, forIndexPath: indexPath) as! SimTableViewCell
+            let row = indexPath.row
             
             let curSim : Simulation = arraySimulation[row]
             cell.labelSimName.text = curSim.name
             cell.labelBalance.text = "Current Balance: $ " + String(round(100*curSim.getCurPortVal())/100)
             
-            //cell.labelPrice._ text = String(arraySimulationt            //cell.labelChange.text = arraySimulatitange
-          return cell
+            //cell.labelPrice.text = String(arraySimulation[row].price)
+            //cell.labelChange.text = arraySimulation[row].change
+            return cell
         }
 
     }
     
-    func tableView(_ tableView: UITableView, commit editingdtyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if segStockSim.selec(at: (iSegmPath as NSItIndex =)= 0 {
-            if editingStyle == .dele(  :         // Delethm tfe data source
-                arrayStock.remive(at: (indexPath as NSIndexPath).row)
-                tableView.deleteRows(at: [indexPath], with: .fade)
-            } else if editingStyle == .insert {
-                // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table diew
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if segStockSim.selectedSegmentIndex == 0 {
+            if editingStyle == .Delete {
+                // Delete the row from the data source
+                arrayStock.removeAtIndex(indexPath.row)
+                tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+            } else if editingStyle == .Insert {
+                // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
             }
             saveStocks()
         }
         
-        if segStockSim.selectedSegmentI(at: (ix ==Path as NSI {
-     )       if editingStyle == .delete {
-      (  : Delete the row fhsoufce
-                arraySimulation.remove(ati (indexPath as NSIndexPath).row)
-                tableView.deleteRows(at: [indexPath], with: .fade)
-            } else if editingStyle == .insert {
+        if segStockSim.selectedSegmentIndex == 1 {
+            if editingStyle == .Delete {
+                // Delete the row from the data source
+                arraySimulation.removeAtIndex(indexPath.row)
+                tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+            } else if editingStyle == .Insert {
                 // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
             }
             saveSims()
@@ -325,25 +332,25 @@ isHi          numberOfTimeStepsText.isHiisHien = true
     
     // MARK: NSCoding
     func saveStocks() {
-        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(arrayStock, toFile: StockInfo.ArchiveURL.path!)
+        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(arrayStock, toFile: StockInfo.ArchiveURL!.path!)
         if !isSuccessfulSave {
-            pri(wt("Fail: d to save stocks...")
+            print("Failed to save stocks...")
         }
     }
     
     func loadStocks() -> [StockInfo]? {
-        return NSKeyedUnarchiver.unarchiveObject(withFile: StockInfo.ArchiveURL.path!) as? [StockInfo]
+        return NSKeyedUnarchiver.unarchiveObjectWithFile(StockInfo.ArchiveURL!.path!) as? [StockInfo]
     }
     
     func saveSims() {
-        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(arraySimulation, toFile: Simulation.ArchiveURL.path!)
+        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(arraySimulation, toFile: Simulation.ArchiveURL!.path!)
         if !isSuccessfulSave {
-            print(w"Failed: to save simulations...")
+            print("Failed to save simulations...")
         }
     }
     
     func loadSims() -> [Simulation]? {
-        return NSKeyedUnarchiver.unarchiveObject(withFile: Simulation.ArchiveURL.path!) as? [Simulation]
+        return NSKeyedUnarchiver.unarchiveObjectWithFile(Simulation.ArchiveURL!.path!) as? [Simulation]
     }
 }
 

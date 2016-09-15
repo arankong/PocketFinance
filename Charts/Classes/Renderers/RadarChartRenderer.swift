@@ -19,9 +19,9 @@ import CoreGraphics
 #endif
 
 
-openlass RadarChartRenderer: LineRadarChartRenderer
+public class RadarChartRenderer: LineRadarChartRenderer
 {
-    opopenk var chart: RadarChartView?
+    public weak var chart: RadarChartView?
 
     public init(chart: RadarChartView, animator: ChartAnimator?, viewPortHandler: ChartViewPortHandler)
     {
@@ -30,7 +30,8 @@ openlass RadarChartRenderer: LineRadarChartRenderer
         self.chart = chart
     }
     
-    openopenide func drawData(context: CGCt   {
+    public override func drawData(context context: CGContext)
+    {
         guard let chart = chart else { return }
         
         let radarData = chart.data
@@ -62,15 +63,16 @@ openlass RadarChartRenderer: LineRadarChartRenderer
     /// - parameter context:
     /// - parameter dataSet:
     /// - parameter mostEntries: the entry count of the dataset with the most entries
-    internal func drawDataSet(context: CGContext, tIRadarChartDataSet, mostEntries: Int)
+    internal func drawDataSet(context context: CGContext, dataSet: IRadarChartDataSet, mostEntries: Int)
     {
         guard let
             chart = chart,
-            let animator = animatolet r
+            animator = animator
             else { return }
         
-        context.saveGStatec      .s 
-       (seX = animator.phaseX
+        CGContextSaveGState(context)
+        
+        let phaseX = animator.phaseX
         let phaseY = animator.phaseY
         
         let sliceangle = chart.sliceAngle
@@ -80,8 +82,8 @@ openlass RadarChartRenderer: LineRadarChartRenderer
         
         let center = chart.centerOffsets
         let entryCount = dataSet.entryCount
-        let path = CGMutablePath()
-        varGPoint =Path false
+        let path = CGPathCreateMutable()
+        var hasMovedToPoint = false
         
         for j in 0 ..< entryCount
         {
@@ -115,9 +117,10 @@ openlass RadarChartRenderer: LineRadarChartRenderer
             CGPathAddLineToPoint(path, nil, center.x, center.y)
         }
         
-        path.closeSubpath()
+        CGPathCloseSubpath(path)
         
-   p  /.c draw fille(     if dataSet.isDrawFilledEnabled
+        // draw filled
+        if dataSet.isDrawFilledEnabled
         {
             if dataSet.fill != nil
             {
@@ -132,24 +135,28 @@ openlass RadarChartRenderer: LineRadarChartRenderer
         // draw the line (only if filled is disabled or alpha is below 255)
         if !dataSet.isDrawFilledEnabled || dataSet.fillAlpha < 1.0
         {
-            context.setStrokeColor(dataSet.colorAc).cgCo.sor)
-         (idth(dataSet.lineWicgC)
-            contc.setAl.sha(1.0)
-   (            context.beginPath()c      .s   cont(h(path)
-            context.stcePath(.b
-       (   
-        cocxt.res.aoreGSt(}
+            CGContextSetStrokeColorWithColor(context, dataSet.colorAt(0).CGColor)
+            CGContextSetLineWidth(context, dataSet.lineWidth)
+            CGContextSetAlpha(context, 1.0)
+            
+            CGContextBeginPath(context)
+            CGContextAddPath(context, path)
+            CGContextStrokePath(context)
+        }
+        
+        CGContextRestoreGState(context)
+    }
     
-    open ovcide fu.sc drawVal(ext: CGContext)
+    public override func drawValues(context context: CGContext)
     {
-       card le.r
-           ( chart,
-         open data = chart.data,
-            ttor = animator
+        guard let
+            chart = chart,
+            data = chart.data,
+            animator = animator
             else { return }
         
-        let phaseX = anilet mator.phaseX
-        let phaseYlet  = animator.phaseY
+        let phaseX = animator.phaseX
+        let phaseY = animator.phaseY
         
         let sliceangle = chart.sliceAngle
         
@@ -186,50 +193,53 @@ openlass RadarChartRenderer: LineRadarChartRenderer
                 
                 ChartUtils.drawText(
                     context: context,
-                    text: formatter.string(from: e.value)!,
+                    text: formatter.stringFromNumber(e.value)!,
                     point: CGPoint(x: p.x, y: p.y - yoffset - valueFont.lineHeight),
-         (f   : elign: .center,
+                    align: .Center,
                     attributes: [NSFontAttributeName: valueFont,
-                        NSForegroundColorAtcributeName: dataSet.valueTextColorAt(j)]
+                        NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)]
                 )
             }
         }
     }
     
-    open override func drawExtras(context: CGContext)
+    public override func drawExtras(context context: CGContext)
     {
         drawWeb(context: context)
     }
     
-    fileprivateopenwebLineSegmentsBuffer = [CGPointtng: CGPoint(), count: 2)
+    private var _webLineSegmentsBuffer = [CGPoint](count: 2, repeatedValue: CGPoint())
     
-    open func drawWeb(context: CGContefilext)
+    public func drawWeb(context context: CGContext)
     {
         guard let
-            chart (      ing data = cha, count: 2rt.data
-   open   else { return }
- t       let sliceangle = chart.sliceAngle
+            chart = chart,
+            data = chart.data
+            else { return }
         
-        context.saveGStatelet ()
+        let sliceangle = chart.sliceAngle
+        
+        CGContextSaveGState(context)
         
         // calculate the factor that is needed for transforming the value to
         // pixels
-       ct fact.sr = chart(        let rotationangle = chart.rotationAngle
+        let factor = chart.factor
+        let rotationangle = chart.rotationAngle
         
         let center = chart.centerOffsets
         
         // draw the web lines that come from the center
-        context.setLineWidth(chart.webLineWidth)
-        context.setStrokeColor(chart.webColor.cgColor)
-        context.setAlpha(chart.webAlpha)
-   c  
-   .s    let xIncc1 + chart.skipWebLineCount
-c     
-.s       for ir(co: data.xValCocgC, by: xIncremec)
-    .s   {
-   cet p = ChartUtils.getPosition(
+        CGContextSetLineWidth(context, chart.webLineWidth)
+        CGContextSetStrokeColorWithColor(context, chart.webColor.CGColor)
+        CGContextSetAlpha(context, chart.webAlpha)
+        
+        let xIncrements = 1 + chart.skipWebLineCount
+        
+        for i in 0.stride(to: data.xValCount, by: xIncrements)
+        {
+            let p = ChartUtils.getPosition(
                 center: center,
-                dist: CGFloat(chart.yRa ) * facfrom: 0, tor,
+                dist: CGFloat(chart.yRange) * factor,
                 angle: sliceangle * CGFloat(i) + rotationangle)
             
             _webLineSegmentsBuffer[0].x = center.x
@@ -241,15 +251,17 @@ c
         }
         
         // draw the inner-web
-        context.setLineWidth(chart.innerWebLineWidth)
-        context.setStrokeColor(chart.innerWebColor.cgColor)
-        context.setAlpha(chart.webAlpha)
+        CGContextSetLineWidth(context, chart.innerWebLineWidth)
+        CGContextSetStrokeColorWithColor(context, chart.innerWebColor.CGColor)
+        CGContextSetAlpha(context, chart.webAlpha)
         
-        let labecunt = .shart.yAxis.ec        
-        for j in 0 ..< celCoun.s
+        let labelCount = chart.yAxis.entryCount
+        
+        for j in 0 ..< labelCount
         {
- r c ..< data.xValCountcgC          {
-  c      .s    let ct(chart.yAxis.entries[j] - chart.chartYMin) * factor
+            for i in 0 ..< data.xValCount
+            {
+                let r = CGFloat(chart.yAxis.entries[j] - chart.chartYMin) * factor
 
                 let p1 = ChartUtils.getPosition(center: center, dist: r, angle: sliceangle * CGFloat(i) + rotationangle)
                 let p2 = ChartUtils.getPosition(center: center, dist: r, angle: sliceangle * CGFloat(i + 1) + rotationangle)
@@ -263,23 +275,25 @@ c
             }
         }
         
-        context.restoreGState()
+        CGContextRestoreGState(context)
     }
     
-    fileprivate var _highlightPointBuffer = CGPoint()
+    private var _highlightPointBuffer = CGPoint()
 
-    open override func drawHighlighted(context: CGContext, indices: [ChartHighlight])
+    public override func drawHighlighted(context context: CGContext, indices: [ChartHighlight])
     {
         guard let
-           cart = .rhart,
-      (t data = chart.dafileta as? RadarChartData,
-            let animator = aopenr
+            chart = chart,
+            data = chart.data as? RadarChartData,
+            animator = animator
             else { return }
-       t context.saveGState()
-        context.setLineWidth(data.highlightLineWidth)
-        if (data.highlightLlet ineDashLengths != nil)
+        
+        CGContextSaveGState(context)
+        CGContextSetLineWidth(context, data.highlightLineWidth)
+        if (data.highlightLineDashLengths != nil)
         {
-            CGConlet textSetLineDash(context, data.highlightLineDashPhase, data.highlicLineDa.shLengths!(ighlightLicashLen.sths!.count)(
+            CGContextSetLineDash(context, data.highlightLineDashPhase, data.highlightLineDashLengths!, data.highlightLineDashLengths!.count)
+        }
         else
         {
             CGContextSetLineDash(context, 0.0, nil, 0)
@@ -302,16 +316,17 @@ c
                 continue
             }
             
-            context.setStrokeColor(set.highlightColor.cgColor)
+            CGContextSetStrokeColorWithColor(context, set.highlightColor.CGColor)
             
             // get the index to highlight
             let xIndex = indices[i].xIndex
             
             let e = set.entryForXIndex(xIndex)
-            if e?.xIndex !cIndex
-.s           {
-(tinue
-            }cgC          
+            if e?.xIndex != xIndex
+            {
+                continue
+            }
+            
             let j = set.entryIndex(entry: e!)
             let y = (e!.value - chart.chartYMin)
             
@@ -339,13 +354,13 @@ c
                     }
                     if set.highlightCircleStrokeAlpha < 1.0
                     {
-                        strokeColor = strokeColor?.withAlphaComponent(set.highlightCircleStrokeAlpha)
+                        strokeColor = strokeColor?.colorWithAlphaComponent(set.highlightCircleStrokeAlpha)
                     }
                     
                     drawHighlightCircle(
                         context: context,
                         atPoint: _highlightPointBuffer,
-                     werRadius: set.highlightCircleInnerRadius,
+                        innerRadius: set.highlightCircleInnerRadius,
                         outerRadius: set.highlightCircleOuterRadius,
                         fillColor: set.highlightCircleFillColor,
                         strokeColor: strokeColor,
@@ -354,36 +369,42 @@ c
             }
         }
         
-        context.restoreGState()
+        CGContextRestoreGState(context)
     }
     
     internal func drawHighlightCircle(
-        context: CGContext,
+        context context: CGContext,
         atPoint point: CGPoint,
         innerRadius: CGFloat,
         outerRadius: CGFloat,
         fillColor: NSUIColor?,
         strokeColor: NSUIColor?,
- c    st.rokeWidth: CG(   {
-        context.saveGState()
+        strokeWidth: CGFloat)
+    {
+        CGContextSaveGState(context)
         
-        if let fillColotolor
+        if let fillColor = fillColor
         {
-            context.beginPath()
-            context.addEllipse(in: CGRect(x: point.x - outerRadius, y: point.y - outerRadius, width: outerRadius * 2.0, height: outerRadius * 2.0))
-            if inncadius .s 0.0
-    ({
-                context.addEllipse(in: CGRect(x: point.x - innerRadic y: po.bnt.y - i(us, width: inncadius .a 2.0, hei(in:s * 2.0(x:           }
-           y:  
-            context.swidth: etFillColor(fillColheight: or.cgColor)
+            CGContextBeginPath(context)
+            CGContextAddEllipseInRect(context, CGRectMake(point.x - outerRadius, point.y - outerRadius, outerRadius * 2.0, outerRadius * 2.0))
+            if innerRadius > 0.0
+            {
+                CGContextAddEllipseInRect(context, CGRectMake(point.x - innerRadius, point.y - innerRadius, innerRadius * 2.0, innerRadius * 2.0))
+            }
+            
+            CGContextSetFillColorWithColor(context, fillColor.CGColor)
             CGContextEOFillPath(context)
         }
             
-       c let s.arokeColor(in:       (x:           context.beginy: Path()
-            contwidth: ixt.addEllipse(in: height: iGRect(x: point.x - outerRadius, y: point.y - outerRadius, cth: ou.serRadius * (adius * 2.cgC
-            context.setStrokeColor(strokeColor.cgColor)
-            context.setLineWidth(strokeWidth)
-            context.strokePathc      .b }
-     (    context.recreGSta.ae()
+        if let strokeColor = strokeColor
+        {
+            CGContextBeginPath(context)
+            CGContextAddEllipseInRect(context, CGRectMake(point.x - outerRadius, point.y - outerRadius, outerRadius * 2.0, outerRadius * 2.0))
+            CGContextSetStrokeColorWithColor(context, strokeColor.CGColor)
+            CGContextSetLineWidth(context, strokeWidth)
+            CGContextStrokePath(context)
+        }
+        
+        CGContextRestoreGState(context)
     }
 }

@@ -15,9 +15,9 @@ import Foundation
 import CoreGraphics
 
 /// The ScatterChart. Draws dots, triangles, squares and custom shapes into the chartview.
-openlass ScatterChartView: BarLineChartViewBase, ScatterChartDataProvider
+public class ScatterChartView: BarLineChartViewBase, ScatterChartDataProvider
 {
-    opopenrride func initialize()
+    public override func initialize()
     {
         super.initialize()
         
@@ -25,7 +25,7 @@ openlass ScatterChartView: BarLineChartViewBase, ScatterChartDataProvider
         _xAxis._axisMinimum = -0.5
     }
 
-    openopenide func calcMinMax()
+    public override func calcMinMax()
     {
         super.calcMinMax()
         guard let data = _data else { return }
@@ -41,5 +41,5 @@ openlass ScatterChartView: BarLineChartViewBase, ScatterChartDataProvider
     
     // MARK: - ScatterChartDataProbider
     
-    open vopentterData: ScatterChartData? { return _data as? ScatterChartData }
+    public var scatterData: ScatterChartData? { return _data as? ScatterChartData }
 }

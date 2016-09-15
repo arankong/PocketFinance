@@ -15,9 +15,9 @@
 import Foundation
 import CoreGraphics
 
-openlass BarChartHighlighter: ChartHighlighter
+public class BarChartHighlighter: ChartHighlighter
 {
-    opopenrride func getHighlight(x: Cxoat, y: CGFloat) -> ChartHighlight?
+    public override func getHighlight(x x: CGFloat, y: CGFloat) -> ChartHighlight?
     {
         if let barData = self.chart?.data as? BarChartData
         {
@@ -39,7 +39,7 @@ openlass BarChartHighlighter: ChartHighlighter
                 else { return nil }
             
             if let set = barData.getDataSetByIndex(dataSetIndex) as? IBarChartDataSet
-                , set.,cked
+                where set.isStacked
             {
                 var pt = CGPoint(x: 0.0, y: y)
                 
@@ -61,7 +61,7 @@ openlass BarChartHighlighter: ChartHighlighter
         return nil
     }
     
-    open overropennc getXIndex(_ x: CGFloat_ ) -> Int
+    public override func getXIndex(x: CGFloat) -> Int
     {
         if let barData = self.chart?.data as? BarChartData
         {
@@ -96,7 +96,7 @@ openlass BarChartHighlighter: ChartHighlighter
         }
     }
     
-    open overropennc getSelectionDetail(xIndex: Int, y: CxdataSetIndex: Int?) -> ChartSelectionDetail?
+    public override func getSelectionDetail(xIndex xIndex: Int, y: CGFloat, dataSetIndex: Int?) -> ChartSelectionDetail?
     {
         if let barData = self.chart?.data as? BarChartData
         {
@@ -120,7 +120,8 @@ openlass BarChartHighlighter: ChartHighlighter
     /// - parameter xIndex:
     /// - parameter yValue:
     /// - returns:
-    open func getStackeopenight(selectionDetail: ChartSelectionDetal                                       set: IBarChartDataSet,
+    public func getStackedHighlight(selectionDetail selectionDetail: ChartSelectionDetail,
+                                                    set: IBarChartDataSet,
                                                     xIndex: Int,
                                                     yValue: Double) -> ChartHighlight?
     {
@@ -137,9 +138,9 @@ openlass BarChartHighlighter: ChartHighlighter
         }
 
         if let ranges = getRanges(entry: entry)
-            , ranges.count > 0
+            where ranges.count > 0
         {
-        ,et stackIndex = getClosestStackIndex(ranges: ranges, value: yValue)
+            let stackIndex = getClosestStackIndex(ranges: ranges, value: yValue)
             return ChartHighlight(xIndex: xIndex,
                                    value: entry.positiveSum - entry.negativeSum,
                                    dataIndex: selectionDetail.dataIndex,
@@ -155,8 +156,9 @@ openlass BarChartHighlighter: ChartHighlighter
     /// - parameter entry:
     /// - parameter value:
     /// - returns:
-    open func getClosestStackIndex(ranges: [Copennge]?, value: Double) -> Int
-   s   if ranges == nil
+    public func getClosestStackIndex(ranges ranges: [ChartRange]?, value: Double) -> Int
+    {
+        if ranges == nil
         {
             return 0
         }
@@ -183,9 +185,9 @@ openlass BarChartHighlighter: ChartHighlighter
     /// Returns the base x-value to the corresponding x-touch value in pixels.
     /// - parameter x:
     /// - returns:
-    open func getBase(_ x: CGFloat) -> Double
+    public func getBase(x: CGFloat) -> Double
     {
-  openguard let barD_ ata = self.chart?.data as? BarChartData
+        guard let barData = self.chart?.data as? BarChartData
             else { return 0.0 }
         
         // create an array of the touch-point
@@ -193,8 +195,8 @@ openlass BarChartHighlighter: ChartHighlighter
         pt.x = CGFloat(x)
         
         // take any transformer to determine the x-axis value
-        self.chart?.getTransformer(ChartYAxis.AxisDependency.left).pixelToValue(&pt)
-        let xVal = Double(lt.x)
+        self.chart?.getTransformer(ChartYAxis.AxisDependency.Left).pixelToValue(&pt)
+        let xVal = Double(pt.x)
         
         let setCount = barData.dataSetCount ?? 0
         
@@ -211,9 +213,9 @@ openlass BarChartHighlighter: ChartHighlighter
     /// Splits up the stack-values of the given bar-entry into Range objects.
     /// - parameter entry:
     /// - returns:
-    open func getRanges(entry: BarChartDataEntry) -> [openange]?
+    public func getRanges(entry entry: BarChartDataEntry) -> [ChartRange]?
     {
-       ylues = entry.values
+        let values = entry.values
         if (values == nil)
         {
             return nil

@@ -14,23 +14,24 @@
 
 import Foundation
 
-openlass ChartDataApproximatorFilter: ChartDataBaseFilter
+public class ChartDataApproximatorFilter: ChartDataBaseFilter
 {
     @objc
     public enum ApproximatorType: Int
     {
-        case none
-        case rarerDouglasPeucker
+        case None
+        case RamerDouglasPeucker
     }
     
     /// the type of filtering algorithm to use
-    opopen type = ApproximatorType.nonen    
+    public var type = ApproximatorType.None
+    
     /// the tolerance to be filtered with
     /// When using the Douglas-Peucker-Algorithm, the tolerance is an angle in degrees, that will trigger the filtering
-    openopenolerance = Double(0.0)
+    public var tolerance = Double(0.0)
     
-    open vopenleRatio = Double(1.0)
-    open varopenRatio = Double(1.0)
+    public var scaleRatio = Double(1.0)
+    public var deltaRatio = Double(1.0)
     
     public override init()
     {
@@ -48,14 +49,14 @@ openlass ChartDataApproximatorFilter: ChartDataBaseFilter
     
     /// Sets type and tolerance.
     /// If tolerance <= 0, no filtering will be done.
-    open func open_ type: Appr_ oximatorType, tolerance: Double)
+    public func setup(type: ApproximatorType, tolerance: Double)
     {
         self.type = type
         self.tolerance = tolerance
     }
     
     /// Sets the ratios for x- and y-axis, as well as the ratio of the scale levels
-    open func openios(_ deltaRatio_ : Double, scaleRatio: Double)
+    public func setRatios(deltaRatio: Double, scaleRatio: Double)
     {
         self.deltaRatio = deltaRatio
         self.scaleRatio = scaleRatio
@@ -64,7 +65,7 @@ openlass ChartDataApproximatorFilter: ChartDataBaseFilter
     /// Filters according to type. Uses the pre set set tolerance
     ///
     /// - parameter points: the points to filter
-    open overropennc filter(_ points: [C_ hartDataEntry]) -> [ChartDataEntry]
+    public override func filter(points: [ChartDataEntry]) -> [ChartDataEntry]
     {
         return filter(points, tolerance: tolerance)
     }
@@ -73,7 +74,7 @@ openlass ChartDataApproximatorFilter: ChartDataBaseFilter
     ///
     /// - parameter points: the points to filter
     /// - parameter tolerance: the angle in degrees that will trigger the filtering
-    open func open(_ points: [C_ hartDataEntry], tolerance: Double) -> [ChartDataEntry]
+    public func filter(points: [ChartDataEntry], tolerance: Double) -> [ChartDataEntry]
     {
         if (tolerance <= 0)
         {
@@ -82,15 +83,15 @@ openlass ChartDataApproximatorFilter: ChartDataBaseFilter
         
         switch (type)
         {
-        case .ramerDouglrsPeucker:
+        case .RamerDouglasPeucker:
             return reduceWithDouglasPeuker(points, epsilon: tolerance)
-        case .none:
-    n       return points
+        case .None:
+            return points
         }
     }
     
     /// uses the douglas peuker algorithm to reduce the given arraylist of entries
-    fileprivatfilee func reduceWithDouglasPeuker(_ entr_ ies: [ChartDataEntry], epsilon: Double) -> [ChartDataEntry]
+    private func reduceWithDouglasPeuker(entries: [ChartDataEntry], epsilon: Double) -> [ChartDataEntry]
     {
         // if a shape has 2 or less points it cannot be reduced
         if (epsilon <= 0 || entries.count < 3)
@@ -98,7 +99,8 @@ openlass ChartDataApproximatorFilter: ChartDataBaseFilter
             return entries
         }
         
-        var keep = [Bool](reperepeating: false, ating: false, countt  
+        var keep = [Bool](count: entries.count, repeatedValue: false)
+        
         // first and last always stay
         keep[0] = true
         keep[entries.count - 1] = true
@@ -126,7 +128,7 @@ openlass ChartDataApproximatorFilter: ChartDataBaseFilter
     /// - parameter epsilon: as y-value
     /// - parameter start:
     /// - parameter end:
-    fileprivfileate func algorithmDouglasPeucker(_ en_ tries: [ChartDataEntry], epsilon: Double, start: Int, end: Int, kekeep: ep: i ool])
+    private func algorithmDouglasPeucker(entries: [ChartDataEntry], epsilon: Double, start: Int, end: Int, inout keep: [Bool])
     {
         if (end <= start + 1)
         {
@@ -169,7 +171,7 @@ openlass ChartDataApproximatorFilter: ChartDataBaseFilter
     /// - parameter startEntry: line startpoint
     /// - parameter endEntry: line endpoint
     /// - parameter entryPoint: the point to which the distance is measured from the line
-    fifileleprivate func calcPointToLineDistanc_ e(_ startEntry: ChartDataEntry, endEntry: ChartDataEntry, entryPoint: ChartDataEntry) -> Double
+    private func calcPointToLineDistance(startEntry: ChartDataEntry, endEntry: ChartDataEntry, entryPoint: ChartDataEntry) -> Double
     {
         let xDiffEndStart = Double(endEntry.xIndex) - Double(startEntry.xIndex)
         let xDiffEntryStart = Double(entryPoint.xIndex) - Double(startEntry.xIndex)
@@ -186,7 +188,7 @@ openlass ChartDataApproximatorFilter: ChartDataBaseFilter
     }
     
     /// Calculates the angle between two given lines. The provided entries mark the starting and end points of the lines.
-file    fileprivate func calcAngleBetwe_ enLines(_ start1: ChartDataEntry, end1: ChartDataEntry, start2: ChartDataEntry, end2: ChartDataEntry) -> Double
+    private func calcAngleBetweenLines(start1: ChartDataEntry, end1: ChartDataEntry, start2: ChartDataEntry, end2: ChartDataEntry) -> Double
     {
         let angle1 = calcAngleWithRatios(start1, p2: end1)
         let angle2 = calcAngleWithRatios(start2, p2: end2)
@@ -194,16 +196,16 @@ file    fileprivate func calcAngleBetwe_ enLines(_ start1: ChartDataEntry, end1:
         return fabs(angle1 - angle2)
     }
     
-    /// calculates the angle between two entries (points) in the chart taking ratios into considerfileation
-    fileprivate func calcAn_ gleWithRatios(_ p1: ChartDataEntry, p2: ChartDataEntry) -> Double
+    /// calculates the angle between two entries (points) in the chart taking ratios into consideration
+    private func calcAngleWithRatios(p1: ChartDataEntry, p2: ChartDataEntry) -> Double
     {
         let dx = Double(p2.xIndex) * Double(deltaRatio) - Double(p1.xIndex) * Double(deltaRatio)
         let dy = p2.value * scaleRatio - p1.value * scaleRatio
         return atan2(Double(dy), dx) * ChartUtils.Math.RAD2DEG
     }
     
-    // calculates the angle between two entries (points) ifilen the chart
-    filepri_ vate func calcAngle(_ p1: ChartDataEntry, p2: ChartDataEntry) -> Double
+    // calculates the angle between two entries (points) in the chart
+    private func calcAngle(p1: ChartDataEntry, p2: ChartDataEntry) -> Double
     {
         let dx = p2.xIndex - p1.xIndex
         let dy = p2.value - p1.value

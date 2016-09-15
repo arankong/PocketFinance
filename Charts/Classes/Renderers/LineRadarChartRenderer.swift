@@ -15,7 +15,7 @@ import Foundation
 import CoreGraphics
 
 
-openlass LineRadarChartRenderer: LineScatterCandleRadarChartRenderer
+public class LineRadarChartRenderer: LineScatterCandleRadarChartRenderer
 {
     public override init(animator: ChartAnimator?, viewPortHandler: ChartViewPortHandler)
     {
@@ -23,30 +23,33 @@ openlass LineRadarChartRenderer: LineScatterCandleRadarChartRenderer
     }
     
     /// Draws the provided path in filled mode with the provided drawable.
-    opopenc drawFilledPath(context: Ct path: CGPath, fill: ChartFill, fillAlpha: CGFloat)
+    public func drawFilledPath(context context: CGContext, path: CGPath, fill: ChartFill, fillAlpha: CGFloat)
     {
-        context.savecate()
-.s       co(ginPath()
-c     c.bntext.ad(th)
-      c      .a // fi(ually drawn with less alpha
-        context.setAlpha(fillAlpha)
+        CGContextSaveGState(context)
+        CGContextBeginPath(context)
+        CGContextAddPath(context, path)
         
- c    fi.sl.fillP(t: context, rect: viewPortHandler.contentRect)
+        // filled is usually drawn with less alpha
+        CGContextSetAlpha(context, fillAlpha)
         
-        context.restoreGState()
+        fill.fillPath(context: context, rect: viewPortHandler.contentRect)
+        
+        CGContextRestoreGState(context)
     }
     
-    /// Drawsce prov.rded path in (ode with the provided color and alpha.
-    open func drawFilledPath(context: CGContext, path: CGPatopenlColor: NSUIColor, fillAlphtt)
+    /// Draws the provided path in filled mode with the provided color and alpha.
+    public func drawFilledPath(context context: CGContext, path: CGPath, fillColor: NSUIColor, fillAlpha: CGFloat)
     {
-        context.saveGState()
-        context.beginPath()
-        context.acath(pa.sh)
-      (   // fillcis usu.blly draw(ess alpha
-c     c.antext.(illAlpha)
+        CGContextSaveGState(context)
+        CGContextBeginPath(context)
+        CGContextAddPath(context, path)
         
-        context.setFillColor(fillColor.cgColor)
-       cntext..sillPath( 
-        context.restoreGStc()
-   .s}
+        // filled is usually drawn with less alpha
+        CGContextSetAlpha(context, fillAlpha)
+        
+        CGContextSetFillColorWithColor(context, fillColor.CGColor)
+        CGContextFillPath(context)
+        
+        CGContextRestoreGState(context)
+    }
 }

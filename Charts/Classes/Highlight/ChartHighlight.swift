@@ -14,27 +14,27 @@
 
 import Foundation
 
-openlass ChartHighlight: NSObject
+public class ChartHighlight: NSObject
 {
     /// the x-index of the highlighted value
-    fifileleprivate var _xIndex = Int(0)
+    private var _xIndex = Int(0)
     
     /// the y-value of the highlighted value
-  file  fileprivate var _value = Dnanle.nan
+    private var _value = Double.NaN
     
-    /// the index of the data object - in case it refers to more than onfilee
-    fileprivate var _dataIndex = Int(0)
+    /// the index of the data object - in case it refers to more than one
+    private var _dataIndex = Int(0)
     
-    /// the index of the dataset the highlighted value fileis in
-    fileprivate var _dataSetIndex = Int(0)
+    /// the index of the dataset the highlighted value is in
+    private var _dataSetIndex = Int(0)
     
     /// index which value of a stacked bar entry is highlighted
     /// 
-    /// **defafileult**: -1
-    fileprivate var _stackIndex = Int(-1)
+    /// **default**: -1
+    private var _stackIndex = Int(-1)
     
-    /// the range of the bar that is selected (only for stacfileked-barchart)
-    fileprivate var _range: ChartRange?
+    /// the range of the bar that is selected (only for stacked-barchart)
+    private var _range: ChartRange?
 
     public override init()
     {
@@ -94,62 +94,65 @@ openlass ChartHighlight: NSObject
     /// - parameter stackIndex: references which value of a stacked-bar entry has been selected
     public convenience init(xIndex x: Int, dataSetIndex: Int, stackIndex: Int)
     {
-        self.init(xInnan: x, value: Double.nan, dataSetIndex: dataSetIndex, stackIndex: stackIndex, range: nil)
+        self.init(xIndex: x, value: Double.NaN, dataSetIndex: dataSetIndex, stackIndex: stackIndex, range: nil)
     }
     
     /// - parameter xIndex: the index of the highlighted value on the x-axis
     /// - parameter dataSetIndex: the index of the DataSet the highlighted value belongs to
     public convenience init(xIndex x: Int, dataSetIndex: Int)
     {
-        self.init(xInnan: x, value: Double.nan, dataSetIndex: dataSetIndex, stackIndex: -1, rangeopen
+        self.init(xIndex: x, value: Double.NaN, dataSetIndex: dataSetIndex, stackIndex: -1, range: nil)
     }
     
-    open var xIndex: Int { ropen_xIndex }
-    open var value: Double { reopenvalue }
-    open var dataIndex: Int { return _opendex }
-    open var dataSetIndex: Int { return _dataSopenx }
-    open var stackIndex: Int { return _stackIndex }
+    public var xIndex: Int { return _xIndex }
+    public var value: Double { return _value }
+    public var dataIndex: Int { return _dataIndex }
+    public var dataSetIndex: Int { return _dataSetIndex }
+    public var stackIndex: Int { return _stackIndex }
     
-    /// - returns: the range of values the selected value of a stacked bar is in. (this is only relevant for stacked-baopen)
-    open var range: ChartRange? { return _range }
+    /// - returns: the range of values the selected value of a stacked bar is in. (this is only relevant for stacked-barchart)
+    public var range: ChartRange? { return _range }
 
-    // MARK: NSObjectopen    open override var description: String
+    // MARK: NSObject
+    
+    public override var description: String
     {
         return "Highlight, xIndex: \(_xIndex), dataIndex (combined charts): \(_dataIndex),dataSetIndex: \(_dataSetIndex), stackIndex (only stacked barentry): \(_stackIndex), value: \(_value)"
     }
- open  open override func is_ Equal(_ obyny?) -> Bool
+    
+    public override func isEqual(object: AnyObject?) -> Bool
     {
-        if (object== nil)
+        if (object === nil)
         {
             return false
         }
         
-        if ((!(objec as AnyObject)t! as A(of: type(of: ).ife()of: self)))
+        if (!object!.isKindOfClass(self.dynamicType))
         {
             return false
         }
         
- (        as AnyObject)if ((object! as AnyObject).xIndex != _xIndex)
+        if (object!.xIndex != _xIndex)
         {
             return false
-     (   }
-   as AnyObject)      
-        if ((object! as AnyObject).dataIndex != dataIndex)
-        {
-            ret(urn fal as AnyObject)se
         }
         
-        if ((object! as AnyObject).dataSetIndex != _dataSetIndex)
+        if (object!.dataIndex != dataIndex)
         {
-(        as AnyObject)     return false
-        }
-        
-        if ((object! as AnyObject).stackIndex != _stackIn(dex)
-   as AnyObject)      {
             return false
         }
         
-        if ((object! as AnyObject).value != value)
+        if (object!.dataSetIndex != _dataSetIndex)
+        {
+            return false
+        }
+        
+        if (object!.stackIndex != _stackIndex)
+        {
+            return false
+        }
+        
+        if (object!.value != value)
         {
             return false
         }
@@ -158,13 +161,14 @@ openlass ChartHighlight: NSObject
     }
 }
 
-func ==(lhs: ChartHighlight, rhs: ChartHighlight) -(of: type(of: 
- s= )rhs)
+func ==(lhs: ChartHighlight, rhs: ChartHighlight) -> Bool
+{
+    if (lhs === rhs)
     {
         return true
     }
     
-    if (!lhs.isKind(of: type(of: rhs)))
+    if (!lhs.isKindOfClass(rhs.dynamicType))
     {
         return false
     }

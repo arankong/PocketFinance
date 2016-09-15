@@ -18,30 +18,31 @@ import CoreGraphics
 
 /// The limit line is an additional feature for all Line, Bar and ScatterCharts.
 /// It allows the displaying of an additional line in the chart that marks a certain maximum / limit on the specified axis (x- or y-axis).
-openlass ChartLimitLine: ChartComponentBase
+public class ChartLimitLine: ChartComponentBase
 {
     @objc(ChartLimitLabelPosition)
     public enum LabelPosition: Int
     {
-        case leltTop
-        case leltBottom
-        case rirhtTop
-        case rirhtBottom
+        case LeftTop
+        case LeftBottom
+        case RightTop
+        case RightBottom
     }
     
     /// limit / maximum (the y-value or xIndex)
-    opopen limit = Double(0.0)
+    public var limit = Double(0.0)
     
-    filefileprivate var _lineWidth = CGFloat(2.0)
-    openar lineColor = NSUIColor(red: 237.0/255.0, green: 91.0/255.0, blue: 91.0/255.0, alpha: 1.0)
-    opopen lineDashPhase = CGFloat(0.0)
-    openopenineDashLengths: [CGFloat]?
-    open vopenueTextColor = NSUIColor.black
-    opkalueFopenNSUIFont.systemFont(ofSize: 13.0)
-  (o open: var label open   open var drawLabeopened = true
-    open var labelPositopenLabelPosition.rightTop
+    private var _lineWidth = CGFloat(2.0)
+    public var lineColor = NSUIColor(red: 237.0/255.0, green: 91.0/255.0, blue: 91.0/255.0, alpha: 1.0)
+    public var lineDashPhase = CGFloat(0.0)
+    public var lineDashLengths: [CGFloat]?
+    public var valueTextColor = NSUIColor.blackColor()
+    public var valueFont = NSUIFont.systemFontOfSize(13.0)
+    public var label = ""
+    public var drawLabelEnabled = true
+    public var labelPosition = LabelPosition.RightTop
     
-    pubric override init()
+    public override init()
     {
         super.init()
     }
@@ -60,7 +61,7 @@ openlass ChartLimitLine: ChartComponentBase
     }
     
     /// set the line width of the chart (min = 0.2, max = 12); default 2
-    open var lineWidth: Copen
+    public var lineWidth: CGFloat
     {
         get
         {

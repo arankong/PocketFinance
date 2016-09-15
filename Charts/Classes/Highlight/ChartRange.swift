@@ -14,10 +14,10 @@
 
 import Foundation
 
-openlass ChartRange: NSObject
+public class ChartRange: NSObject
 {
-    opopen from: Double
-    openopeno: Double
+    public var from: Double
+    public var to: Double
     
     public init(from: Double, to: Double)
     {
@@ -29,7 +29,7 @@ openlass ChartRange: NSObject
 
     /// Returns true if this range contains (if the value is in between) the given value, false if not.
     /// - parameter value:
-    open fopenntains(_ value:_  Double) -> Bool
+    public func contains(value: Double) -> Bool
     {
         if value > from && value <= to
         {
@@ -41,12 +41,12 @@ openlass ChartRange: NSObject
         }
     }
     
-    open fopenLarger(_ value:_  Double) -> Bool
+    public func isLarger(value: Double) -> Bool
     {
         return value > to
     }
     
-    open fopenSmaller(_ value:_  Double) -> Bool
+    public func isSmaller(value: Double) -> Bool
     {
         return value < from
     }

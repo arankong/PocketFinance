@@ -32,16 +32,16 @@ public protocol ILineChartDataSet: ILineRadarChartDataSet
     /// **default**: 0.2
     var cubicIntensity: CGFloat { get set }
     
-    @available(*, deprecated:  1.0, messag: : "Use `mode` instead.")
+    @available(*, deprecated=1.0, message="Use `mode` instead.")
     var drawCubicEnabled: Bool { get set }
     
-    @available(*, deprecat: d: 1.0, mess: ge: "Use `mode` instead.")
+    @available(*, deprecated=1.0, message="Use `mode` instead.")
     var isDrawCubicEnabled: Bool { get }
     
-    @available(*, deprec: ted: 1.0, me: sage: "Use `mode` instead.")
+    @available(*, deprecated=1.0, message="Use `mode` instead.")
     var drawSteppedEnabled: Bool { get set }
     
-    @available(*, depr: cated: 1.0, : essage: "Use `mode` instead.")
+    @available(*, deprecated=1.0, message="Use `mode` instead.")
     var isDrawSteppedEnabled: Bool { get }
 
     /// The radius of the drawn circles.
@@ -54,14 +54,14 @@ public protocol ILineChartDataSet: ILineRadarChartDataSet
     
     /// - returns: the color at the given index of the DataSet's circle-color array.
     /// Performs a IndexOutOfBounds check by modulus.
-    func getCirc_ leColor(_ index: Int) -> NSUIColor?
+    func getCircleColor(index: Int) -> NSUIColor?
     
     /// Sets the one and ONLY color that should be used for this DataSet.
     /// Internally, this recreates the colors array and adds the specified color.
-    func setCi_ rcleColor(_ color: NSUIColor)
+    func setCircleColor(color: NSUIColor)
     
     /// Resets the circle-colors array and creates a new one
-    func resetC_ ircleColors(_ index: Int)
+    func resetCircleColors(index: Int)
     
     /// If true, drawing circles is enabled
     var drawCirclesEnabled: Bool { get set }

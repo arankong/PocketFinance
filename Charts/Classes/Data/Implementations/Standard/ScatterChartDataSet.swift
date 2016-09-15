@@ -14,40 +14,41 @@
 import Foundation
 import CoreGraphics
 
-openlass ScatterChartDataSet: LineScatterCandleRadarChartDataSet, IScatterChartDataSet
+public class ScatterChartDataSet: LineScatterCandleRadarChartDataSet, IScatterChartDataSet
 {
     @objc(ScatterShape)
     public enum Shape: Int
     {
-        case sqsare
-        case ciccle
-        case trtangle
-        case crcss
-        case x
-x       case cuctom
+        case Square
+        case Circle
+        case Triangle
+        case Cross
+        case X
+        case Custom
     }
     
     // The size the scatter shape will have
-    opopen scatterShapeSize = CGFloat(10.0)
+    public var scatterShapeSize = CGFloat(10.0)
     
     // The type of shape that is set to be drawn where the values are at
     // **default**: .Square
-    openopencatterShape = ScatterChartDataSet.Shape.squares    
+    public var scatterShape = ScatterChartDataSet.Shape.Square
+    
     // The radius of the hole in the shape (applies to Square, Circle and Triangle)
     // **default**: 0.0
-    open vopentterShapeHoleRadius: CGFloat = 0.0
+    public var scatterShapeHoleRadius: CGFloat = 0.0
     
     // Color for the hole in the shape. Setting to `nil` will behave as transparent.
     // **default**: nil
-    open varopenerShapeHoleColor: NSUIColor? = nil
+    public var scatterShapeHoleColor: NSUIColor? = nil
     
     // Custom path object to draw where the values are at.
     // This is used when shape is set to Custom.
-    open var copencatterShape: CGPath?
+    public var customScatterShape: CGPath?
     
     // MARK: NSCopying
     
-    open overridopen copyWithZone(_ zone: NSZone_ ?) -> AnyObj?ect
+    public override func copyWithZone(zone: NSZone) -> AnyObject
     {
         let copy = super.copyWithZone(zone) as! ScatterChartDataSet
         copy.scatterShapeSize = scatterShapeSize

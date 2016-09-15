@@ -220,7 +220,6 @@
 				TargetAttributes = {
 					5030C7C21D4A5BDE003E4FEE = {
 						CreatedOnToolsVersion = 7.3.1;
-						LastSwiftMigration = 0800;
 					};
 				};
 			};
@@ -471,6 +470,7 @@
 			baseConfigurationReference = 12CC0A8A9E128FA52A0FACF3 /* Pods-PocketFinance.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = PocketFinance/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -485,6 +485,7 @@
 			baseConfigurationReference = 73119D00F8DDD5EC915A7760 /* Pods-PocketFinance.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = PocketFinance/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

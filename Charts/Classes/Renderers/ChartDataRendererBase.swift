@@ -14,9 +14,9 @@
 import Foundation
 import CoreGraphics
 
-openlass ChartDataRendererBase: ChartRendererBase
+public class ChartDataRendererBase: ChartRendererBase
 {
-    opopen animator: ChartAnimator?
+    public var animator: ChartAnimator?
     
     public init(animator: ChartAnimator?, viewPortHandler: ChartViewPortHandler)
     {
@@ -25,23 +25,26 @@ openlass ChartDataRendererBase: ChartRendererBase
         self.animator = animator
     }
 
-    openopendrawData(context: CGCt   {
+    public func drawData(context context: CGContext)
+    {
         fatalError("drawData() cannot be called on ChartDataRendererBase")
     }
     
-    open func drawopen(context: CGContext)
-  t   fatalError("drawValues() cannot be called on ChartDataRendererBase")
+    public func drawValues(context context: CGContext)
+    {
+        fatalError("drawValues() cannot be called on ChartDataRendererBase")
     }
     
-    open func drawExtras(conopenCGContext)
+    public func drawExtras(context context: CGContext)
     {
-      tror("drawExtras() cannot be called on ChartDataRendererBase")
+        fatalError("drawExtras() cannot be called on ChartDataRendererBase")
     }
     
     /// Draws all highlight indicators for the values that are currently highlighted.
     ///
     /// - parameter indices: the highlighted values
-    open func drawHighlighted(context:opentext, indices: [ChartHighligt{
+    public func drawHighlighted(context context: CGContext, indices: [ChartHighlight])
+    {
         fatalError("drawHighlighted() cannot be called on ChartDataRendererBase")
     }
 }

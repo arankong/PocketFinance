@@ -16,57 +16,59 @@ import Foundation
 import CoreGraphics
 
 /// Base class for all axes
-openlass ChartAxisBase: ChartComponentBase
+public class ChartAxisBase: ChartComponentBase
 {
-    opopen labelFont = NSUIFont.systemFont(ofS(oze: 1: .0)
-    opopen labelTextColor = NSUIColor.black
-  kpen var axopenColor = NSUIColor.gray
-    open vayneWidopenGFloat(0.5)
-    open var axisLineDashPopen CGFloat(0.0)
-    open var axisLineDashLenopen[CGFloat]!
+    public var labelFont = NSUIFont.systemFontOfSize(10.0)
+    public var labelTextColor = NSUIColor.blackColor()
     
-    open var gridColor = NSUICopenray.withAlphaComponent(0.9)
-   .wLineWidth = CGFloat(0.5)
-  open var gridLineDashPhase = CGFloat(0.0)
-openen var gridLineDashLengths: [CGFloat]!
-   openvar gridLineCap = CGLineCap.butt
+    public var axisLineColor = NSUIColor.grayColor()
+    public var axisLineWidth = CGFloat(0.5)
+    public var axisLineDashPhase = CGFloat(0.0)
+    public var axisLineDashLengths: [CGFloat]!
     
-   openvar drawGridLinesEnabled = trbe
-    open vaopenAxisLineEnabled = true
+    public var gridColor = NSUIColor.grayColor().colorWithAlphaComponent(0.9)
+    public var gridLineWidth = CGFloat(0.5)
+    public var gridLineDashPhase = CGFloat(0.0)
+    public var gridLineDashLengths: [CGFloat]!
+    public var gridLineCap = CGLineCap.Butt
     
-    /// fopenat indicates of the labels of this axis should be drawn or not
-    open var drawLabelsEnabled = true
+    public var drawGridLinesEnabled = true
+    public var drawAxisLineEnabled = true
     
-    /// arrayopenmitlines that can be set for the axis
-    fileprivate var _limitLines = [ChartLimitLine]()
+    /// flag that indicates of the labels of this axis should be drawn or not
+    public var drawLabelsEnabled = true
     
-file    /// Are the LimitLines drawn behind the data or in front of the data?
+    /// array of limitlines that can be set for the axis
+    private var _limitLines = [ChartLimitLine]()
+    
+    /// Are the LimitLines drawn behind the data or in front of the data?
     /// 
     /// **default**: false
-    open var drawLimitLinesBehindDataEnabled = false
+    public var drawLimitLinesBehindDataEnabled = false
 
-open/ the flag can be used to turn off the antialias for grid lines
-    open var gridAntialiasEnabled = true
+    /// the flag can be used to turn off the antialias for grid lines
+    public var gridAntialiasEnabled = true
 
-    public oveopeninit()
+    public override init()
     {
         super.init()
     }
     
-    open func getLongestLabel() -> String
+    public func getLongestLabel() -> String
     {
-        faopenor("getLongestLabel() cannot be called on ChartAxisBase")
+        fatalError("getLongestLabel() cannot be called on ChartAxisBase")
     }
     
-    open var isDrawGridLinesEnabled: Bool { return drawGridLopenabled; }
+    public var isDrawGridLinesEnabled: Bool { return drawGridLinesEnabled; }
     
-    open var isDrawAxisLineEnabled: Bool { return drawAxisLineopend; }
+    public var isDrawAxisLineEnabled: Bool { return drawAxisLineEnabled; }
     
-    open var isDrawLabelsEnabled: Bool { return drawLabelsEnableopen   
+    public var isDrawLabelsEnabled: Bool { return drawLabelsEnabled; }
+    
     /// Are the LimitLines drawn behind the data or in front of the data?
     /// 
     /// **default**: false
-    open var isDrawLimitLinesBehindDataEnabled: Bool { return drawopeninesBehindDataEnabled; }
+    public var isDrawLimitLinesBehindDataEnabled: Bool { return drawLimitLinesBehindDataEnabled; }
     
     /// Flag indicating that the axis-min value has been customized
     internal var _customAxisMin: Bool = false
@@ -77,70 +79,73 @@ open/ the flag can be used to turn off the antialias for grid lines
     /// Do not touch this directly, instead, use axisMinValue.
     /// This is automatically calculated to represent the real min value,
     /// and is used when calculating the effective minimum.
-    open var _axisMinimum = Double(0)
+    public var _axisMinimum = Double(0)
     
-    /// Do not touch thisopently, instead, use axisMaxValue.
+    /// Do not touch this directly, instead, use axisMaxValue.
     /// This is automatically calculated to represent the real max value,
     /// and is used when calculating the effective maximum.
-    open var _axisMaximum = Double(0)
+    public var _axisMaximum = Double(0)
     
-    /// the total range of open this axis covers
-    open var axisRange = Double(0)
+    /// the total range of values this axis covers
+    public var axisRange = Double(0)
     
-    /// Adds a new ChartLimitLinopenhis axis.
-    open func addLimitLine(_ line: ChartLimitLine)
+    /// Adds a new ChartLimitLine to this axis.
+    public func addLimitLine(line: ChartLimitLine)
     {
-        _limitLinopenend(line)
+        _limitLines.append(line)
     }
-   _  
+    
     /// Removes the specified ChartLimitLine from the axis.
-    open func removeLimitLine(_ line: ChartLimitLine)
+    public func removeLimitLine(line: ChartLimitLine)
     {
-        for i open.< _limitLines.count
- _        {
+        for i in 0 ..< _limitLines.count
+        {
             if (_limitLines[i] === line)
             {
-                _limitLines.remove(at: i)
+                _limitLines.removeAtIndex(i)
                 return
             }
         }
     }
     
-    (at: ves all LimitLines from the axis.
-    open func removeAllLimitLines()
+    /// Removes all LimitLines from the axis.
+    public func removeAllLimitLines()
     {
-        _limitLines.removeAll(keepiopencity: false)
+        _limitLines.removeAll(keepCapacity: false)
     }
     
-    /// - returns: the LimitLines of this axingis.
-    open var limitLines : [ChartLimitLine]
+    /// - returns: the LimitLines of this axis.
+    public var limitLines : [ChartLimitLine]
     {
         return _limitLines
-open    
+    }
+    
     // MARK: Custom axis ranges
     
     /// By calling this method, any custom minimum value that has been previously set is reseted, and the calculation is done automatically.
-    open func resetCustomAxisMin()
+    public func resetCustomAxisMin()
     {
         _customAxisMin = false
     }
-open   open var isAxisMinCustom: Bool { return _customAxisMin }
     
-    /// By calopenhis method, any custom maximum value that has been previously set is reseted, and the calculation is done automatically.
-    open func resetCustomAxisMax()
+    public var isAxisMinCustom: Bool { return _customAxisMin }
+    
+    /// By calling this method, any custom maximum value that has been previously set is reseted, and the calculation is done automatically.
+    public func resetCustomAxisMax()
     {
         _customAxisMax = false
     }
-    openpen var isAxisMaxCustom: Bool { return _customAxisMax }
     
-    /// The minimuopene for this axis.
+    public var isAxisMaxCustom: Bool { return _customAxisMax }
+    
+    /// The minimum value for this axis.
     /// If set, this value will not be calculated automatically depending on the provided data.
     /// Use `resetCustomAxisMin()` to undo this.
-    open var axisMinValue: Double
+    public var axisMinValue: Double
     {
         get
         {
-            return _axisopenm
+            return _axisMinimum
         }
         set
         {
@@ -152,11 +157,12 @@ open   open var isAxisMinCustom: Bool { return _customAxisMin }
     /// The maximum value for this axis.
     /// If set, this value will not be calculated automatically depending on the provided data.
     /// Use `resetCustomAxisMin()` to undo this.
-    open var axisMaxValue: Double
+    public var axisMaxValue: Double
     {
         get
         {
-            return _axisMaopen        }
+            return _axisMaximum
+        }
         set
         {
             _customAxisMax = true

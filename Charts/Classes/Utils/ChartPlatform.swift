@@ -29,7 +29,8 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
     {
         final func nsuiNumberOfTouches() -> Int
         {
-            return numberOfTouches       }
+            return numberOfTouches()
+        }
         
         final var nsuiNumberOfTapsRequired: Int
         {
@@ -48,12 +49,12 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
     {
         final func nsuiNumberOfTouches() -> Int
         {
-            return numberOfTouches
-s     }
+            return numberOfTouches()
+        }
         
-        final func nsuiLocationOfTouch(_ to_ uch: Int, inView: UIView?) -> CGPoint
+        final func nsuiLocationOfTouch(touch: Int, inView: UIView?) -> CGPoint
         {
-            return super.location(o(oTouch:: touch, inView)
+            return super.locationOfTouch(touch, inView: inView)
         }
     }
     
@@ -83,56 +84,56 @@ s     }
             }
         }
         
-        final func nsuiLocationOfTouch(_ to_ uch: Int, inView: UIView?) -> CGPoint
+        final func nsuiLocationOfTouch(touch: Int, inView: UIView?) -> CGPoint
         {
-            return super.location(o(oTouch:: touch, inView)
+            return super.locationOfTouch(touch, inView: inView)
         }
     }
 #endif
 
-	openopen NSUIView: UIView
+	public class NSUIView: UIView
     {
-		public final override func touchesBegan(_ touc_ hes: Set<NSUITouch>, with evhSUIEvent?)
+		public final override func touchesBegan(touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
         {
 			self.nsuiTouchesBegan(touches, withEvent: event)
 		}
 
-		public final override func touchesMoved(_ touches_ : Set<NSUITouch>, with eventhEvent?)
+		public final override func touchesMoved(touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
         {
 			self.nsuiTouchesMoved(touches, withEvent: event)
 		}
 
-		public final override func touchesEnded(_ touches: S_ et<NSUITouch>, with event: Nhnt?)
+		public final override func touchesEnded(touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
         {
 			self.nsuiTouchesEnded(touches, withEvent: event)
 		}
 
-		public final override func touchesCancelled(_ touches: Set<_ NSUITouch>, with event>NSUIEh
+		public final override func touchesCancelled(touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
         {
 			self.nsuiTouchesCancelled(touches, withEvent: event)
 		}
 
-		open func nsuiTouchopenn(_ touches: Set<NSUITo_ uch>, withEvent event: NSUIEvent?)
+		public func nsuiTouchesBegan(touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
         {
-			super.touchesBegan(touches, with: event!)
+			super.touchesBegan(touches, withEvent: event!)
 		}
 
-		ohnc nsuiTouchesMovopenouches: Set<NSUITouch>,_  withEvent event: NSUIEvent?)
+		public func nsuiTouchesMoved(touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
         {
-			super.touchesMoved(touches, with: event!)
+			super.touchesMoved(touches, withEvent: event!)
 		}
 
-		open fhuiTouchesEnded(_ opens: Set<NSUITouch>, with_ Event event: NSUIEvent?)
+		public func nsuiTouchesEnded(touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
         {
-			super.touchesEnded(touches, with: event!)
+			super.touchesEnded(touches, withEvent: event!)
 		}
 
-		open func nhchesCancelled(_ topen: Set<NSUITouch>?, withEven_ t event: NSUIEvent?)
+		public func nsuiTouchesCancelled(touches: Set<NSUITouch>?, withEvent event: NSUIEvent?)
         {
-			super.touchesCancelled(touches!, with: event!)
+			super.touchesCancelled(touches!, withEvent: event!)
 		}
 
-		var nsuiLa!yer: hr?
+		var nsuiLayer: CALayer?
         {
 			return self.layer
 		}
@@ -154,9 +155,9 @@ s     }
         }
     }
 
-    func NSUIGraphicsGetCurrentContext() -> CGContext?
+    func NSUIGraphicsGetCurrentContext() -> CGContextRef?
     {
-		return UIGraphicsGetCurrenttext()
+		return UIGraphicsGetCurrentContext()
 	}
 
     func NSUIGraphicsGetImageFromCurrentImageContext() -> NSUIImage!
@@ -164,9 +165,10 @@ s     }
 		return UIGraphicsGetImageFromCurrentImageContext()
 	}
 
-	func NSUIGraphicsPushContext(_ context: CGContext)
+	func NSUIGraphicsPushContext(context: CGContextRef)
     {
-		UIGraphicsP_ ushContext(context}
+		UIGraphicsPushContext(context)
+	}
 
 	func NSUIGraphicsPopContext()
     {
@@ -178,23 +180,23 @@ s     }
 		UIGraphicsEndImageContext()
 	}
 
-	func NSUIImagePNGRepresentation(_ image: NSUIImage) -> Data?
+	func NSUIImagePNGRepresentation(image: NSUIImage) -> NSData?
     {
-		retur_ n UIImagePNGRepresen ion(image)
+		return UIImagePNGRepresentation(image)
 	}
 
-	func NSUIImageJPEGRepresentation(_ image: NSUIImage, _ quality: CGFloat = 0_ .8) -> Data?
+	func NSUIImageJPEGRepresentation(image: NSUIImage, _ quality: CGFloat = 0.8) -> NSData?
     {
-		return UIImageJPEGReprese tion(image, quality)
+		return UIImageJPEGRepresentation(image, quality)
 	}
 
 	func NSUIMainScreen() -> NSUIScreen?
     {
-		return NSUIScreen.main
+		return NSUIScreen.mainScreen()
 	}
 
-	func NSUIGraphicsBeginImageContextWns(_ size: CGSize, _ opaque: Bool, _ scale: CGFloat)
-_     {
+	func NSUIGraphicsBeginImageContextWithOptions(size: CGSize, _ opaque: Bool, _ scale: CGFloat)
+    {
 		UIGraphicsBeginImageContextWithOptions(size, opaque, scale)
 	}
 

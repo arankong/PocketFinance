@@ -15,12 +15,12 @@
 import Foundation
 import CoreGraphics
 
-openlass CombinedHighlighter: ChartHighlighter
+public class CombinedHighlighter: ChartHighlighter
 {
     /// Returns a list of SelectionDetail object corresponding to the given xIndex.
     /// - parameter xIndex:
     /// - returns:
-    opopenrride func getSelectionDetailsAtIndex(_ xI_ ndex: Int, dataSetIndex: Int?) -> [ChartSelectionDetail]
+    public override func getSelectionDetailsAtIndex(xIndex: Int, dataSetIndex: Int?) -> [ChartSelectionDetail]
     {
         var vals = [ChartSelectionDetail]()
         var pt = CGPoint()
