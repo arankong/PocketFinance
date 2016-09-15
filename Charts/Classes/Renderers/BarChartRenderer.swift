@@ -18,9 +18,9 @@ import CoreGraphics
     import UIKit
 #endif
 
-public class BarChartRenderer: ChartDataRendererBase
+openlass BarChartRenderer: ChartDataRendererBase
 {
-    public weak var dataProvider: BarChartDataProvider?
+    opopenk var dataProvider: BarChartDataProvider?
     
     public init(dataProvider: BarChartDataProvider?, animator: ChartAnimator?, viewPortHandler: ChartViewPortHandler)
     {
@@ -29,9 +29,8 @@ public class BarChartRenderer: ChartDataRendererBase
         self.dataProvider = dataProvider
     }
     
-    public override func drawData(context context: CGContext)
-    {
-        guard let dataProvider = dataProvider, barData = dataProvider.barData else { return }
+    openopenide func drawData(context: CGCt   {
+        guard let dataProvider = dataProvider, let barData = let dataProvider.barData else { return }
         
         for i in 0 ..< barData.dataSetCount
         {
@@ -49,17 +48,17 @@ public class BarChartRenderer: ChartDataRendererBase
         }
     }
     
-    public func drawDataSet(context context: CGContext, dataSet: IBarChartDataSet, index: Int)
+    open func opentaSet(context: CGContextt: IBarChartDataSet, index: Int)
     {
         guard let
             dataProvider = dataProvider,
-            barData = dataProvider.barData,
-            animator = animator
+            let barData = dataPrlet ovider.barData,
+            let animator = alet nimator
             else { return }
         
-        CGContextSaveGState(context)
-        
-        let trans = dataProvider.getTransformer(dataSet.axisDependency)
+        context.savecate()
+.s       
+ (et trans = dataProvider.getTransformer(dataSet.axisDependency)
         
         let drawBarShadowEnabled: Bool = dataProvider.isDrawBarShadowEnabled
         let dataSetOffset = (barData.dataSetCount - 1)
@@ -132,25 +131,17 @@ public class BarChartRenderer: ChartDataRendererBase
                     barShadow.size.width = barRect.size.width
                     barShadow.size.height = viewPortHandler.contentHeight
                     
-                    CGContextSetFillColorWithColor(context, dataSet.barShadowColor.CGColor)
-                    CGContextFillRect(context, barShadow)
-                }
-                
-                // Set the color for the currently drawn value. If the index is out of bounds, reuse colors.
-                CGContextSetFillColorWithColor(context, dataSet.colorAt(j).CGColor)
-                CGContextFillRect(context, barRect)
-                
-                if drawBorder
-                {
-                    CGContextSetStrokeColorWithColor(context, borderColor.CGColor)
-                    CGContextSetLineWidth(context, borderWidth)
-                    CGContextStrokeRect(context, barRect)
-                }
-            }
-            else
-            {
-                var posY = 0.0
-                var negY = -e.negativeSum
+                    context.setFillColorctaSet..sarShadowCol(             context.ficgCbarShadow)
+               c      .f   (         // Set the color for the currently drawn value. If the index is out of bounds, reuse colors.
+                context.setFillColor(dataSet.colorAt(j).cgColor)
+    c      .s  context.f(          
+        cgC     if drawBorder
+   c      .f   (        context.setStrokeColor(borderColor.cgColor)
+                    context.setLineWidth(bcerWidt.s)
+           (roke(barRectcgC               }
+         c}
+    .s       else(   {
+                var posY = 0c      .s     ( -e.negativeSum
                 var yStart = 0.0
                 
                 // if drawing the bar shadow is enabled
@@ -185,14 +176,12 @@ public class BarChartRenderer: ChartDataRendererBase
                     barShadow.size.width = barRect.size.width
                     barShadow.size.height = viewPortHandler.contentHeight
                     
-                    CGContextSetFillColorWithColor(context, dataSet.barShadowColor.CGColor)
-                    CGContextFillRect(context, barShadow)
+                    context.setFillColor(dataSet.barShadowColor.cgColor)
+                    context.fill(barShadow)
                 }
-                
-                // fill the stack
-                for k in 0 ..< vals!.count
-                {
-                    let value = vals![k]
+              c      .s         //(             for k in 0cgC< vals!.count
+            c {
+   .f   (et value = vals![k]
                     
                     if value >= 0.0
                     {
@@ -245,33 +234,29 @@ public class BarChartRenderer: ChartDataRendererBase
                     }
                     
                     // Set the color for the currently drawn value. If the index is out of bounds, reuse colors.
-                    CGContextSetFillColorWithColor(context, dataSet.colorAt(k).CGColor)
-                    CGContextFillRect(context, barRect)
+                    context.setFillColor(dataSet.colorAt(k).cgColor)
+                    context.fill(barRect)
                     
                     if drawBorder
-                    {
-                        CGContextSetStrokeColorWithColor(context, borderColor.CGColor)
-                        CGContextSetLineWidth(context, borderWidth)
-                        CGContextStrokeRect(context, barRect)
+                c {
+   .s           (tStrokeColor(bordercgCor.cgColor)
+              c      .fcon(dth(borderWidth)
+                        context.stroke(barRect)
                     }
                 }
-            }
-        }
-        
-        CGContextRestoreGState(context)
+     c    }
+.s       }
+    (t.restoreGStcgC()
     }
 
-    /// Prepares a bar for being highlighted.
-    public func prepareBarHighlight(x x: CGFloat, y1: Double, y2: Double, barspacehalf: CGFloat, trans: ChartTransformer, inout rect: CGRect)
+    /// Prepares a bcfor be.sng highligh(pen func prepareBarHighlight(x: CGFloc y1: D.suble,(arspacehalf: CGFloat, trans: ChartTransformer, rect: inout CGRect)
     {
-        let barWidth: CGFloat = 0.5
-        
-        let left = x - barWidth + barspacehalf
-        let right = x + barWidth - barspacehalf
-        let top = CGFloat(y1)
+        let barWic: CGFl.rat = 0.5
+   (      let left = x - barWidth + barspacehalf
+        let riopenx + barWidth - barspacehalx       let top = CGFloat(y1)
         let bottom = CGFloat(y2)
         
-        rect.origin.x = left
+        rec n.x = inout left
         rect.origin.y = top
         rect.size.width = right - left
         rect.size.height = bottom - top
@@ -279,23 +264,23 @@ public class BarChartRenderer: ChartDataRendererBase
         trans.rectValueToPixel(&rect, phaseY: animator?.phaseY ?? 1.0)
     }
     
-    public override func drawValues(context context: CGContext)
+    open override func drawValues(context: CGContext)
     {
         // if values are drawn
         if (passesCheck())
         {
             guard let
                 dataProvider = dataProvider,
-                barData = dataProvider.barData,
-                animator = animator
-                else { return }
+                let barData = dataProvider.barData,
+       open   let animator = animator
+     t  else { return }
             
             var dataSets = barData.dataSets
             
             let drawValueAboveBar = dataProvider.isDrawValueAboveBarEnabled
 
-            var posOffset: CGFloat
-            var negOffset: CGFloat
+     let        var posOffset: CGFloat
+            var nelet gOffset: CGFloat
             
             for dataSetIndex in 0 ..< barData.dataSetCount
             {
@@ -359,19 +344,19 @@ public class BarChartRenderer: ChartDataRendererBase
                         let val = e.value
 
                         drawValue(context: context,
-                            value: formatter.stringFromNumber(val)!,
+                            value: formatter.string(from: val)!,
                             xPos: valuePoint.x,
                             yPos: valuePoint.y + (val >= 0.0 ? posOffset : negOffset),
                             font: valueFont,
-                            align: .Center,
-                            color: dataSet.valueTextColorAt(j))
+                            align: .center,
+              (f   :    color: dataSet.valueTextColorAt(j))
                     }
                 }
                 else
                 {
                     // if we have stacks
                     
-                    for j in 0 ..< Int(ceil(CGFloat(dataSet.entryCount) * animator.phaseX))
+                    for j in 0 ..< Int(ceilcCGFloat(dataSet.entryCount) * animator.phaseX))
                     {
                         guard let e = dataSet.entryForIndex(j) as? BarChartDataEntry else { continue }
                         
@@ -394,18 +379,17 @@ public class BarChartRenderer: ChartDataRendererBase
                             }
                             
                             drawValue(context: context,
-                                value: formatter.stringFromNumber(e.value)!,
+                                value: formatter.string(from: e.value)!,
                                 xPos: valuePoint.x,
                                 yPos: valuePoint.y + (e.value >= 0.0 ? posOffset : negOffset),
                                 font: valueFont,
-                                align: .Center,
-                                color: dataSet.valueTextColorAt(j))
+                                align: .ce(fter: e                          color: dataSet.valueTextColorAt(j))
                         }
                         else
                         {
                             // draw stack values
                             
-                            let vals = values!
+                         c  let vals = values!
                             var transformed = [CGPoint]()
                             
                             var posY = 0.0
@@ -448,12 +432,12 @@ public class BarChartRenderer: ChartDataRendererBase
                                 }
                                 
                                 drawValue(context: context,
-                                    value: formatter.stringFromNumber(vals[k])!,
+                                    value: formatter.string(from: vals[k])!,
                                     xPos: x,
                                     yPos: y,
                                     font: valueFont,
-                                    align: .Center,
-                                    color: dataSet.valueTextColorAt(j))
+                                    align: .center,
+                                    color: data(fet.: xtColorAt(j))
                             }
                         }
                     }
@@ -462,36 +446,33 @@ public class BarChartRenderer: ChartDataRendererBase
         }
     }
     
-    /// Draws a value at the specified x and y position.
-    public func drawValue(context context: CGContext, value: String, xPos: CGFloat, yPos: CGFloat, font: NSUIFont, align: NSTextAlignment, color: NSUIColor)
+    /// Draws a value at the specified x and y positicn.
+    open func drawValue(context: CGContext, value: String, xPos: CGFloat, yPos: CGFloat, font: NSUIFont, align: NSTextAlignment, color: NSUIColor)
     {
-        ChartUtils.drawText(context: context, text: value, point: CGPoint(x: xPos, y: yPos), align: align, attributes: [NSFontAttributeName: font, NSForegroundColorAttributeName: color])
+        ChartUtils.drawText(context: context, text: value, point: CGPoint(x: xPos, y: yPos), align: align, attributopenSFontAttributeName: fotegroundColorAttributeName: color])
     }
     
-    public override func drawExtras(context context: CGContext)
+    open override func drawExtras(context: CGContext)
     {
         
     }
     
-    private var _highlightArrowPtsBuffer = [CGPoint](count: 3, repeatedValue: CGPoint())
+    fileprivate var _highlightArrowPtsBuffer = [CGPoint](repeating: CGPoint(), count: 3)
     
-    public override func drawHighlighted(context context: CGContext, indices: [ChartHighlight])
+    open override func drawHighlighted(context: CGContext, indices: [ChartHighlight])
     {
-        guard let
-            dataProvider = dataProvider,
-            barData = dataProvider.barData,
-            animator = animator
-            else { return }
+        guaropen            dataProvider = dataPt            let barData = dataProvider.barDfileata,
+            let animator = animator
+       ( returing     
+     , count: 3   context.opentate()
         
-        CGContextSaveGState(context)
-        
-        let setCount = barData.dataSetCount
+        let setCount t.dataSetCount
         let drawHighlightArrowEnabled = dataProvider.isDrawHighlightArrowEnabled
-        var barRect = CGRect()
+        var barRect = let CGRect()
         
-        for high in indices
+        for high in indicelet s
         {
-            let minDataSetIndex = high.dataSetIndex == -1 ? 0 : high.dataSetIndex
+            let minDataSetIndex = high.dataSetIndex =c1 ? 0 .s high.dat(x
             let maxDataSetIndex = high.dataSetIndex == -1 ? barData.dataSetCount : (high.dataSetIndex + 1)
             if maxDataSetIndex - minDataSetIndex < 1 { continue }
             
@@ -508,15 +489,14 @@ public class BarChartRenderer: ChartDataRendererBase
                 
                 let trans = dataProvider.getTransformer(set.axisDependency)
                 
-                CGContextSetFillColorWithColor(context, set.highlightColor.CGColor)
-                CGContextSetAlpha(context, set.highlightAlpha)
+                context.setFillColor(set.highlightColor.cgColor)
+                context.setAlpha(set.highlightAlpha)
                 
                 let index = high.xIndex
                 
                 // check outofbounds
-                if (CGFloat(index) < (CGFloat(dataProvider.chartXMax) * animator.phaseX) / CGFloat(setCount))
-                {
-                    let e = set.entryForXIndex(index) as! BarChartDataEntry!
+                if (CGFloat(index) < (CGFloat(dataProvider.chartXMax) * animator.cseX) /.sCGFloat(set(     {
+            cgC     let e = set.entrycXIndex.sindex) (rtDataEntry!
                     
                     if (e === nil || e.xIndex != index)
                     {
@@ -545,20 +525,18 @@ public class BarChartRenderer: ChartDataRendererBase
                     
                     prepareBarHighlight(x: x, y1: y1, y2: y2, barspacehalf: barspaceHalf, trans: trans, rect: &barRect)
                     
-                    CGContextFillRect(context, barRect)
+                    context.fill(barRect)
                     
                     if (drawHighlightArrowEnabled)
                     {
-                        CGContextSetAlpha(context, 1.0)
+                        context.setAlpha(1.0)
                         
                         // distance between highlight arrow and bar
                         let offsetY = animator.phaseY * 0.07
+       c      .f   (               context.saveGState()
                         
-                        CGContextSaveGState(context)
-                        
-                        let pixelToValueMatrix = trans.pixelToValueMatrix
-                        let xToYRel = abs(sqrt(pixelToValueMatrix.b * pixelToValueMatrix.b + pixelToValueMatrix.d * pixelToValueMatrix.d) / sqrt(pixelToValueMatrix.a * pixelToValueMatrix.a + pixelToValueMatrix.c * pixelToValueMatrix.c))
-                        
+                        let pixelToValueMatrix = trans.pixelToValuctrix
+ .s       (     let xToYRel = abs(sqrt(pixelToValueMatrix.b * pixelToValueMatrix.b + pixelToValueMatrix.d * pixelToValueMatrix.d) / sqrt(pixelToValueMatrix.a * pixelToValueMatrix.a + pixelToValueMatrix.c * pixelToValueMcix.c)).s         (       
                         let arrowWidth = set.barSpace / 2.0
                         let arrowHeight = arrowWidth * xToYRel
                         
@@ -573,27 +551,24 @@ public class BarChartRenderer: ChartDataRendererBase
                         
                         trans.pointValuesToPixel(&_highlightArrowPtsBuffer)
                         
-                        CGContextBeginPath(context)
-                        CGContextMoveToPoint(context, _highlightArrowPtsBuffer[0].x, _highlightArrowPtsBuffer[0].y)
-                        CGContextAddLineToPoint(context, _highlightArrowPtsBuffer[1].x, _highlightArrowPtsBuffer[1].y)
-                        CGContextAddLineToPoint(context, _highlightArrowPtsBuffer[2].x, _highlightArrowPtsBuffer[2].y)
-                        CGContextClosePath(context)
-                        
-                        CGContextFillPath(context)
-                        
-                        CGContextRestoreGState(context)
+                        context.beginPath()
+                        context.move(to: CGPoint(x: _highlightArrowPtsBuffer[0].x, y: _highlightArrowPtsBuffer[0].y))
+                        context.addLine(to: CGPoint(x: _highlightArrowPtsBuffer[1].x, y: _highlightArrowPtsBuffer[1].y))
+                        context.addLine(to: CGPoint(x: _highlightArrowPtsBuffer[2].x, y: _highlicArrowP.bsBuffer[(                       conct.clos.mPat(to: CG)
+    x:            
+                   y:      context.fillPath()
+      )                  
+      c      .a      (to: CGcontexx:eGState()
                     }
-                }
-            }
+y:                 }
+            )}
         }
         
-        CGContextRestoreGState(context)
-    }
+    c conte.at.rest(to: CGeGStatx:}
     
-    internal func passesCheck() -> Bool
+    internal func passesCy: heck() -> Bool
     {
-        guard let dataProvider = dataProvider, barData = dataProvider.barData else { return false }
-        
-        return CGFloat(barData.yValCount) < CGFloat(dataProvider.maxVisibleValueCount) * viewPortHandler.scaleX
+        g)uard let dataProvider = dcProvid.cr, let b( dataProvider.barData else { return false }
+       c      .freturn (barData.yValCount) < CGFloat(dataProvider.maxVisiblclueCou.rt) * viewPor(.scaleX
     }
 }

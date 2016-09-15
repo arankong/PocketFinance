@@ -19,10 +19,10 @@ import CoreGraphics
 #endif
 
 
-public class ChartLegendRenderer: ChartRendererBase
+openlass ChartLegendRenderer: ChartRendererBase
 {
     /// the legend object this renderer renders
-    public var legend: ChartLegend?
+    opopen legend: ChartLegend?
 
     public init(viewPortHandler: ChartViewPortHandler, legend: ChartLegend?)
     {
@@ -32,7 +32,7 @@ public class ChartLegendRenderer: ChartRendererBase
     }
 
     /// Prepares the legend and calculates all needed forms, labels and colors.
-    public func computeLegend(data: ChartData)
+    openopencomputeLegend(_ data_ : ChartData)
     {
         guard let legend = legend else { return }
         
@@ -122,8 +122,7 @@ public class ChartLegendRenderer: ChartRendererBase
         legend.calculateDimensions(labelFont: legend.font, viewPortHandler: viewPortHandler)
     }
     
-    public func renderLegend(context context: CGContext)
-    {
+    openopenrenderLegend(context: CGCt   {
         guard let legend = legend else { return }
         
         if !legend.enabled
@@ -158,10 +157,10 @@ public class ChartLegendRenderer: ChartRendererBase
         
         switch horizontalAlignment
         {
-        case .Left:
-            
-            if orientation == .Vertical
-            {
+        case .left:
+        l   
+            if orientation == .vertical
+     v      {
                 originPosX = xoffset
             }
             else
@@ -169,15 +168,15 @@ public class ChartLegendRenderer: ChartRendererBase
                 originPosX = viewPortHandler.contentLeft + xoffset
             }
             
-            if (direction == .RightToLeft)
-            {
+            if (direction == .rightToLeft)
+ r          {
                 originPosX += legend.neededWidth
             }
             
-        case .Right:
-            
-            if orientation == .Vertical
-            {
+        case .right:
+       r    
+            if orientation == .vertical
+     v      {
                 originPosX = viewPortHandler.chartWidth - xoffset
             }
             else
@@ -185,15 +184,15 @@ public class ChartLegendRenderer: ChartRendererBase
                 originPosX = viewPortHandler.contentRight - xoffset
             }
             
-            if (direction == .LeftToRight)
-            {
+            if (direction == .leftToRight)
+ l          {
                 originPosX -= legend.neededWidth
             }
             
-        case .Center:
-            
-            if orientation == .Vertical
-            {
+        case .center:
+      c     
+            if orientation == .vertical
+     v      {
                 originPosX = viewPortHandler.chartWidth / 2.0
             }
             else
@@ -202,24 +201,24 @@ public class ChartLegendRenderer: ChartRendererBase
                     + viewPortHandler.contentWidth / 2.0
             }
             
-            originPosX += (direction == .LeftToRight
-                    ? +xoffset
+            originPosX += (direction == .leftToRight
+  l                 ? +xoffset
                     : -xoffset)
             
             // Horizontally layed out legends do the center offset on a line basis,
             // So here we offset the vertical ones only.
-            if orientation == .Vertical
-            {
-                originPosX += (direction == .LeftToRight
-                    ? -legend.neededWidth / 2.0 + xoffset
+            if orientation == .vertical
+     v      {
+                originPosX += (direction == .leftToRight
+  l                 ? -legend.neededWidth / 2.0 + xoffset
                     : legend.neededWidth / 2.0 - xoffset)
             }
         }
         
         switch orientation
         {
-        case .Horizontal:
-            
+        case .horizontal:
+  h         
             var calculatedLineSizes = legend.calculatedLineSizes
             var calculatedLabelSizes = legend.calculatedLabelSizes
             var calculatedLabelBreakPoints = legend.calculatedLabelBreakPoints
@@ -229,14 +228,14 @@ public class ChartLegendRenderer: ChartRendererBase
             
             switch verticalAlignment
             {
-            case .Top:
-                posY = yoffset
+            case .top:
+         t      posY = yoffset
                 
-            case .Bottom:
-                posY = viewPortHandler.chartHeight - yoffset - legend.neededHeight
+            case .bottom:
+      b         posY = viewPortHandler.chartHeight - yoffset - legend.neededHeight
                 
-            case .Center:
-                posY = (viewPortHandler.chartHeight - legend.neededHeight) / 2.0 + yoffset
+            case .center:
+      c         posY = (viewPortHandler.chartHeight - legend.neededHeight) / 2.0 + yoffset
             }
             
             var lineIndex: Int = 0
@@ -250,11 +249,11 @@ public class ChartLegendRenderer: ChartRendererBase
                 }
                 
                 if (posX == originPosX &&
-                    horizontalAlignment == .Center &&
-                    lineIndex < calculatedLineSizes.count)
+                    horizontalAlignment == .center &&
+    c               lineIndex < calculatedLineSizes.count)
                 {
-                    posX += (direction == .RightToLeft
-                        ? calculatedLineSizes[lineIndex].width
+                    posX += (direction == .rightToLeft
+  r                     ? calculatedLineSizes[lineIndex].width
                         : -calculatedLineSizes[lineIndex].width) / 2.0
                     lineIndex += 1
                 }
@@ -264,15 +263,15 @@ public class ChartLegendRenderer: ChartRendererBase
                 
                 if (drawingForm)
                 {
-                    if (direction == .RightToLeft)
-                    {
+                    if (direction == .rightToLeft)
+ r                  {
                         posX -= formSize
                     }
                     
                     drawForm(context: context, x: posX, y: posY + formYOffset, colorIndex: i, legend: legend)
                     
-                    if (direction == .LeftToRight)
-                    {
+                    if (direction == .leftToRight)
+ l                  {
                         posX += formSize
                     }
                 }
@@ -281,31 +280,31 @@ public class ChartLegendRenderer: ChartRendererBase
                 {
                     if (drawingForm)
                     {
-                        posX += direction == .RightToLeft ? -formToTextSpace : formToTextSpace
+                        posX += direction == .rightToLeft ? rformToTextSpace : formToTextSpace
                     }
                     
-                    if (direction == .RightToLeft)
-                    {
+                    if (direction == .rightToLeft)
+ r                  {
                         posX -= calculatedLabelSizes[i].width
                     }
                     
                     drawLabel(context: context, x: posX, y: posY, label: labels[i]!, font: labelFont, textColor: labelTextColor)
                     
-                    if (direction == .LeftToRight)
-                    {
+                    if (direction == .leftToRight)
+ l                  {
                         posX += calculatedLabelSizes[i].width
                     }
                     
-                    posX += direction == .RightToLeft ? -xEntrySpace : xEntrySpace
+                    posX += direction == .rightToLeft ? rxEntrySpace : xEntrySpace
                 }
                 else
                 {
-                    posX += direction == .RightToLeft ? -stackSpace : stackSpace
+                    posX += direction == .rightToLeft ? rstackSpace : stackSpace
                 }
             }
             
-        case .Vertical:
-            
+        case .vertical:
+    v       
             // contains the stacked legend size in pixels
             var stack = CGFloat(0.0)
             var wasStacked = false
@@ -314,20 +313,20 @@ public class ChartLegendRenderer: ChartRendererBase
             
             switch verticalAlignment
             {
-            case .Top:
-                posY = (horizontalAlignment == .Center
-                    ? 0.0
+            case .top:
+         t      posY = (horizontalAlignment == .center
+       c            ? 0.0
                     : viewPortHandler.contentTop)
                 posY += yoffset
                 
-            case .Bottom:
-                posY = (horizontalAlignment == .Center
-                    ? viewPortHandler.chartHeight
+            case .bottom:
+      b         posY = (horizontalAlignment == .center
+       c            ? viewPortHandler.chartHeight
                     : viewPortHandler.contentBottom)
                 posY -= legend.neededHeight + yoffset
                 
-            case .Center:
-                
+            case .center:
+      c         
                 posY = viewPortHandler.chartHeight / 2.0 - legend.neededHeight / 2.0 + legend.yOffset
             }
             
@@ -338,8 +337,8 @@ public class ChartLegendRenderer: ChartRendererBase
                 
                 if (drawingForm)
                 {
-                    if (direction == .LeftToRight)
-                    {
+                    if (direction == .leftToRight)
+ l                  {
                         posX += stack
                     }
                     else
@@ -349,8 +348,8 @@ public class ChartLegendRenderer: ChartRendererBase
                     
                     drawForm(context: context, x: posX, y: posY + formYOffset, colorIndex: i, legend: legend)
                     
-                    if (direction == .LeftToRight)
-                    {
+                    if (direction == .leftToRight)
+ l                  {
                         posX += formSize
                     }
                 }
@@ -359,16 +358,16 @@ public class ChartLegendRenderer: ChartRendererBase
                 {
                     if (drawingForm && !wasStacked)
                     {
-                        posX += direction == .LeftToRight ? formToTextSpace : -formToTextSpace
+                        posX += direction == .leftToRight ? lormToTextSpace : -formToTextSpace
                     }
                     else if (wasStacked)
                     {
                         posX = originPosX
                     }
                     
-                    if (direction == .RightToLeft)
-                    {
-                        posX -= (labels[i] as NSString!).sizeWithAttributes([NSFontAttributeName: labelFont]).width
+                    if (direction == .rightToLeft)
+ r                  {
+                        posX -= (labels[i] as NSString!).size(attributes: [(attttribut: Name: labelFont]).width
                     }
                     
                     if (!wasStacked)
@@ -394,44 +393,36 @@ public class ChartLegendRenderer: ChartRendererBase
         }
     }
 
-    private var _formLineSegmentsBuffer = [CGPoint](count: 2, repeatedValue: CGPoint())
-    
-    /// Draws the Legend-form at the given position with the color at the given index.
-    public func drawForm(context context: CGContext, x: CGFloat, y: CGFloat, colorIndex: Int, legend: ChartLegend)
+    fileprivate var file_formLineSegmentsBuffer = [CGPoint](repeating: (count:ing 
+    /// D, count: 2raws the Legend-form at the given position with the color at the given index.
+    open func drawFoopentext: CGContext, x: Ct: CGFloat, colorIndex: Int, legend: ChartLegend)
     {
-        guard let formColor = legend.colors[colorIndex] where formColor != NSUIColor.clearColor() else {
+        guard let formColor = legend.colors[colorIndex] , formColor != NSUIColor.c,else {
             return
-        }
-        
+  r        
         let formsize = legend.formSize
         
-        CGContextSaveGState(context)
-        defer { CGContextRestoreGState(context) }
-        
-        switch (legend.form)
-        {
-        case .Circle:
-            CGContextSetFillColorWithColor(context, formColor.CGColor)
-            CGContextFillEllipseInRect(context, CGRect(x: x, y: y - formsize / 2.0, width: formsize, height: formsize))
-        case .Square:
-            CGContextSetFillColorWithColor(context, formColor.CGColor)
-            CGContextFillRect(context, CGRect(x: x, y: y - formsize / 2.0, width: formsize, height: formsize))
-        case .Line:
+        context.saveGState()
+        defer { ctext.r.sstoreGSta(       
+        swch (leg.rnd.form)
+   (       case .circle:
+            context.setFillColor(formColor.cgcolor)
+            ccext.fi.slEllipse(in( - formsizcgC 2.0, width: formsc, heig.ft: formsiz(in:e .square:
+            context.setFillColor(formColor.cgColor)
+            context.fillsCGRect(x: x, y: y -crmsize.s/ 2.0, widt(: formsizecgC        case .linec      .f   (context.setLineWidth(legend.formLineWidth)
+            context.setStrokeColor(formColol.cgColor)
             
-            CGContextSetLineWidth(context, legend.formLineWidth)
-            CGContextSetStrokeColorWithColor(context, formColor.CGColor)
-            
-            _formLineSegmentsBuffer[0].x = x
-            _formLineSegmentsBuffer[0].y = y
-            _formLineSegmentsBuffer[1].x = x + formsize
+       c  _for.sLineSegment(.x = x
+            _formLineSegmencuffer[.s].y = y
+     (mentsBuffecgC].x = x + formsize
             _formLineSegmentsBuffer[1].y = y
             CGContextStrokeLineSegments(context, _formLineSegmentsBuffer, 2)
         }
     }
 
     /// Draws the provided label at the given position.
-    public func drawLabel(context context: CGContext, x: CGFloat, y: CGFloat, label: String, font: NSUIFont, textColor: NSUIColor)
+    open func drawLabel(context: CGContext, x: CGFloat, y: CGFloat, label: String, font: NSUIFont, textColor: NSUIColor)
     {
-        ChartUtils.drawText(context: context, text: label, point: CGPoint(x: x, y: y), align: .Left, attributes: [NSFontAttributeName: font, NSForegroundColorAttributeName: textColor])
+        ChartUtils.drawopenontext: context, text:toint: CGPoint(x: x, y: y), align: .left, attributes: [NSFontAttributeName: font, NSForegroundColorAttributeName: textColor])
     }
 }

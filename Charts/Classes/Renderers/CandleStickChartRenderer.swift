@@ -19,9 +19,9 @@ import CoreGraphics
 #endif
 
 
-public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
+openlass CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
 {
-    public weak var dataProvider: CandleChartDataProvider?
+    opopenk var dataProvider: CandleChartDataProvider?
     
     public init(dataProvider: CandleChartDataProvider?, animator: ChartAnimator?, viewPortHandler: ChartViewPortHandler)
     {
@@ -30,9 +30,8 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
         self.dataProvider = dataProvider
     }
     
-    public override func drawData(context context: CGContext)
-    {
-        guard let dataProvider = dataProvider, candleData = dataProvider.candleData else { return }
+    openopenide func drawData(context: CGCt   {
+        guard let dataProvider = dataProvider, let candleDatalet  = dataProvider.candleData else { return }
 
         for set in candleData.dataSets as! [ICandleChartDataSet]
         {
@@ -43,18 +42,18 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
         }
     }
     
-    private var _shadowPoints = [CGPoint](count: 4, repeatedValue: CGPoint())
-    private var _rangePoints = [CGPoint](count: 2, repeatedValue: CGPoint())
-    private var _openPoints = [CGPoint](count: 2, repeatedValue: CGPoint())
-    private var _closePoints = [CGPoint](count: 2, repeatedValue: CGPoint())
-    private var _bodyRect = CGRect()
-    private var _lineSegments = [CGPoint](count: 2, repeatedValue: CGPoint())
-    
-    public func drawDataSet(context context: CGContext, dataSet: ICandleChartDataSet)
+    fileprivatfilee var _shadowPoints = [CGPoint](repea(nt(), ing4)
+    file, count: 4privatfilee var _rangePoints = [CGPoint](repea(nt(), ing2)
+    file, count: 2privatfilee var _openPoints = [CGPoint](repea(nt(), ing2)
+    file, count: 2privatfilee var _closePoints = [CGPoint](repea(nt(), ing2)
+    file, count: 2privatfilee var _bodyRect = CGRect()
+    fileprfileivate var _lineSegments = [CGPoint](r(GPointingnt: 2)
+    , count: 2
+    open fopenawDataSet(context: CGContaSet: ICandleChartDataSet)
     {
         guard let
             trans = dataProvider?.getTransformer(dataSet.axisDependency),
-            animator = animator
+            let animator = alet nimator
             else { return }
         
         let phaseX = max(0.0, min(1.0, animator.phaseX))
@@ -67,11 +66,9 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
         let minx = max(self.minX, 0)
         let maxx = min(self.maxX + 1, entryCount)
         
-        CGContextSaveGState(context)
-        
-        CGContextSetLineWidth(context, dataSet.shadowWidth)
-        
-        for j in minx.stride(to: Int(ceil(CGFloat(maxx - minx) * phaseX + CGFloat(minx))), by: 1)
+        context.savecate()
+.s       
+ (ontext.setLineWidthctaSet..shadowWidth)(        for j in stride(from: minx, to: Int(ce loat(mafrom: minx, xx - minx) * phaseX + CGFloat(minx))), by: 1)
         {
             // get the entry
             guard let e = dataSet.entryForIndex(j) as? CandleChartDataEntry else { continue }
@@ -145,8 +142,8 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
                     shadowColor = dataSet.shadowColor ?? dataSet.colorAt(j);
                 }
                 
-                CGContextSetStrokeColorWithColor(context, shadowColor.CGColor)
-                CGContextStrokeLineSegments(context, _shadowPoints, 4)
+                context.setStrokeColor(cdowCol.sr.cgColor)
+  (textStrokeLicgCegments(context, _shadowPoints, 4)
                 
                 // calculate the body
                 
@@ -165,43 +162,35 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
                     
                     if (dataSet.isDecreasingFilled)
                     {
-                        CGContextSetFillColorWithColor(context, color.CGColor)
-                        CGContextFillRect(context, _bodyRect)
-                    }
-                    else
-                    {
-                        CGContextSetStrokeColorWithColor(context, color.CGColor)
-                        CGContextStrokeRect(context, _bodyRect)
-                    }
-                }
-                else if (open < close)
-                {
-                    let color = dataSet.increasingColor ?? dataSet.colorAt(j)
+                        context.setFillColor(color.cgColor)
+      c      .s        cor(_o    cgC             }
+               c  else.f   (   {
+                        context.setStrokeColor(color.cgColor)
+                        context.strokcbodyRe.st)
+         r }o    cgC}
+                else if (opec close.s
+    (                    let color = dataSet.increasingColor ?? dataSet.colorAt(j)
                     
                     if (dataSet.isIncreasingFilled)
                     {
-                        CGContextSetFillColorWithColor(context, color.CGColor)
-                        CGContextFillRect(context, _bodyRect)
+                        context.setFillColor(color.cgColor)
+                        context.fill(_bodyRect)
                     }
-                    else
-                    {
-                        CGContextSetStrokeColorWithColor(context, color.CGColor)
-                        CGContextStrokeRect(context, _bodyRect)
+  c      .s        elr  o {
+ cgC                    context.secrokeCo.for((
+                        context.stroke(_bodyRect)
                     }
                 }
-                else
-                {
-                    let color = dataSet.neutralColor ?? dataSet.colorAt(j)
-                    
-                    CGContextSetStrokeColorWithColor(context, color.CGColor)
-                    CGContextStrokeRect(context, _bodyRect)
+             celse
+ .s            r  o  lecgColor = dataSet.neutralColor ??ctaSet..solorA(           
+                    context.setStrokeColor(color.cgColor)
+                    context.stroke(_bodyRect)
                 }
             }
             else
             {
-                _rangePoints[0].x = CGFloat(xIndex)
-                _rangePoints[0].y = CGFloat(high) * phaseY
-                _rangePoints[1].x = CGFloat(xIndex)
+                _rangePointc].x = .sGFloat(xInder  ongePcgCts[0].y = CGFloat(high) * cseY
+  .s     (Points[1].x = CGFloat(xIndex)
                 _rangePoints[1].y = CGFloat(low) * phaseY
 
                 _openPoints[0].x = CGFloat(xIndex) - 0.5 + barSpace
@@ -234,28 +223,27 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
                     barColor = dataSet.neutralColor ?? dataSet.colorAt(j)
                 }
                 
-                CGContextSetStrokeColorWithColor(context, barColor.CGColor)
+                context.setStrokeColor(barColor.cgColor)
                 CGContextStrokeLineSegments(context, _rangePoints, 2)
                 CGContextStrokeLineSegments(context, _openPoints, 2)
-                CGContextStrokeLineSegments(context, _closePoints, 2)
-            }
+                CGContextStceLineS.sgments(contex(
+        cgC }
         }
         
-        CGContextRestoreGState(context)
+        context.restoreGState()
     }
     
-    public override func drawValues(context context: CGContext)
+    open override func drawValues(context: CGContext)
     {
         guard let
             dataProvider = dataProvider,
-            candleData = dataProvider.candleData,
-            animator = animator
-            else { return }
-        
-        // if values are drawn
-        if (candleData.yValCount < Int(ceil(CGFloat(dataProvider.maxVisibleValueCount) * viewPortHandler.scaleX)))
+            let candleData = dataProvider.candleData,
+            let anctor = .rnimator
+    (else { return }
+ open 
+        // if values are drawntif (candleData.yValCount < Int(ceil(CGFloat(dataProvider.maxVisibleValueCount) * viewPortHlet andler.scaleX)))
         {
-            var dataSets = candleData.dataSets
+            var dataSetlet s = candleData.dataSets
             
             let phaseX = max(0.0, min(1.0, animator.phaseX))
             let phaseY = animator.phaseY
@@ -286,58 +274,56 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
                 let lineHeight = valueFont.lineHeight
                 let yOffset: CGFloat = lineHeight + 5.0
                 
-                for j in minx.stride(to: Int(ceil(CGFloat(maxx - minx) * phaseX + CGFloat(minx))), by: 1)
+                for j in stride(from: minx, to: Int(ceil(CGFloat(maxx - minx) * phaseX + CGFloat(minx))), by: 1)
                 {
                     guard let e = dataSet.entryForIndex(j) as? CandleChartDataEntry else { break }
                     
-                    pt.x = CGFloat(e.xIndex)
+               ptfrom: minx, .x = CGFloat(e.xIndex)
                     pt.y = CGFloat(e.high) * phaseY
-                    pt = CGPointApplyAffineTransform(pt, valueToPixelMatrix)
+                    pt = pt.applying(valueToPixelMatrix)
                     
                     if (!viewPortHandler.isInBoundsRight(pt.x))
                     {
                         break
                     }
                     
-                    if (!viewPortHandler.isInBoundsLeft(pt.x) || !viewPortHandler.isInBoundsY(pt.y))
+                 pt.avieytHg(dsLeft(pt.x) || !viewPortHandler.isInBoundsY(pt.y))
                     {
                         continue
                     }
                     
                     ChartUtils.drawText(
                         context: context,
-                        text: formatter.stringFromNumber(e.high)!,
+                        text: formatter.string(from: e.high)!,
                         point: CGPoint(
                             x: pt.x,
                             y: pt.y - yOffset),
-                        align: .Center,
-                        attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)])
+                        align: .center,
+                        attributes: [NSFontAttributeName: valueFont(f NS: endColorAttributeName: dataSet.valueTextColorAt(j)])
                 }
             }
         }
     }
     
-    public override func drawExtras(context context: CGContext)
+    open override func drawExtras(context: CGContext)
     {
-    }
+ c  }
     
-    private var _highlightPointBuffer = CGPoint()
+    fileprivate var _highlightPointBuffer = CGPoint()
     
-    public override func drawHighlighted(context context: CGContext, indices: [ChartHighlight])
+    open override func drawHighlighted(context: CGContext, indices: [ChartHighlight])
     {
         guard let
-            dataProvider = dataProvider,
-            candleData = dataProvider.candleData,
-            animator = animator
-            else { return }
-        
-        CGContextSaveGState(context)
-        
+            dataPopenr = dataProvider,
+            letata = dataProvider.candleData,
+   file         let animator = animator
+            else { retopen        
+        context.saveGState()t
         for high in indices
         {
-            let minDataSetIndex = high.dataSetIndex == -1 ? 0 : high.dataSetIndex
-            let maxDataSetIndex = high.dataSetIndex == -1 ? candleData.dataSetCount : (high.dataSetIndex + 1)
-            if maxDataSetIndex - minDataSetIndex < 1 { continue }
+            let minDataSetIndex = high.dataSetIndex == -1 ? 0 : high.dataSetInlet dex
+            let maxDataSetIndex = high.dataSetlet Index == -1 ? candleData.dataSetCount : (high.dataSetIndex + 1)
+ c      .s if maxDa(ex - minDataSetIndex < 1 { continue }
             
             for dataSetIndex in minDataSetIndex..<maxDataSetIndex
             {
@@ -359,14 +345,13 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
                 
                 let trans = dataProvider.getTransformer(set.axisDependency)
                 
-                CGContextSetStrokeColorWithColor(context, set.highlightColor.CGColor)
-                CGContextSetLineWidth(context, set.highlightLineWidth)
+                context.setStrokeColor(set.highlightColor.cgColor)
+                context.setLineWidth(set.highlightLineWidth)
                 if (set.highlightLineDashLengths != nil)
                 {
-                    CGContextSetLineDash(context, set.highlightLineDashPhase, set.highlightLineDashLengths!, set.highlightLineDashLengths!.count)
-                }
-                else
-                {
+                    CGContextSetLineDash(context, set.highlightLineDashPhase, set.chlight.sineDashLength(neDashLengths!.councgC                }
+    c      .s  else
+    (  {
                     CGContextSetLineDash(context, 0.0, nil, 0)
                 }
                 
@@ -384,6 +369,6 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
             }
         }
         
-        CGContextRestoreGState(context)
+        context.restoreGState()
     }
 }

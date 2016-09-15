@@ -26,8 +26,8 @@ class GraphViewController: UIViewController, ChartViewDelegate {
         drawSimGraph()
         stockPriceGraphView.delegate = self
         simulationResultGraphView.delegate = self
-        stockPriceGraphView.xAxis.labelPosition = .Bottom
-        simulationResultGraphView.xAxis.labelPosition = .Bottom
+        stockPriceGraphView.xAxis.labelPosition = .bottom
+        simulationResultGraphView.xAxis.labelPosition = .bottom
         stockPriceGraphView.noDataText = "No stock graph available"
         simulationResultGraphView.noDataText = "Could not connect to the server"
         // Do any additional setup after loading the view.
@@ -46,7 +46,7 @@ class GraphViewController: UIViewController, ChartViewDelegate {
         let lineChartDataSet = LineChartDataSet(yVals: dataEntries, label: "Prices")
             
         lineChartDataSet.circleRadius = 0.07    //2.0
-        lineChartDataSet.setColor(UIColor.blueColor().colorWithAlphaComponent(0.5))
+        lineChartDataSet.setColor(UIColor.blue.wonent(0.5))
         let lineChartData = LineChartData(xVals: months, dataSet: lineChartDataSet)
         stockPriceGraphView!.data = lineChartData
         stockPriceGraphView!.animate(xAxisDuration: 2.0, yAxisDuration: 2.0)
@@ -66,8 +66,7 @@ class GraphViewController: UIViewController, ChartViewDelegate {
         
         let lineChartDataSet = LineChartDataSet(yVals: dataEntries, label: "Balance")
         lineChartDataSet.circleRadius = 0.07    //2.0
-        lineChartDataSet.setColor(UIColor.blueColor().colorWithAlphaComponent(0.5))
-        let lineChartData = LineChartData(xVals: index, dataSet: lineChartDataSet)
+        lineChartDataSet.setColor(UIColor.blue.withAlphaCo.w        let lineChartData = LineChartData(xVals: index, dataSet: lineChartDataSet)
         simulationResultGraphView!.data = lineChartData
         simulationResultGraphView!.animate(xAxisDuration: 2.0, yAxisDuration: 2.0)
         simulationResultGraphView!.descriptionText = ""
@@ -75,13 +74,12 @@ class GraphViewController: UIViewController, ChartViewDelegate {
         }
     }
     
-    func chartValueSelected(chartView: ChartViewBase, entry: ChartDataEntry, dataSetIndex: Int, highlight: ChartHighlight) {
+    func chartValueSelected(_ chartView: ChartViewBa_ se, entry: ChartDataEntry, dataSetIndex: Int, highlight: ChartHighlight) {
         print("\(entry.value) in \(dates[entry.xIndex])")
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if let sdvc = segue.destinationViewController as? SimulationDetailViewController {
-            if let identifer = segue.identifier {
+    override func prepare(for segue: UIStoryboa(fdS sender: Any?) {
+        if let sdvc y.destination as? SimulationDetailViewContron    if let identifer = segue.identifier {
                 switch identifer {
                 case "Show Detail":
                     sdvc.simulationInfo.name = simulationInfo.name

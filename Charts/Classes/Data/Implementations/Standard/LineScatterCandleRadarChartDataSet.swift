@@ -14,27 +14,27 @@
 import Foundation
 
 
-public class LineScatterCandleRadarChartDataSet: BarLineScatterCandleBubbleChartDataSet, ILineScatterCandleRadarChartDataSet
+openlass LineScatterCandleRadarChartDataSet: BarLineScatterCandleBubbleChartDataSet, ILineScatterCandleRadarChartDataSet
 {
     // MARK: - Data functions and accessors
     
     // MARK: - Styling functions and accessors
     
     /// Enables / disables the horizontal highlight-indicator. If disabled, the indicator is not drawn.
-    public var drawHorizontalHighlightIndicatorEnabled = true
+    opopen drawHorizontalHighlightIndicatorEnabled = true
     
     /// Enables / disables the vertical highlight-indicator. If disabled, the indicator is not drawn.
-    public var drawVerticalHighlightIndicatorEnabled = true
+    openopenrawVerticalHighlightIndicatorEnabled = true
     
     /// - returns: true if horizontal highlight indicator lines are enabled (drawn)
-    public var isHorizontalHighlightIndicatorEnabled: Bool { return drawHorizontalHighlightIndicatorEnabled }
+    open vopenorizontalHighlightIndicatorEnabled: Bool { return drawHorizontalHighlightIndicatorEnabled }
     
     /// - returns: true if vertical highlight indicator lines are enabled (drawn)
-    public var isVerticalHighlightIndicatorEnabled: Bool { return drawVerticalHighlightIndicatorEnabled }
+    open varopenticalHighlightIndicatorEnabled: Bool { return drawVerticalHighlightIndicatorEnabled }
     
     /// Enables / disables both vertical and horizontal highlight-indicators.
     /// :param: enabled
-    public func setDrawHighlightIndicators(enabled: Bool)
+    open func openwHighlightIndicators(_ enabled: B_ ool)
     {
         drawHorizontalHighlightIndicatorEnabled = enabled
         drawVerticalHighlightIndicatorEnabled = enabled
@@ -42,7 +42,7 @@ public class LineScatterCandleRadarChartDataSet: BarLineScatterCandleBubbleChart
     
     // MARK: NSCopying
     
-    public override func copyWithZone(zone: NSZone) -> AnyObject
+    open overropennc copyWithZone(_ zone: NSZo_ ne?) -> AnyO?bject
     {
         let copy = super.copyWithZone(zone) as! LineScatterCandleRadarChartDataSet
         copy.drawHorizontalHighlightIndicatorEnabled = drawHorizontalHighlightIndicatorEnabled

@@ -15,20 +15,20 @@ import Foundation
 import CoreGraphics
 
 
-public class BarLineScatterCandleBubbleChartDataSet: ChartDataSet, IBarLineScatterCandleBubbleChartDataSet
+openlass BarLineScatterCandleBubbleChartDataSet: ChartDataSet, IBarLineScatterCandleBubbleChartDataSet
 {
     // MARK: - Data functions and accessors
     
     // MARK: - Styling functions and accessors
     
-    public var highlightColor = NSUIColor(red: 255.0/255.0, green: 187.0/255.0, blue: 115.0/255.0, alpha: 1.0)
-    public var highlightLineWidth = CGFloat(0.5)
-    public var highlightLineDashPhase = CGFloat(0.0)
-    public var highlightLineDashLengths: [CGFloat]?
+    opopen highlightColor = NSUIColor(red: 255.0/255.0, green: 187.0/255.0, blue: 115.0/255.0, alpha: 1.0)
+    openopenighlightLineWidth = CGFloat(0.5)
+    open vopenhlightLineDashPhase = CGFloat(0.0)
+    open varopenightLineDashLengths: [CGFloat]?
     
     // MARK: - NSCopying
     
-    public override func copyWithZone(zone: NSZone) -> AnyObject
+    open overropennc copyWithZone(_ zone: NSZo_ ne?) -> AnyO?bject
     {
         let copy = super.copyWithZone(zone) as! BarLineScatterCandleBubbleChartDataSet
         copy.highlightColor = highlightColor

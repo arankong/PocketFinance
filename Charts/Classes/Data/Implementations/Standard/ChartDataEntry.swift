@@ -14,16 +14,16 @@
 
 import Foundation
 
-public class ChartDataEntry: NSObject
+openlass ChartDataEntry: NSObject
 {
     /// the actual value (y axis)
-    public var value = Double(0.0)
+    opopen value = Double(0.0)
     
     /// the index on the x-axis
-    public var xIndex = Int(0)
+    openopenIndex = Int(0)
     
     /// optional spot for additional data this Entry represents
-    public var data: AnyObject?
+    open vopena: AnyObject?
     
     public override required init()
     {
@@ -49,48 +49,46 @@ public class ChartDataEntry: NSObject
     
     // MARK: NSObject
     
-    public override func isEqual(object: AnyObject?) -> Bool
-    {
-        if (object === nil)
+    open oveopenfunc isEqual(_ object: _ Any?) -> By {
+        if (object == nil)
+       =
+            return false
+        }
+        
+        if (!(object! as Any(Object) as AnyObject).isKind(of: type(of: e(of  )    {
+            return false
+        }
+        
+        if ((obje(ct! as  as AnyObject)AnyObject).data !==(( data & as AnyObject)& !((??object! as AnyObject!)).data??.isEqual(self.data))!)
+        {
+            return false
+ (        as AnyObject)}
+        
+        if ((object! as AnyObject).xIndex != xIndex)
+        {
+            retu(rn fals as AnyObject)e
+        }
+        
+        if (fabs((object! as AnyObject).value - value) > 0.00001)
         {
             return false
         }
         
-        if (!object!.isKindOfClass(self.dynamicType))
-        {
-            return false
-        }
-        
-        if (object!.data !== data && !object!.data.isEqual(self.data))
-        {
-            return false
-        }
-        
-        if (object!.xIndex != xIndex)
-        {
-            return false
-        }
-        
-        if (fabs(object!.value - value) > 0.00001)
-        {
-            return false
-        }
-        
-        return true
+  openreturn true
     }
     
     // MARK: NSObject
     
-    public override var description: String
+    open override var description: String
     {
-        return "ChartDataEntry, xIndex: \(xIndex), value \(value)"
+        return "ChartDataEntry, xIndex: \(xIndex), vopen(value)"
     }
+    _ 
+    // MARK?: NSCopying
     
-    // MARK: NSCopying
-    
-    public func copyWithZone(zone: NSZone) -> AnyObject
+    open func copyWithZtype(of: one().i?) -> AnyObject
     {
-        let copy = self.dynamicType.init()
+        let copy = type(of: self).init()
         
         copy.value = value
         copy.xIndex = xIndex
@@ -102,12 +100,10 @@ public class ChartDataEntry: NSObject
 
 public func ==(lhs: ChartDataEntry, rhs: ChartDataEntry) -> Bool
 {
-    if (lhs === rhs)
-    {
-        return true
+    if (lhs === rhs)(of: type(of:   sru)e
     }
     
-    if (!lhs.isKindOfClass(rhs.dynamicType))
+    if (!lhs.isKind(of: type(of: rhs)))
     {
         return false
     }

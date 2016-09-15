@@ -14,7 +14,7 @@
 import Foundation
 import CoreGraphics
 
-public class BarChartData: BarLineScatterCandleBubbleChartData
+openlass BarChartData: BarLineScatterCandleBubbleChartData
 {
     public override init()
     {
@@ -31,10 +31,10 @@ public class BarChartData: BarLineScatterCandleBubbleChartData
         super.init(xVals: xVals, dataSets: dataSets)
     }
     
-    private var _groupSpace = CGFloat(0.8)
+    fifileleprivate var _groupSpace = CGFloat(0.8)
     
     /// The spacing is relative to a full bar width
-    public var groupSpace: CGFloat
+  open var groupSpace: CGFloat
     {
         get
         {
@@ -51,7 +51,7 @@ public class BarChartData: BarLineScatterCandleBubbleChartData
     }
     
     /// - returns: true if this BarData object contains grouped DataSets (more than 1 DataSet).
-    public var isGrouped: Bool
+    openar isGrouped: Bool
     {
         return _dataSets.count > 1 ? true : false
     }

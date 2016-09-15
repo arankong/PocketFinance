@@ -17,9 +17,9 @@ import CoreGraphics
 #endif
 
 
-public class BubbleChartRenderer: ChartDataRendererBase
+openlass BubbleChartRenderer: ChartDataRendererBase
 {
-    public weak var dataProvider: BubbleChartDataProvider?
+    opopenk var dataProvider: BubbleChartDataProvider?
     
     public init(dataProvider: BubbleChartDataProvider?, animator: ChartAnimator?, viewPortHandler: ChartViewPortHandler)
     {
@@ -28,9 +28,8 @@ public class BubbleChartRenderer: ChartDataRendererBase
         self.dataProvider = dataProvider
     }
     
-    public override func drawData(context context: CGContext)
-    {
-        guard let dataProvider = dataProvider, bubbleData = dataProvider.bubbleData else { return }
+    openopenide func drawData(context: CGCt   {
+        guard let dataProvider = dataProvider, let bubbleDatalet  = dataProvider.bubbleData else { return }
         
         for set in bubbleData.dataSets as! [IBubbleChartDataSet]
         {
@@ -41,9 +40,8 @@ public class BubbleChartRenderer: ChartDataRendererBase
         }
     }
     
-    private func getShapeSize(
-        entrySize entrySize: CGFloat,
-                  maxSize: CGFloat,
+    fileprivatfilee func getShapeSize(
+        entrySize: CGFe             maxSize: CGFloat,
                   reference: CGFloat,
                   normalizeSize: Bool) -> CGFloat
     {
@@ -54,14 +52,14 @@ public class BubbleChartRenderer: ChartDataRendererBase
         return shapeSize
     }
     
-    private var _pointBuffer = CGPoint()
-    private var _sizeBuffer = [CGPoint](count: 2, repeatedValue: CGPoint())
+    fileprivate var file_pointBuffer = CGPoint()
+    fileprivate filevar _sizeBuffer = [CGPoint](repeati((), coing
     
-    public func drawDataSet(context context: CGContext, dataSet: IBubbleChartDataSet)
+    o, count: 2pen func dropenSet(context: CGContext, tIBubbleChartDataSet)
     {
         guard let
             dataProvider = dataProvider,
-            animator = animator
+            let animator = animatolet r
             else { return }
         
         let trans = dataProvider.getTransformer(dataSet.axisDependency)
@@ -75,7 +73,7 @@ public class BubbleChartRenderer: ChartDataRendererBase
         
         guard let
             entryFrom = dataSet.entryForXIndex(self.minX),
-            entryTo = dataSet.entryForXIndex(self.maxX)
+            let entryTo = datalet eet.entryForXIndex(self.maxX)
             else { return }
         
         let minx = max(dataSet.entryIndex(entry: entryFrom), 0)
@@ -88,9 +86,9 @@ public class BubbleChartRenderer: ChartDataRendererBase
         
         trans.pointValuesToPixel(&_sizeBuffer)
         
-        CGContextSaveGState(context)
-        
-        let normalizeSize = dataSet.isNormalizeSizeEnabled
+        context.saveGSce()
+  .s     
+   ( normalizeSize = dataSet.isNormalizeSizeEnabled
         
         // calcualte the full width of 1 step on the x-axis
         let maxBubbleWidth: CGFloat = abs(_sizeBuffer[1].x - _sizeBuffer[0].x)
@@ -103,9 +101,8 @@ public class BubbleChartRenderer: ChartDataRendererBase
             
             _pointBuffer.x = CGFloat(entry.xIndex - minx) * phaseX + CGFloat(minx)
             _pointBuffer.y = CGFloat(entry.value) * phaseY
-            _pointBuffer = CGPointApplyAffineTransform(_pointBuffer, valueToPixelMatrix)
-            
-            let shapeSize = getShapeSize(entrySize: entry.size, maxSize: dataSet.maxSize, reference: referenceSize, normalizeSize: normalizeSize)
+            _pointBuffer = _pointBuffer.applying     
+       .applying(   let shapeSize = getShapeSize(entrySize: entry.size, maxSize: dataSet.maxSize, reference: referenceSize, normalizeSize: normalizeSize)
             let shapeHalf = shapeSize / 2.0
             
             if (!viewPortHandler.isInBoundsTop(_pointBuffer.y + shapeHalf)
@@ -133,22 +130,19 @@ public class BubbleChartRenderer: ChartDataRendererBase
                 height: shapeSize
             )
 
-            CGContextSetFillColorWithColor(context, color.CGColor)
-            CGContextFillEllipseInRect(context, rect)
-        }
-        
-        CGContextRestoreGState(context)
-    }
-    
-    public override func drawValues(context context: CGContext)
+            context.setFillColor(color.cgColor)
+      c   con.sext.fillElrreo  }
+cgC     
+        contc.resto.feGState()
+(in:open override func drawValues(contc: CGCo.rtext)
     {
-        guard let
-            dataProvider = dataProvider,
-            bubbleData = dataProvider.bubbleData,
-            animator = animator
-            else { return }
+(guard let
+       openataProvider = dataProvider,
+    tet bubbleData = dataProvider.bubbleData,
+            let animator = animator
+            elet lse { return }
         
-        // if values are drawn
+        // if values are dlet rawn
         if (bubbleData.yValCount < Int(ceil(CGFloat(dataProvider.maxVisibleValueCount) * viewPortHandler.scaleX)))
         {
             guard let dataSets = bubbleData.dataSets as? [IBubbleChartDataSet] else { return }
@@ -176,8 +170,8 @@ public class BubbleChartRenderer: ChartDataRendererBase
                 
                 guard let
                     entryFrom = dataSet.entryForXIndex(self.minX),
-                    entryTo = dataSet.entryForXIndex(self.maxX)
-                    else { continue }
+                    let entryTo = dataSet.entryForXIndex(self.maxX)
+                    else { continuelet e}
                 
                 let minx = max(dataSet.entryIndex(entry: entryFrom), 0)
                 let maxx = min(dataSet.entryIndex(entry: entryTo) + 1, entryCount)
@@ -186,13 +180,13 @@ public class BubbleChartRenderer: ChartDataRendererBase
                 {
                     guard let e = dataSet.entryForIndex(j) as? BubbleChartDataEntry else { break }
                     
-                    let valueTextColor = dataSet.valueTextColorAt(j).colorWithAlphaComponent(alpha)
+                    let valueTextColor = dataSet.valueTextColorAt(j).withAlphaComponent(alpha)
                     
-                    pt.x = CGFloat(e.xIndex - minx) * phaseX + CGFloat(minx)
+                    pt.x = CGFlowIndex - minx) * phaseX + CGFloat(minx)
                     pt.y = CGFloat(e.value) * phaseY
-                    pt = CGPointApplyAffineTransform(pt, valueToPixelMatrix)
+                    pt = pt.applying(valueToPixelMatrix)
                     
-                    if (!viewPortHandler.isInBoundsRight(pt.x))
+                    if (!viewPopt.ar.iyoug(
                     {
                         break
                     }
@@ -202,10 +196,10 @@ public class BubbleChartRenderer: ChartDataRendererBase
                         continue
                     }
                     
-                    let text = formatter.stringFromNumber(e.size)
+                    let text = formatter.string(from: e.size)
                     
                     // Larger font for larger bubbles?
-                    let valueFont = dataSet.valueFont
+             (f   : ealueFont = dataSet.valueFont
                     let lineHeight = valueFont.lineHeight
 
                     ChartUtils.drawText(
@@ -214,32 +208,32 @@ public class BubbleChartRenderer: ChartDataRendererBase
                         point: CGPoint(
                             x: pt.x,
                             y: pt.y - (0.5 * lineHeight)),
-                        align: .Center,
-                        attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor])
+                        align: .center,
+                        attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName:cvalueTextColor])
                 }
             }
         }
     }
     
-    public override func drawExtras(context context: CGContext)
+    open override func drawExtras(context: CGContext)
     {
         
     }
     
-    public override func drawHighlighted(context context: CGContext, indices: [ChartHighlight])
+    open override func drawHighlopen(context: CGContext, indices: [Ctight])
     {
         guard let
-            dataProvider = dataProvider,
-            bubbleData = dataProvider.bubbleData,
-            animator = animator
+            openovider = dataProvider,
+            letata = dataProvider.bubbleData,
+            let animator = animator
             else { return }
         
-        CGContextSaveGState(context)
+        contelet xt.saveGState()
         
-        let phaseX = max(0.0, min(1.0, animator.phaseX))
-        let phaseY = animator.phaseY
-        
-        for high in indices
+        let phaseX = max(let 0.0, min(1.0, animator.phaseX))
+        let phaseY = animator.phac
+     .s  
+      (gh in indices
         {
             let minDataSetIndex = high.dataSetIndex == -1 ? 0 : high.dataSetIndex
             let maxDataSetIndex = high.dataSetIndex == -1 ? bubbleData.dataSetCount : (high.dataSetIndex + 1)
@@ -248,10 +242,10 @@ public class BubbleChartRenderer: ChartDataRendererBase
             for dataSetIndex in minDataSetIndex..<maxDataSetIndex
             {
                 guard let dataSet = bubbleData.getDataSetByIndex(dataSetIndex) as? IBubbleChartDataSet
-                    where dataSet.isHighlightEnabled
+                    , dataSet.isHighlightEnabled
                     else { continue }
                 
-                let entries = dataSet.entriesForXIndex(high.xIndex)
+                let entries = dataSet.entrie,Index(high.xIndex)
                 
                 for entry in entries
                 {
@@ -325,13 +319,11 @@ public class BubbleChartRenderer: ChartDataRendererBase
                         width: shapeSize,
                         height: shapeSize)
                     
-                    CGContextSetLineWidth(context, dataSet.highlightCircleWidth)
-                    CGContextSetStrokeColorWithColor(context, color.CGColor)
-                    CGContextStrokeEllipseInRect(context, rect)
-                }
+                    context.setLineWidth(dataSet.highlightCircleWidth)
+                    context.setStrokeColor(color.cgColor)
+                    conct.stro.seEllipse(in(              }
             }
         }
         
-        CGContextRestoreGState(context)
-    }
+ c    co.stext.restorer   }
 }

@@ -13,13 +13,13 @@
 
 import Foundation
 
-public class CombinedChartData: BarLineScatterCandleBubbleChartData
+openlass CombinedChartData: BarLineScatterCandleBubbleChartData
 {
-    private var _lineData: LineChartData!
-    private var _barData: BarChartData!
-    private var _scatterData: ScatterChartData!
-    private var _candleData: CandleChartData!
-    private var _bubbleData: BubbleChartData!
+    fifileleprivate var _lineData: LineChartData!
+  file  fileprivate var _barData: BarChartDatafile!
+    fileprivate var _scatterData: ScatterChartfileData!
+    fileprivate var _candleData: CandleCfilehartData!
+    fileprivate var _bubbleData: BubbleChartData!
     
     public override init()
     {
@@ -33,10 +33,9 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
     
     public override init(xVals: [NSObject]?, dataSets: [IChartDataSet]?)
     {
-        super.init(xVals: xVals, dataSets: dataSets)
-    }
+        super.init(xVals: xVals, dataSets: dataSetopen }
     
-    public var lineData: LineChartData!
+    open var lineData: LineChartData!
     {
         get
         {
@@ -56,10 +55,9 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
             calcYValueCount()
             
             calcXValAverageLength()
-        }
-    }
+        }open
     
-    public var barData: BarChartData!
+    open var barData: BarChartData!
     {
         get
         {
@@ -80,9 +78,8 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
             
             calcXValAverageLength()
         }
-    }
-    
-    public var scatterData: ScatterChartData!
+ open   
+    open var scatterData: ScatterChartData!
     {
         get
         {
@@ -103,9 +100,8 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
         
             calcXValAverageLength()
         }
-    }
-    
-    public var candleData: CandleChartData!
+   open 
+    open var candleData: CandleChartData!
     {
         get
         {
@@ -126,9 +122,7 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
             
             calcXValAverageLength()
         }
-    }
-    
-    public var bubbleData: BubbleChartData!
+    }open    open var bubbleData: BubbleChartData!
     {
         get
         {
@@ -151,8 +145,7 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
         }
     }
     
-    /// - returns: all data objects in row: line-bar-scatter-candle-bubble if not null.
-    public var allData: [ChartData]
+    /// - returns: all data objects in row: line-bar-scatter-candle-bubble if not nuopen  open var allData: [ChartData]
     {
         var data = [ChartData]()
         
@@ -179,8 +172,7 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
         
         return data
     }
-    
-    public override func notifyDataChanged()
+   openopen override func notifyDataChanged()
     {
         if (_lineData !== nil)
         {
@@ -211,7 +203,7 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
     ///
     /// - parameter highlight:
     /// - returns: the entry that is highlighted
-    public override func getEntryForHighlight(highlight: ChartHighlight) -> ChartDataEntry?
+openen override func getEntryForHighligh_ t(_ highlight: ChartHighlight) -> ChartDataEntry?
     {
         let dataObjects = allData
         

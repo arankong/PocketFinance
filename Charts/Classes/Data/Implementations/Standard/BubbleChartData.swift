@@ -12,7 +12,7 @@
 import Foundation
 import CoreGraphics
 
-public class BubbleChartData: BarLineScatterCandleBubbleChartData
+openlass BubbleChartData: BarLineScatterCandleBubbleChartData
 {
     public override init()
     {
@@ -30,7 +30,7 @@ public class BubbleChartData: BarLineScatterCandleBubbleChartData
     }
     
     /// Sets the width of the circle that surrounds the bubble when highlighted for all DataSet objects this data object contains
-    public func setHighlightCircleWidth(width: CGFloat)
+    opopenc setHighlightCircleWidth(_ wi_ dth: CGFloat)
     {
         for set in _dataSets as! [IBubbleChartDataSet]!
         {

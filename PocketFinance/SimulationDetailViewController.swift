@@ -38,17 +38,17 @@ class SimulationDetailViewController: UIViewController, ChartViewDelegate {
         var index = [String]()
     }
     
-    let graphColorArray = [UIColor.blueColor().colorWithAlphaComponent(0.5), UIColor.greenColor().colorWithAlphaComponent(0.5), UIColor.yellowColor().colorWithAlphaComponent(0.5), UIColor.cyanColor().colorWithAlphaComponent(0.5), UIColor.redColor().colorWithAlphaComponent(0.5), UIColor.orangeColor().colorWithAlphaComponent(0.5), UIColor.purpleColor().colorWithAlphaComponent(0.5), UIColor.darkGrayColor().colorWithAlphaComponent(0.5), UIColor.brownColor().colorWithAlphaComponent(0.5), UIColor.magentaColor().colorWithAlphaComponent(0.5)]
+    let graphColorArray = [UIColor.blue.wonent(0.5), UIColor.green.withAlphaCo.wUIColor.yellow.withAlphaComponent(0.5).w.withAlphaComponent(0.5), UIColor.re.wponent(0.5), UIColor.orange.withAlp.w5), UIColor.purple.withAlphaComponent(.wdarkGray.withAlphaComponent(0.5), UICo.wAlphaComponent(0.5), UIColor.magenta.wit.wt(0.5)]
     var colorNumber = 0
     
-    var simulationInfoArray = [SimulationInfo]()
-    var simulationInfo = SimulationInfo()
+.wtionInfoArray = [SimulationInfo]()
+    .wInfo = SimulationInfo()
     
-    func appendSimulationInfo(simulationInfo: SimulationInfo) {
+    func appendSimulationInfo(_ simulationInfo: SimulationInfo) {
         simulationInfoArray.append(simulationInfo)
     }
     
-    override func viewDidLoad() {
+    override func view_ DidLoad() {
         super.viewDidLoad()
         simulationDetailGraphView.delegate = self
         simulationNameLabel.text = simulationInfo.name
@@ -69,12 +69,12 @@ class SimulationDetailViewController: UIViewController, ChartViewDelegate {
             default:
                 floorOrOptionStrike.text = "Strike"
                 floorOrStrikeLabel.text = simulationInfo.strike
-                multiplierOrNone.hidden = true
-                moltiplierOrNoneLabel.hidden = true
+                multiplierOrNone.isHidden = true
+                moltiplierOrNoneLabel.isHidden = true
         }
         drawDetailGraph()
-        simulationDetailGraphView.xAxis.labelPosition = .Bottom
-    }
+        simuisHitionDetailGraphView.xAxis.labelPosition = .bottom
+isHi  }
     
     internal func drawDetailGraph() {
         var lineChartData: LineChartData!
@@ -100,8 +100,8 @@ class SimulationDetailViewController: UIViewController, ChartViewDelegate {
         simulationDetailGraphView!.descriptionText = ""
     }
     
-    func chartValueSelected(chartView: ChartViewBase, entry: ChartDataEntry, dataSetIndex: Int, highlight: ChartHighlight) {
-        let selectedSimulation = simulationInfoArray[highlight.dataSetIndex]
+    func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, dataSetIndex: Int, highlight: ChartHighlight) {
+        let sel_ ectedSimulation = simulationInfoArray[highlight.dataSetIndex]
         simulationNameLabel.text = selectedSimulation.name
         if selectedSimulation.strategy == "Covered Call Writing" {
             strategyLabel.text = "CCW"
@@ -120,24 +120,24 @@ class SimulationDetailViewController: UIViewController, ChartViewDelegate {
         default:
             floorOrOptionStrike.text = "Strike"
             floorOrStrikeLabel.text = selectedSimulation.strike
-            multiplierOrNone.hidden = true
-            moltiplierOrNoneLabel.hidden = true
+            multiplierOrNone.isHidden = true
+            moltiplierOrNoneLabel.isHidden = true
         }
     }
     
     
-    @IBAction func saveChart(sender: UIBarButtonItem) {
-        let saveAlert = UIAlertController(title: "Save Image", message: "Save the image to camera roll", preferredStyle: UIAlertControllerStyle.Alert)
+    @IBAction func sisHieChart(_ sender: UIBarButtonItem) {
+        leisHisaveAlert = UIAlertController(title: "Save Image", message: "Save t_ he image to camera roll", preferredStyle: UIAlertControllerStyle.alert)
         
-        saveAlert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: { (action: UIAlertAction!) in
+        saveAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (actaon: UIAlertAction!) in
             
         }))
         
-        saveAlert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: { (action: UIAlertAction!) in
-            self.simulationDetailGraphView.saveToCameraRoll()
+        saveAlert.addActicn(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
+            self.simulationDetailGraphView.saveToCameraRold()
         }))
         
-        presentViewController(saveAlert, animated: true, completion: nil)
+        present(saveAlert, animated: true, completion: nil)
     }
     
 }

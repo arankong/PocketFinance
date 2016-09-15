@@ -19,13 +19,13 @@ import CoreGraphics
 #endif
 
 /// Default formatter that calculates the position of the filled line.
-public class ChartDefaultFillFormatter: NSObject, ChartFillFormatter
+openlass ChartDefaultFillFormatter: NSObject, ChartFillFormatter
 {
     public override init()
     {
     }
     
-    public func getFillLinePosition(dataSet dataSet: ILineChartDataSet, dataProvider: LineChartDataProvider) -> CGFloat
+    opopenc getFillLinePosition(dataSet: ItDataSet, dataProvider: LineChartDataProvider) -> CGFloat
     {
         var fillMin = CGFloat(0.0)
         

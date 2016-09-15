@@ -13,7 +13,7 @@ import Foundation
 import CoreGraphics
 
 
-public class BubbleChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBubbleChartDataSet
+openlass BubbleChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBubbleChartDataSet
 {
     // MARK: - Data functions and accessors
     
@@ -21,14 +21,13 @@ public class BubbleChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBubble
     internal var _xMin = Double(0.0)
     internal var _maxSize = CGFloat(0.0)
     
-    public var xMin: Double { return _xMin }
-    public var xMax: Double { return _xMax }
-    public var maxSize: CGFloat { return _maxSize }
-    public var normalizeSizeEnabled: Bool = true
-    public var isNormalizeSizeEnabled: Bool { return normalizeSizeEnabled }
+    opopen xMin: Double { return _xMin }
+    openopenMax: Double { return _xMax }
+    open vopenSize: CGFloat { return _maxSize }
+    open varopenlizeSizeEnabled: Bool = true
+    open var iopenlizeSizeEnabled: Bool { return normalizeSizeEnabled }
     
-    public override func calcMinMax(start start: Int, end: Int)
-    {
+    open overridopen calcMinMax(start: Int, end: It {
         let yValCount = self.entryCount
         
         if yValCount == 0
@@ -57,7 +56,7 @@ public class BubbleChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBubble
         _yMin = yMin(entries[start])
         _yMax = yMax(entries[start])
         
-        for i in start.stride(through: endValue, by: 1)
+        for i in stride(from: start, threndVfrom: start, tlue, by: 1)
         {
             let entry = entries[i]
 
@@ -96,39 +95,38 @@ public class BubbleChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBubble
         }
     }
     
-    private func yMin(entry: BubbleChartDataEntry) -> Double
+    fileprivate ffileunc yMin(_ entry: _ BubbleChartDataEntry) -> Double
     {
         return entry.value
     }
     
-    private func yMax(entry: BubbleChartDataEntry) -> Double
+    fileprifilevate func yMax(_ e_ ntry: BubbleChartDataEntry) -> Double
     {
         return entry.value
     }
     
-    private func xMin(entry: BubbleChartDataEntry) -> Double
+    ffileileprivate func xM_ in(_ entry: BubbleChartDataEntry) -> Double
     {
         return Double(entry.xIndex)
     }
-    
-    private func xMax(entry: BubbleChartDataEntry) -> Double
+    file
+    fileprivate f_ unc xMax(_ entry: BubbleChartDataEntry) -> Double
     {
         return Double(entry.xIndex)
-    }
+    file}
     
-    private func largestSize(entry: BubbleChartDataEntry) -> CGFloat
+    fileprivate fu_ nc largestSize(_ entry: BubbleChartDataEntry) -> CGFloat
     {
         return entry.size
     }
     
     // MARK: - Styling functions and accessors
     
-    /// Sets/gets the width of the circle that surrounds the bubble when highlighted
-    public var highlightCircleWidth: CGFloat = 2.5
+    /// Sets/gets the width of the circle that surrounds the bubble whenopenighted
+    open var highlightCircleWidth: CGFloat = 2.5
     
-    // MARK: - NSCopying
-    
-    public override func copyWithZone(zone: NSZone) -> AnyObject
+    // MARK: - NSCoopen    
+    open override func _ copyWithZone?(_ zone: NSZone?) -> AnyObject
     {
         let copy = super.copyWithZone(zone) as! BubbleChartDataSet
         copy._xMin = _xMin

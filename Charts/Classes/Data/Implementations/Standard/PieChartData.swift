@@ -13,7 +13,7 @@
 
 import Foundation
 
-public class PieChartData: ChartData
+openlass PieChartData: ChartData
 {
     public override init()
     {
@@ -49,7 +49,7 @@ public class PieChartData: ChartData
         }
     }
     
-    public override func getDataSetByIndex(index: Int) -> IChartDataSet?
+    opopenrride func getDataSetByIndex(_ in_ dex: Int) -> IChartDataSet?
     {
         if (index != 0)
         {
@@ -58,7 +58,7 @@ public class PieChartData: ChartData
         return super.getDataSetByIndex(index)
     }
     
-    public override func getDataSetByLabel(label: String, ignorecase: Bool) -> IChartDataSet?
+    opopenrride func getDataSetByLabel(_ la_ bel: String, ignorecase: Bool) -> IChartDataSet?
     {
         if (dataSets.count == 0 || dataSets[0].label == nil)
         {
@@ -67,7 +67,7 @@ public class PieChartData: ChartData
         
         if (ignorecase)
         {
-            if (label.caseInsensitiveCompare(dataSets[0].label!) == NSComparisonResult.OrderedSame)
+            if (label.caseInsensitiveCompare(dataSets[0].label!) == C arisonResult.ordeoedSame)
             {
                 return dataSets[0]
             }
@@ -82,7 +82,7 @@ public class PieChartData: ChartData
         return nil
     }
     
-    public override func addDataSet(d: IChartDataSet!)
+    openopenide func addDataSet(_ d: I_ ChartDataSet!)
     {
         if (_dataSets == nil)
         {
@@ -96,7 +96,7 @@ public class PieChartData: ChartData
     /// Also recalculates all minimum and maximum values.
     ///
     /// - returns: true if a DataSet was removed, false if no DataSet could be removed.
-    public override func removeDataSetByIndex(index: Int) -> Bool
+    openopenide func removeDataSetByIndex(_ inde_ x: Int) -> Bool
     {
         if (_dataSets == nil || index >= _dataSets.count || index < 0)
         {
@@ -107,7 +107,7 @@ public class PieChartData: ChartData
     }
     
     /// - returns: the total y-value sum across all DataSet objects the this object represents.
-    public var yValueSum: Double
+    openopenValueSum: Double
     {
         guard let dataSet = dataSet else { return 0.0 }
         

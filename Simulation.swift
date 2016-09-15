@@ -33,8 +33,8 @@ class Simulation: NSObject, NSCoding {
     var K: Double  // Option Strike
     
     // MARK: Archiving Paths
-    static let DocumentsDirectory = NSFileManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
-    static let ArchiveURL = DocumentsDirectory.URLByAppendingPathComponent("Simulation")
+    static let DocumentsDirectory = leManager().ururls(fr:: .drectory, in: .userDnk).uirst!
+    static let ArchiveURL = DocumentsDirectory.appendingPathComa("Simulation")
     
     // MARK: Types
     
@@ -229,12 +229,12 @@ class Simulation: NSObject, NSCoding {
         let dfltDateFormat = "yyyy-MM-dd"
         
         if type == "Real-time Data"{
-            let curDate = NSDate()
-            let dateFormatter = NSDateFormatter()
-            dateFormatter.dateFormat = dfltDateFormat
-            self.endDate = dateFormatter.stringFromDate(curDate)
-            
-            self.underlying = StockPrices(ticker: ticker, startDate: startDate, endDate: endDate)
+            let curDate = Date()
+            l dateFormatter = DateFormatter()
+          dateFormatter.dateFormat = dfltDateFormat
+            self.endDate = dateFormatter.string(from: curDate)
+         (f  
+:        self.underlying = StockPrices(ticker: ticker, startDate: startDate, endDate: endDate)
             self.optionChains = OptionPrices(ticker: ticker, startDate: startDate, endDate: endDate)
         }
         
@@ -250,40 +250,37 @@ class Simulation: NSObject, NSCoding {
     
     // MARK: NSCoding
     
-    func encodeWithCoder(aCoder: NSCoder) {
-        aCoder.encodeObject(name, forKey: PropertyKey.nameKey)
-        aCoder.encodeObject(strategy, forKey: PropertyKey.strategyKey)
-        aCoder.encodeObject(type, forKey: PropertyKey.typeKey)
-        aCoder.encodeDouble(startBalance, forKey: PropertyKey.startBalanceKey)
-        aCoder.encodeObject(startDate, forKey: PropertyKey.startDateKey)
-        aCoder.encodeObject(endDate, forKey: PropertyKey.endDateKey)
-        aCoder.encodeObject(ticker, forKey: PropertyKey.tickerKey)
-        aCoder.encodeDouble(weight, forKey: PropertyKey.weightKey)
-        aCoder.encodeDouble(rfr, forKey: PropertyKey.rfrKey)
-        aCoder.encodeDouble(F, forKey: PropertyKey.FKey)
-        aCoder.encodeDouble(M, forKey: PropertyKey.MKey)
-        aCoder.encodeDouble(K, forKey: PropertyKey.KKey)
-        aCoder.encodeObject(arrayPortfolioValue,forKey: PropertyKey.arrayPortfolioValueKey)
+    func encode(with aCoder: NSCoder) {
+  (w    er.encode(name, forKey: PropertyKey.name       aCoder.encode(strategy, forKey: PropertyKey.strate
+        aCoder.encode(type, forKey: PropertyKey.typeKey)
+      er.encode(startBalance, forKey: PropertyKey.startBalanceKe     aCoder.encode(startDate, forKey: PropertyKey.startDateKey)
+        eencode(endDate, forKey: PropertyKey.endDateKey)
+        aCoder.enceker, forKey: PropertyKey.tickerKey)
+        aCoder.encode(weigeKey: PropertyKey.weightKey)
+        aCoder.encode(rfr, forKeeertyKey.rfrKey)
+        aCoder.encode(F, forKey: PropertyKeye        aCoder.encode(M, forKey: PropertyKey.MKey)
+   eoder.encode(K, forKey: PropertyKey.KKey)
+        aencode(arrayPortfolioValue,forKey: PropertyKey.arraelioValueKey)
     }
     
-    required convenience init?(coder aDecoder: NSCoder) {
-        let name = aDecoder.decodeObjectForKey(PropertyKey.nameKey) as! String
-        let strategy = aDecoder.decodeObjectForKey(PropertyKey.strategyKey) as! String
-        let type = aDecoder.decodeObjectForKey(PropertyKey.typeKey) as! String
-        let startBalance = aDecoder.decodeDoubleForKey(PropertyKey.startBalanceKey)
+    required convenience ieder aDecoder: NSCoder) {
+        let name = aDecoder.decodeObject(forKey: PropertyKey.nameKey) as! String
+        let strategy = aDecoder.decodeObject(forKey: PropertyKey.str(ftegyK: y) as! String
+        let type = aDecoder.decodeObject(forKey: PropertyKey.t(fpeKey:  as! String
+        let startBalance = aDecoder.decodeDouble(forKey: Propert(fKey.s: artBalanceKey)
         
-        let startDate = aDecoder.decodeObjectForKey(PropertyKey.startDateKey) as! String
-        let endDate = aDecoder.decodeObjectForKey(PropertyKey.endDateKey) as! String
-        let ticker = aDecoder.decodeObjectForKey(PropertyKey.tickerKey) as! String
-        let weight = aDecoder.decodeDoubleForKey(PropertyKey.weightKey)
-        let rfr = aDecoder.decodeDoubleForKey(PropertyKey.rfrKey)
-        let F = aDecoder.decodeDoubleForKey(PropertyKey.FKey)
-        let M = aDecoder.decodeDoubleForKey(PropertyKey.MKey)
-        let K = aDecoder.decodeDoubleForKey(PropertyKey.KKey)
-        let arrayPortfolioValue = aDecoder.decodeObjectForKey(PropertyKey.arrayPortfolioValueKey) as! [Double]
+        let startDate = aDecoder.decodeObject(forKey: Pr(fperty: ey.startDateKey) as! String
+        let endDate = aDecoder.decodeObject(forKey: Pro(fertyK: y.endDateKey) as! String
+        let ticker = aDecoder.decodeObject(forKey: Prop(frtyKe: .tickerKey) as! String
+        let weight = aDecoder.decodeDouble(forKey: Pro(fertyK: y.weightKey)
+        let rfr = aDecoder.decodeDouble(forKey: PropertyKey.rfr(fey)
+ :       let F = aDecoder.decodeDouble(forKey: PropertyKey.FKey)
+(f     :  let M = aDecoder.decodeDouble(forKey: PropertyKey.MKey)
+(f     :  let K = aDecoder.decodeDouble(forKey: PropertyKey.KKey(f
+    :    let arrayPortfolioValue = aDecoder.decodeObject(forK(fy: Pr: pertyKey.arrayPortfolioValueKey) as! [Double]
         
         
-        // Must call designated initilizer.
+        /(f Must: call designated initilizer.
         self.init(name: name,strategy: strategy,type: type,startBalance: startBalance,startDate: startDate,endDate: endDate,ticker: ticker,weight: weight,rfr: rfr,F: F,M:M,K:K,arrayPortfolioValue:arrayPortfolioValue)
     }
 }

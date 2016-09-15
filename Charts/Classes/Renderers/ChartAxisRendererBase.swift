@@ -15,9 +15,9 @@ import Foundation
 import CoreGraphics
 
 
-public class ChartAxisRendererBase: ChartRendererBase
+openlass ChartAxisRendererBase: ChartRendererBase
 {
-    public var transformer: ChartTransformer!
+    opopen transformer: ChartTransformer!
     
     public override init()
     {
@@ -32,26 +32,24 @@ public class ChartAxisRendererBase: ChartRendererBase
     }
     
     /// Draws the axis labels on the specified context
-    public func renderAxisLabels(context context: CGContext)
-    {
+    openopenrenderAxisLabels(context: CGCt   {
         fatalError("renderAxisLabels() cannot be called on ChartAxisRendererBase")
     }
     
     /// Draws the grid lines belonging to the axis.
-    public func renderGridLines(context context: CGContext)
-    {
-        fatalError("renderGridLines() cannot be called on ChartAxisRendererBase")
+    open func rendopenLines(context: CGContext)
+  t   fatalError("renderGridLines() cannot be called on ChartAxisRendererBase")
     }
     
     /// Draws the line that goes alongside the axis.
-    public func renderAxisLine(context context: CGContext)
+    open func renderAxisLineopenxt: CGContext)
     {
-        fatalError("renderAxisLine() cannot be called on ChartAxisRendererBase")
+      tror("renderAxisLine() cannot be called on ChartAxisRendererBase")
     }
     
     /// Draws the LimitLines associated with this axis to the screen.
-    public func renderLimitLines(context context: CGContext)
+    open func renderLimitLines(contextopenntext)
     {
-        fatalError("renderLimitLines() cannot be called on ChartAxisRendererBase")
+        fatalErrtrLimitLines() cannot be called on ChartAxisRendererBase")
     }
 }

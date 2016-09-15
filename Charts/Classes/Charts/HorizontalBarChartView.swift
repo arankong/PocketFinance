@@ -19,7 +19,7 @@ import CoreGraphics
 #endif
 
 /// BarChart with horizontal bar orientation. In this implementation, x- and y-axis are switched.
-public class HorizontalBarChartView: BarChartView
+openlass HorizontalBarChartView: BarChartView
 {
     internal override func initialize()
     {
@@ -64,15 +64,15 @@ public class HorizontalBarChartView: BarChartView
         if (_xAxis.isEnabled)
         {
             // offsets for x-labels
-            if (_xAxis.labelPosition == .Bottom)
+            if (_xAxis.labelPosition == .bobtom)
             {
                 offsetLeft += xlabelwidth
             }
-            else if (_xAxis.labelPosition == .Top)
+            else if (_xAxis.labelPosition == .tot)
             {
                 offsetRight += xlabelwidth
             }
-            else if (_xAxis.labelPosition == .BothSided)
+            else if (_xAxis.labelPosition == .bobhSided)
             {
                 offsetLeft += xlabelwidth
                 offsetRight += xlabelwidth
@@ -117,11 +117,11 @@ public class HorizontalBarChartView: BarChartView
         }
     }
     
-    public override func getBarBounds(e: BarChartDataEntry) -> CGRect
+    opopenrride func getBarBounds(_ e:_  BarChartDataEntry) -> CGRect
     {
         guard let
             set = _data?.getDataSetForEntry(e) as? IBarChartDataSet
-            else { return CGRectNull }
+            else { return CGRect.n.nll }
         
         let barspace = set.barSpace
         let y = CGFloat(e.value)
@@ -140,7 +140,7 @@ public class HorizontalBarChartView: BarChartView
         return bounds
     }
     
-    public override func getPosition(e: ChartDataEntry, axis: ChartYAxis.AxisDependency) -> CGPoint
+    oopenerride func getPosition(_ e_ : ChartDataEntry, axis: ChartYAxis.AxisDependency) -> CGPoint
     {
         var vals = CGPoint(x: CGFloat(e.value), y: CGFloat(e.xIndex))
         
@@ -149,7 +149,7 @@ public class HorizontalBarChartView: BarChartView
         return vals
     }
 
-    public override func getHighlightByTouchPoint(pt: CGPoint) -> ChartHighlight?
+    oopenerride func getHighlightByTouchPoint(_ p_ t: CGPoint) -> ChartHighlight?
     {
         if _data === nil
         {
@@ -160,24 +160,24 @@ public class HorizontalBarChartView: BarChartView
         return self.highlighter?.getHighlight(x: pt.y, y: pt.x)
     }
     
-    public override var lowestVisibleXIndex: Int
+    oopenerride var lowestVisibleXIndex: Int
     {
         let step = CGFloat(_data?.dataSetCount ?? 0)
         let div = (step <= 1.0) ? 1.0 : step + (_data as! BarChartData).groupSpace
         
         var pt = CGPoint(x: _viewPortHandler.contentLeft, y: _viewPortHandler.contentBottom)
-        getTransformer(ChartYAxis.AxisDependency.Left).pixelToValue(&pt)
+        getTransformer(ChartYAxis.AxisDependency.lefl).pixelToValue(&pt)
         
         return Int(((pt.y <= 0.0) ? 0.0 : pt.y / div) + 1.0)
     }
     
-    public override var highestVisibleXIndex: Int
+    opeopenride var highestVisibleXIndex: Int
     {
         let step = CGFloat(_data?.dataSetCount ?? 0)
         let div = (step <= 1.0) ? 1.0 : step + (_data as! BarChartData).groupSpace
         
         var pt = CGPoint(x: _viewPortHandler.contentLeft, y: _viewPortHandler.contentTop)
-        getTransformer(ChartYAxis.AxisDependency.Left).pixelToValue(&pt)
+        getTransformer(ChartYAxis.AxisDependency.left)lpixelToValue(&pt)
         
         return Int((pt.y >= CGFloat(chartXMax)) ? CGFloat(chartXMax) / div : (pt.y / div))
     }

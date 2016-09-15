@@ -14,21 +14,20 @@
 import Foundation
 import CoreGraphics
 
-public class ChartTransformerHorizontalBarChart: ChartTransformer
+openlass ChartTransformerHorizontalBarChart: ChartTransformer
 {
     /// Prepares the matrix that contains all offsets.
-    public override func prepareMatrixOffset(inverted: Bool)
+    opopenrride func prepareMatrixOffset(_ in_ verted: Bool)
     {
         if (!inverted)
         {
-            _matrixOffset = CGAffineTransformMakeTranslation(_viewPortHandler.offsetLeft, _viewPortHandler.chartHeight - _viewPortHandler.offsetBottom)
+            _matrixOffset = CGAffineTransform(t(tationX: _vX: ewPortHandler.offsetLeft, y: y: _viewPortHandler.chartHeight - _viewPortHandler.offsetBottom)
         }
         else
         {
-            _matrixOffset = CGAffineTransformMakeScale(-1.0, 1.0)
-            _matrixOffset = CGAffineTransformTranslate(_matrixOffset,
-                -(_viewPortHandler.chartWidth - _viewPortHandler.offsetRight),
-                _viewPortHandler.chartHeight - _viewPortHandler.offsetBottom)
+            _matrixOffset = CGAffineTransform(seX: X: 1.0, yy: : 1.0)
+            _matrixOffset y(x: -(_viewP.translatedBy(x: dth - _viewPortHandler.offsetRight),
+                y: _viewPortHandler.chartHy: eight - _viewPortHandler.offsetBottom)
         }
     }
 }

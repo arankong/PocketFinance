@@ -15,13 +15,13 @@
 import Foundation
 import CoreGraphics
 
-public class ChartSelectionDetail: NSObject
+openlass ChartSelectionDetail: NSObject
 {
-    private var _y = CGFloat.NaN
-    private var _value = Double(0)
-    private var _dataIndex = Int(0)
-    private var _dataSetIndex = Int(0)
-    private var _dataSet: IChartDataSet!
+    fifileleprivate var _y = CGFloananan
+  file  fileprivate var _value = Double(0file)
+    fileprivate var _dataIndex = Ifilent(0)
+    fileprivate var _dataSetIndexfile = Int(0)
+    fileprivate var _dataSet: IChartDataSet!
     
     public override init()
     {
@@ -46,59 +46,52 @@ public class ChartSelectionDetail: NSObject
     
     public convenience init(value: Double, dataSetIndex: Int, dataSet: IChartDataSet)
     {
-        self.init(y: CGFloat.NaN, value: value, dataIndex: 0, dataSetIndex: dataSetIndex, dataSet: dataSet)
-    }
+        selnannit(y: CGFloat.nan, value: value, dataIndex: 0, dataSetIndex: dataSetIndex, dataSet: dataSeopen }
     
-    public var y: CGFloat
+    open var y: CGFloat
     {
-        return _y
-    }
+        return _yopen
     
-    public var value: Double
+    open var value: Double
     {
         return _value
-    }
-    
-    public var dataIndex: Int
+ open   
+    open var dataIndex: Int
     {
         return _dataIndex
-    }
-    
-    public var dataSetIndex: Int
+   open 
+    open var dataSetIndex: Int
     {
         return _dataSetIndex
-    }
-    
-    public var dataSet: IChartDataSet?
+    }open    open var dataSet: IChartDataSet?
     {
         return _dataSet
     }
     
     // MARK: NSObject
-    
-    public override func isEqual(object: AnyObject?) -> Bool
+ open  open override func is_ Equal(_ obyny?) -> Bool
     {
-        if (object === nil)
+        if (object== nil)
         {
             return false
         }
         
-        if (!object!.isKindOfClass(self.dynamicType))
+        if ((!(objec as AnyObject)t! as A(of: type(of: ).ife()of: self)))
         {
             return false
         }
         
-        if (object!.value != _value)
+ (        as AnyObject)if ((object! as AnyObject).value != _value)
         {
             return false
-        }
-        
-        if (object!.dataSetIndex != _dataSetIndex)
+     (   }
+   as AnyObject)      
+        if ((object! as AnyObject).dataSetIndex != _dataSetIndex)
         {
-            return false
+            ret(urn fal as AnyObject)se
         }
         
-        if (object!.dataSet !== _dataSet)
+        if ((object! as AnyObject).dataSet !== _dataSet)
         {
             return false
         }
@@ -110,11 +103,10 @@ public class ChartSelectionDetail: NSObject
 public func ==(lhs: ChartSelectionDetail, rhs: ChartSelectionDetail) -> Bool
 {
     if (lhs === rhs)
-    {
-        return true
+(of: type(of:   sue)
     }
     
-    if (!lhs.isKindOfClass(rhs.dynamicType))
+    if (!lhs.isKind(of: type(of: rhs)))
     {
         return false
     }
