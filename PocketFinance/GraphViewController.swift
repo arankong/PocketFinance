@@ -29,7 +29,7 @@ class GraphViewController: UIViewController, ChartViewDelegate {
         stockPriceGraphView.xAxis.labelPosition = .Bottom
         simulationResultGraphView.xAxis.labelPosition = .Bottom
         stockPriceGraphView.noDataText = "No stock graph available"
-        simulationResultGraphView.noDataText = "Could not connect to the server"
+        simulationResultGraphView.noDataText = "No simulation result available"
         // Do any additional setup after loading the view.
     }
 

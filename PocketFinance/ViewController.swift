@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITextFieldDelegate,UITableViewDelegate,UITableViewDataSource {
+class ViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource {
     
     let textCellIdentifier = "stockCell"
     let textCellIdentifier2 = "simCell"
@@ -86,26 +86,32 @@ class ViewController: UIViewController, UITextFieldDelegate,UITableViewDelegate,
         
         currentStockPriceLabel.hidden = true
         currentStockPriceText.hidden = true
+        currentStockPriceText.delegate = self
         strikeLabel.hidden = true
         strikeText.hidden = true
+        strikeText.delegate = self
         expireTimeLabel.hidden = true
         expiryTimeText.hidden = true
+        expiryTimeText.delegate = self
         interestRateLabel.hidden = true
         interestRateText.hidden = true
+        interestRateText.delegate = self
         volatilityLabel.hidden = true
         volatilityText.hidden = true
+        volatilityText.delegate = self
         optionTypeLabel.hidden = true
         optionTypeText.hidden = true
+        optionTypeText.delegate = self
         numberOfTimeStepsLabel.hidden = true
         numberOfTimeStepsText.hidden = true
+        numberOfTimeStepsText.delegate = self
         computeButton.hidden = true
         resultLabel.hidden = true
         tableStockPrice.hidden = false
         textStockSymbol.hidden = false
         btnAdd.hidden = false
         addSimulationButton.hidden = false
-        
-        
+
         // Load any saved meals
         if let savedStocks = loadStocks() {
             arrayStock += savedStocks
@@ -259,8 +265,8 @@ class ViewController: UIViewController, UITextFieldDelegate,UITableViewDelegate,
     // MARK: UITextFieldDelegate
     func textFieldShouldReturn(textStockSymbol: UITextField) -> Bool {
         // Hide the keyboard.
-        textStockSymbol.resignFirstResponder()
-        return true
+        self.view.endEditing(true)
+        return false
     }
     
     func textFieldDidEndEditing(textField: UITextField) {

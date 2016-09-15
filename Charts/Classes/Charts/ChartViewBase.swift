@@ -279,6 +279,8 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
                 reference = absMin > absMax ? absMin : absMax
             }
         }
+
+        
         let digits = ChartUtils.decimals(reference)
     
         _defaultValueFormatter.maximumFractionDigits = digits
@@ -769,10 +771,10 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
         if let data = _data {
             if data.xValCount <= index {
                 return nil
-
+                
             } else {
                 return data.xVals[index]
-
+                
             }
         }
         return nil

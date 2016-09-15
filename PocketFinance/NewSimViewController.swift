@@ -9,7 +9,7 @@
 import UIKit
 import THCalendarDatePicker
 
-class NewSimViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, THDatePickerDelegate {
+class NewSimViewController: UIViewController, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, THDatePickerDelegate {
 
     // MARK: Initialization
     required init?(coder aDecoder: NSCoder) {
@@ -70,14 +70,19 @@ class NewSimViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         labelOPT1.hidden = true
         labelOPT2.hidden = true
         textOPT1.hidden = true
+        textOPT1.delegate = self
         textOPT2.hidden = true
+        textOPT2.delegate = self
         
-        //textStrat.text = "CPPI"
         textName.text = "Test1"
+        textName.delegate = self
         textStartBal.text = "1000"
+        textStartBal.delegate = self
         textSimType.text = "Historical Data"
         textWeight.text = "0.05"
+        textWeight.delegate = self
         textStock.text = "GOOG"
+        textStock.delegate = self
         startDateLabel.text = "2016-07-01"
         endDateLabel.text = "2016-08-01"
     }
@@ -87,8 +92,17 @@ class NewSimViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         // Disposte of any resources that can be recreated.
     }
     
+    // MARK: UITextFieldDelegate
+    func textFieldShouldReturn(textStockSymbol: UITextField) -> Bool {
+        // Hide the keyboard.
+        self.view.endEditing(true)
+        return false
+    }
+    
     // MARK: Actions
-    @IBAction func clickTextStrat(sender: AnyObject) {
+
+
+    @IBAction func selectStrategy(sender: AnyObject) {
         pickStrat.hidden = false
     }
     
@@ -213,7 +227,8 @@ class NewSimViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
             labelOPT1.hidden = false
             labelOPT1.text = "Option Strike"
             textOPT1.hidden = false
-            
+            labelOPT2.hidden = true
+            textOPT2.hidden = true
         }
     }
     
