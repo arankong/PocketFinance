@@ -32,6 +32,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate
     @IBOutlet weak var numberOfTimeStepsLabel: UILabel!
     @IBOutlet weak var optionTypeLabel: UILabel!
     @IBOutlet weak var resultLabel: UILabel!
+    @IBOutlet weak var percentLabel: UILabel!
     
     @IBOutlet weak var currentStockPriceText: UITextField!
     @IBOutlet weak var strikeText: UITextField!
@@ -41,6 +42,8 @@ class ViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate
     @IBOutlet weak var numberOfTimeStepsText: UITextField!
     @IBOutlet weak var optionTypeText: UITextField!
     @IBOutlet weak var computeButton: UIButton!
+    @IBOutlet weak var callButton: UIButton!
+    @IBOutlet weak var putButton: UIButton!
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if let gvc = segue.destinationViewController as? GraphViewController {
@@ -95,6 +98,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate
         expiryTimeText.delegate = self
         interestRateLabel.hidden = true
         interestRateText.hidden = true
+        percentLabel.hidden = true
         interestRateText.delegate = self
         volatilityLabel.hidden = true
         volatilityText.hidden = true
@@ -107,6 +111,8 @@ class ViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate
         numberOfTimeStepsText.delegate = self
         computeButton.hidden = true
         resultLabel.hidden = true
+        callButton.hidden = true
+        putButton.hidden = true
         tableStockPrice.hidden = false
         textStockSymbol.hidden = false
         btnAdd.hidden = false
@@ -142,6 +148,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate
             expiryTimeText.hidden = true
             interestRateLabel.hidden = true
             interestRateText.hidden = true
+            percentLabel.hidden = true
             volatilityLabel.hidden = true
             volatilityText.hidden = true
             optionTypeLabel.hidden = true
@@ -150,6 +157,8 @@ class ViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate
             numberOfTimeStepsText.hidden = true
             computeButton.hidden = true
             resultLabel.hidden = true
+            callButton.hidden = true
+            putButton.hidden = true
             tableStockPrice.hidden = false
             textStockSymbol.hidden = false
             btnAdd.hidden = false
@@ -165,6 +174,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate
             expiryTimeText.hidden = true
             interestRateLabel.hidden = true
             interestRateText.hidden = true
+            percentLabel.hidden = true
             volatilityLabel.hidden = true
             volatilityText.hidden = true
             optionTypeLabel.hidden = true
@@ -173,6 +183,8 @@ class ViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate
             numberOfTimeStepsText.hidden = true
             computeButton.hidden = true
             resultLabel.hidden = true
+            callButton.hidden = true
+            putButton.hidden = true
             tableStockPrice.hidden = false
             textStockSymbol.hidden = false
             btnAdd.hidden = false
@@ -192,6 +204,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate
             expiryTimeText.hidden = false
             interestRateLabel.hidden = false
             interestRateText.hidden = false
+            percentLabel.hidden = false
             volatilityLabel.hidden = false
             volatilityText.hidden = false
             optionTypeLabel.hidden = false
@@ -200,6 +213,8 @@ class ViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate
             numberOfTimeStepsText.hidden = false
             computeButton.hidden = false
             resultLabel.hidden = false
+            callButton.hidden = false
+            putButton.hidden = false
         }
     }
 
@@ -217,7 +232,13 @@ class ViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate
         }
     }
     
+    @IBAction func selectCallType(sender: AnyObject) {
+        optionTypeText.text = "Call"
+    }
     
+    @IBAction func selectPutType(sender: AnyObject) {
+        optionTypeText.text = "Put"
+    }
     @IBAction func computeTheValue(sender: UIButton) {
         let optionPrice = doOptionPricing()
         resultLabel.text = "Result: \(optionPrice)"
@@ -227,11 +248,16 @@ class ViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate
         let s0 = Double(currentStockPriceText.text!)!
         let K = Double(strikeText.text!)!
         let T = Double(expiryTimeText.text!)!
-        let r = Double(interestRateText.text!)!
+        let r = Double(interestRateText.text!)!/100
         let sigma = Double(volatilityText.text!)!
-        let opttype = Double(optionTypeText.text!)!
-        let Nsteps = Int(numberOfTimeStepsText.text!)!
-        
+        var opttype = 0
+        if optionTypeText.text! == "Put" {
+            opttype = 1
+        }
+        var Nsteps = Int(numberOfTimeStepsText.text!)!
+        if Nsteps > 23333 {
+            Nsteps = 23333
+        }
         let delt = T/Double(Nsteps)
         let u = exp(sigma * sqrt(delt))
         let d = 1 / u
